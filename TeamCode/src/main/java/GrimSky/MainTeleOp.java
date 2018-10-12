@@ -1,9 +1,9 @@
-package stuff;
+package GrimSky;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "MainTeleOp", group = "opMode")
-public class teleop extends GrimSkyOpMode{
+public class MainTeleOp extends GrimSkyOpMode{
 
     public void loop() {
         if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_y)) > .1){
