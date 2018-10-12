@@ -35,9 +35,9 @@ public class Drivetrain {
         this.opMode.telemetry.update();
         this.opMode.telemetry.addData(LOG_TAG + "init", "init finished");
         this.opMode.telemetry.update();
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        ML.setDirection(DcMotorSimple.Direction.REVERSE);
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        MR.setDirection(DcMotorSimple.Direction.REVERSE);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
 
     }
 
@@ -50,13 +50,10 @@ public class Drivetrain {
         FR.setPower(right);
     }
 
-    public void move (double l, double r) {
-        startMotors(l, r);
-    }
-
-    public void move(double power, int encoder){
+    public void move(double power, int encoder) throws InterruptedException{
+        resetEncoders();
         while(getEncoderAvg() < encoder) {
-            move(power, power);
+            startMotors(power, power);
         }
     }
 
@@ -64,15 +61,10 @@ public class Drivetrain {
         double kP = .7/90;
         double changePID;
         double angleDiff = sensor.getGyroTrueDiff(angle);
-        while(Math.abs(angleDiff) > 0.5 && opMode.opModeIsActive() && times.seconds() < 2) {
+        while(Math.abs(angleDiff) > 1 && opMode.opModeIsActive() && times.seconds() < 2) {
             angleDiff = sensor.getGyroTrueDiff(angle);
             changePID = angleDiff * kP;
 
-            if (changePID < 0) {
-                move(changePID - .1, changePID + .1);
-            } else {
-                move(changePID + .1, changePID - .1);
-            }
         }
         stopMotors();
     }

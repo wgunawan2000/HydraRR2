@@ -35,13 +35,12 @@ public class BlueDepotAuto extends LinearOpMode{
         waitForStart();
 
         // Detach
-        lift.detach();
+        //lift.detach();
         // Turn -20/0/20 degrees depending on sample location
 
         // Move 29/27/29 inches depending on sample location
-
+        drivetrain.move(.2, 1500);
         // If 1: Move 7.5 inches, turn to +45, Move 15 inches, Drop Marker off, Move 85 inches
-
-    }
+        }
 
 }
