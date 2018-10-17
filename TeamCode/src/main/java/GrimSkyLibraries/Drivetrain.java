@@ -108,12 +108,21 @@ public class Drivetrain {
     }
 
     public int getEncoderAvg() {
-        return ((Math.abs(BR.getCurrentPosition())) +
-                Math.abs(FR.getCurrentPosition()) +
-                (Math.abs(BL.getCurrentPosition())) +
-                Math.abs(FL.getCurrentPosition()) +
-                Math.abs(MR.getCurrentPosition()) +
-                Math.abs(ML.getCurrentPosition())) / 6;
+        int count = 4;
+        if(BR.getCurrentPosition() == 0)
+            count--;
+        if(FR.getCurrentPosition() == 0)
+            count--;
+        if(BL.getCurrentPosition() == 0)
+            count--;
+        if(BR.getCurrentPosition() == 0)
+            count--;
+        if(count != 0)
+            return ((Math.abs(BR.getCurrentPosition())) +
+                    Math.abs(FR.getCurrentPosition()) +
+                    (Math.abs(BL.getCurrentPosition())) +
+                    Math.abs(FL.getCurrentPosition())) / count;
+        return 0;
     }
 
 //    public void movepid(double power, int distance, double floor, double kP, double kI, double kD, int accuracy, double rotation) throws InterruptedException {

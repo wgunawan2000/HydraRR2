@@ -3,12 +3,12 @@ package GrimSkyLibraries;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class MarkerKicker {
+public class Marker {
     private LinearOpMode opMode;
     Servo kickerL;
     Servo kickerR;
 
-    public MarkerKicker(LinearOpMode opMode)throws InterruptedException {
+    public Marker(LinearOpMode opMode)throws InterruptedException {
 
         this.opMode = opMode;
         kickerL = this.opMode.hardwareMap.servo.get("LeftKicker");

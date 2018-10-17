@@ -62,6 +62,7 @@ public abstract class GrimSkyOpMode extends OpMode{
         BL.setPower(l);
     }
 
+
     public void stopMotors(){
         FR.setPower(0);
         MR.setPower(0);
