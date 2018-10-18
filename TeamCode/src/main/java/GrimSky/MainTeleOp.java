@@ -7,13 +7,13 @@ import com.qualcomm.robotcore.util.Range;
 public class MainTeleOp extends GrimSkyOpMode {
 
     public void loop() {
-        double direction;
-        //tank drive
-        if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_y)) > .1) {
-            startMotors(Math.sqrt(Math.abs(gamepad1.left_stick_y))*gamepad1.left_stick_y, Math.sqrt(Math.abs(gamepad1.right_stick_y)*gamepad1.right_stick_y));
-        } else {
-            stopMotors();
-        }
+//        double direction;
+//        //tank drive
+//        if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_y)) > .1) {
+//            startMotors(gamepad1.left_stick_y, gamepad1.right_stick_y);
+//        } else {
+//            stopMotors();
+//        }
 
 
         //arcade drive
@@ -45,30 +45,29 @@ public class MainTeleOp extends GrimSkyOpMode {
 //        } else stopMotors();
 //    }
 //
-//        double drive = 0;
-//        double turn = 0;
-//        double left = 0;
-//        double right = 0;
-//        double max;
-//
-//        double sC = gamepad1.left_bumper ? .5 : 1;
-//
-//        if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_x)) > .1) {
-//                left = gamepad1.left_stick_y - gamepad1.right_stick_x;
-//                right = gamepad1.left_stick_y + gamepad1.right_stick_x;
-//
-//            max = Math.max(Math.abs(left), Math.abs(right));
-//            if (max > 1.0)
-//            {
-//                left /= max;
-//                right /= max;
-//            }
-//
-//            startMotors(left * sC, right * sC);
-//
-//        } else {
-//            stopMotors();
-//        }
-//    }
+        double drive = 0;
+        double turn = 0;
+        double left = 0;
+        double right = 0;
+        double max;
+
+        double sC = gamepad1.left_bumper ? .5 : 1;
+
+        if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_x)) > .1) {
+                left = gamepad1.left_stick_y - gamepad1.right_stick_x;
+                right = gamepad1.left_stick_y + gamepad1.right_stick_x;
+
+            max = Math.max(Math.abs(left), Math.abs(right));
+            if (max > 1.0)
+            {
+                left /= max;
+                right /= max;
+            }
+
+            startMotors(left * sC, right * sC);
+
+        } else {
+            stopMotors();
+        }
     }
-}
+    }

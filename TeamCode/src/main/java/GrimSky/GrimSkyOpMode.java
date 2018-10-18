@@ -35,6 +35,13 @@ public abstract class GrimSkyOpMode extends OpMode{
         ML.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        MR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        ML.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -42,12 +49,6 @@ public abstract class GrimSkyOpMode extends OpMode{
         ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         MR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        MR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        ML.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         telemetry.addData("init ", "completed");
         telemetry.update();
