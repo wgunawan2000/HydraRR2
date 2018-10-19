@@ -122,53 +122,22 @@ public class Drivetrain {
     }
 
     public int getEncoderAvg() {
-        int count = 2;
-            return (Math.abs(FR.getCurrentPosition()) +  Math.abs(FL.getCurrentPosition())) / count;
+        int count = 4;
+        if ((FR.getCurrentPosition()) == -1){
+            count--;
+        }
+        if ((FL.getCurrentPosition()) == -1){
+            count--;
+        }
+        if ((BR.getCurrentPosition()) == -1){
+            count--;
+        }
+        if ((BL.getCurrentPosition()) == -1){
+            count--;
+        }
+        return (Math.abs(FR.getCurrentPosition()) +  Math.abs(FL.getCurrentPosition())
+                + Math.abs(BR.getCurrentPosition())
+                + Math.abs(BL.getCurrentPosition())) / count;
     }
-
-//    public void movepid(double power, int distance, double floor, double kP, double kI, double kD, int accuracy, double rotation) throws InterruptedException {
-//
-//        double error;
-//        double inte = 0;
-//        double der;
-//        double previousRunTime;
-//
-//        resetEncoders();
-//
-//        double previousError = distance - getEncoderAvg();
-//
-//        ElapsedTime runtime = new ElapsedTime();
-//
-////        opMode.telemetry.addData("distance left", distance + "");
-////        opMode.telemetry.addData("current Encoder", getEncoderAvg() + "");
-////        opMode.telemetry.update();
-//
-//        runtime.reset();
-//
-//        while(getEncoderAvg() < (distance - accuracy)) {
-//            error = Math.abs(distance) - Math.abs(getEncoderAvg());
-//            previousRunTime = runtime.seconds();
-//            power = (power * (error) * kP) + floor;
-//            inte += ((runtime.seconds() - previousRunTime) * error * kI);
-//            der = (error - previousError) / (runtime.seconds() - previousRunTime) * kD;
-//
-//            power = power + inte - der;
-//
-//            Range.clip(power, -1, 1);
-//            move(-power, (-power);
-//
-//            opMode.telemetry.addData("error", error);
-//            opMode.telemetry.addData("PID", power);
-//            opMode.telemetry.addData("integral", inte);
-//            opMode.telemetry.addData("Encoder", getEncoderAvg());
-//
-//            opMode.telemetry.update();
-////            opMode.telemetry.addData("integral", inte);
-//            previousError = error;
-//            opMode.idle();
-//        }
-//
-//        opMode.telemetry.update();
-//        stopMotors();
-//    }
 }
+
