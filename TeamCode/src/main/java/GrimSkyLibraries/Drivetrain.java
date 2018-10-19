@@ -23,6 +23,8 @@ public class Drivetrain {
 
     private final String LOG_TAG = "DriveTrain";
     public Drivetrain(LinearOpMode opMode)throws InterruptedException {
+        sensor = new Sensors(opMode);
+        times = new ElapsedTime();
         this.opMode = opMode;
         nullValue = 0;
         BL = this.opMode.hardwareMap.dcMotor.get("BL");
@@ -42,12 +44,12 @@ public class Drivetrain {
     }
 
     public void startMotors(double left, double right){
-        BL.setPower(left);
-        ML.setPower(left);
-        FL.setPower(left);
-        BR.setPower(right);
-        MR.setPower(right);
-        FR.setPower(right);
+        BL.setPower(-left);
+        ML.setPower(-left);
+        FL.setPower(-left);
+        BR.setPower(-right);
+        MR.setPower(-right);
+        FR.setPower(-right);
     }
 
     public void move(double power, int encoder) throws InterruptedException{
@@ -55,16 +57,28 @@ public class Drivetrain {
         while(getEncoderAvg() < encoder) {
             startMotors(power, power);
         }
+        stopMotors();
     }
 
-    public void turn(double power, double angle){
+    public void turn(double power, double angle)
+    {
+        times.reset();
         double kP = .7/90;
-        double changePID;
+        double changePID = 0;
         double angleDiff = sensor.getGyroTrueDiff(angle);
-        while(Math.abs(angleDiff) > 1 && opMode.opModeIsActive() && times.seconds() < 2) {
+
+        while (Math.abs(angleDiff) > 1 && opMode.opModeIsActive() && times.seconds() < 2)
+        {
             angleDiff = sensor.getGyroTrueDiff(angle);
             changePID = angleDiff * kP;
-
+            if (changePID < 0)
+            {
+                startMotors(Range.clip(-changePID - .1, -1, 1), Range.clip(changePID + .1, -1, 1));
+            }
+            else
+            {
+                startMotors( Range.clip(changePID + .1, -1, 1), Range.clip(-changePID - .1, -1, 1));
+            }
         }
         stopMotors();
     }

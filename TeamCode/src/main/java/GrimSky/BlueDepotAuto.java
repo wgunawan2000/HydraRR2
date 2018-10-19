@@ -31,9 +31,9 @@ public class BlueDepotAuto extends LinearOpMode{
         // Turn -20/0/20 degrees depending on sample location
 
         // Move 29/27/29 inches depending on sample location
-        drivetrain.startMotors(.2, .2);
-        Thread.sleep(1000);
-        drivetrain.stopMotors();
+        drivetrain.move(.3, 1700);
+        sleep(1000);
+        drivetrain.turn(0, -20);
 //        drivetrain.move(.2, 1000);
 //        // If 1: Move 7.5 inches, turn to +45, Move 15 inches, Drop Marker off, Move 85 inches
 //        drivetrain.turn(.5, -25);
