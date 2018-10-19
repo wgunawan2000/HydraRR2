@@ -25,7 +25,7 @@ public class BlueDepotAuto extends LinearOpMode{
 //        dropper = new Marker(this);
 
         waitForStart();
-
+        // testing gitHub - arya
         // Detach
         //lift.detach();
         // Turn -20/0/20 degrees depending on sample location
