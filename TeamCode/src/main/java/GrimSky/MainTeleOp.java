@@ -7,17 +7,20 @@ public class MainTeleOp extends GrimSkyOpMode {
 
     public void loop() {
         boolean tank = true;
-        boolean lastState = false;
-        if (gamepad1.right_bumper ^ lastState) {
+        if (gamepad1.b) {
+            //prevents from looping more than once
+            while (gamepad1.b){
+            }
             tank = !tank;
-            lastState = !lastState;
 
         }
+        double sC = gamepad1.left_bumper ? .5 : 1;
 
         if (tank) {
             //tank drive
+
             if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_y)) > .1) {
-                startMotors(gamepad1.left_stick_y, gamepad1.right_stick_y);
+                startMotors(gamepad1.left_stick_y * sC, gamepad1.right_stick_y * sC);
             } else {
                 stopMotors();
             }
@@ -25,8 +28,6 @@ public class MainTeleOp extends GrimSkyOpMode {
             double left = 0;
             double right = 0;
             double max;
-
-            double sC = gamepad1.left_bumper ? .5 : 1;
 
             if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_x)) > .1) {
                 left = gamepad1.left_stick_y - gamepad1.right_stick_x;
@@ -44,5 +45,6 @@ public class MainTeleOp extends GrimSkyOpMode {
                 stopMotors();
             }
         }
+
     }
 }
