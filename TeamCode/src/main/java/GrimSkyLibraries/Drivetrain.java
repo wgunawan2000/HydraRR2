@@ -33,9 +33,7 @@ public class Drivetrain {
         BR = this.opMode.hardwareMap.dcMotor.get("BR");
         MR = this.opMode.hardwareMap.dcMotor.get("MR");
         FR = this.opMode.hardwareMap.dcMotor.get("FR");
-        this.opMode.telemetry.addData(LOG_TAG + "init", "finished drivetrain init");
-        this.opMode.telemetry.update();
-        this.opMode.telemetry.addData(LOG_TAG + "init", "init finished");
+        this.opMode.telemetry.addData(LOG_TAG + "init", "finished init");
         this.opMode.telemetry.update();
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         MR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -60,24 +58,45 @@ public class Drivetrain {
         stopMotors();
     }
 
+    public void distanceRMove(double power, double distance) {
+        while(sensor.getDistanceR() > distance){
+            startMotors(power, power);
+        }
+        stopMotors();
+    }
+
+    public void distanceLMove(double power, double distance) {
+        while(sensor.getDistanceL() > distance){
+            startMotors(power, power);
+        }
+        stopMotors();
+    }
+
+    public void distanceMove(double power, double distance) {
+        while(sensor.getAvgDistance() > distance){
+            startMotors(power, power);
+        }
+        stopMotors();
+    }
+
     public void turn(double power, double angle)
     {
         times.reset();
-        double kP = .7/90;
+        double kP = .6/90;
         double changePID = 0;
         double angleDiff = sensor.getGyroTrueDiff(angle);
 
-        while (Math.abs(angleDiff) > 1 && opMode.opModeIsActive() && times.seconds() < 2)
+        while (Math.abs(angleDiff) > 3 && opMode.opModeIsActive() && times.seconds() < 5)
         {
             angleDiff = sensor.getGyroTrueDiff(angle);
             changePID = angleDiff * kP;
-            if (changePID < 0)
+            if (changePID > 0)
             {
-                startMotors(Range.clip(-changePID - .1, -1, 1), Range.clip(changePID + .1, -1, 1));
+                startMotors(Range.clip(-changePID - .1, -power, power), Range.clip(changePID + .1, -power, power));
             }
             else
             {
-                startMotors( Range.clip(changePID + .1, -1, 1), Range.clip(-changePID - .1, -1, 1));
+                startMotors(Range.clip(changePID + .1, -power, power), Range.clip(-changePID - .1, -power, power));
             }
         }
         stopMotors();
@@ -129,15 +148,15 @@ public class Drivetrain {
         if ((FL.getCurrentPosition()) == -1){
             count--;
         }
-        if ((BR.getCurrentPosition()) == -1){
+        if ((MR.getCurrentPosition()) == -1){
             count--;
         }
-        if ((BL.getCurrentPosition()) == -1){
+        if ((ML.getCurrentPosition()) == -1){
             count--;
         }
         return (Math.abs(FR.getCurrentPosition()) +  Math.abs(FL.getCurrentPosition())
-                + Math.abs(BR.getCurrentPosition())
-                + Math.abs(BL.getCurrentPosition())) / count;
+                + Math.abs(MR.getCurrentPosition())
+                + Math.abs(ML.getCurrentPosition())) / count;
     }
 }
 

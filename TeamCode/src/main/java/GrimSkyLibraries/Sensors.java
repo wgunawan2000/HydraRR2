@@ -58,9 +58,13 @@ public class Sensors{
         return dist;
     }
 
+    public double getAvgDistance(){
+        return (getDistanceL() + getDistanceR())/2;
+    }
+
     public double getGyroYaw() {
         updateValues();
-        double yaw = angles.secondAngle * -1;
+        double yaw = angles.firstAngle * -1;
         if(angles.firstAngle < -180)
             yaw -= 360;
         return yaw;
@@ -81,13 +85,13 @@ public class Sensors{
 
     public double getGyroPitch() {
         updateValues();
-        double pitch = angles.firstAngle;
+        double pitch = angles.secondAngle;
         return pitch;
     }
 
     public double getGyroRoll(){
         updateValues();
-        double roll = angles.secondAngle;
+        double roll = angles.thirdAngle;
         return roll;
     }
 

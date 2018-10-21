@@ -49,6 +49,12 @@ public abstract class GrimSkyOpMode extends OpMode{
         ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         MR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
+//        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        MR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         telemetry.addData("init ", "completed");
         telemetry.update();
