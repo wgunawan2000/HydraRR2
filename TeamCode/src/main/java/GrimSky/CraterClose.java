@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import GrimSkyLibraries.Drivetrain;
-@Autonomous(name = "Blue Crater Close", group = "LinearOpMode")
+@Autonomous(name = "Crater Close", group = "LinearOpMode")
 
-public class BlueCraterClose extends LinearOpMode{
+public class CraterClose extends LinearOpMode{
     private Drivetrain drivetrain;
     //    private Sensors sensors;
 //    private Marker dropper;
@@ -18,28 +18,27 @@ public class BlueCraterClose extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
 
         drivetrain = new Drivetrain(this);
-//        sensors = new Sensors(this);
 //        dropper = new Marker(this);
 
         waitForStart();
         // Detach
         //lift.detach();
+        drivetrain.move(.3, 1200);
         drivetrain.move(.3, 600);
         sleep(1000);
         //back up
-        drivetrain.move(-.3, 850);
+        drivetrain.move(-.3, 250);
         //turn to depot
         drivetrain.turn(.3, -90);
         sleep(1000);
-        drivetrain.distanceRMove(.5, 20);
+        drivetrain.distanceRMove(.4, 65);
         sleep(500);
         drivetrain.turn(.3, -110);
         sleep(500);
         drivetrain.distanceMove(.3, 40);
-        //deposit marker
-
         //move back to close crater
-        drivetrain.move(-.3, 3000);
+        drivetrain.wallRollR(-.3, 1800);
+
     }
 }
 

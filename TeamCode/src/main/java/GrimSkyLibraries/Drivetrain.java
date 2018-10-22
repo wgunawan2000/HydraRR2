@@ -42,9 +42,13 @@ public class Drivetrain {
     }
 
     public void startMotors(double left, double right){
-        BL.setPower(-left);
-        ML.setPower(-left);
-        FL.setPower(-left);
+        if((Math.abs(1.12*left) > 1)){
+            left /= 1.12;
+            right /= 1.12;
+        }
+        BL.setPower(-1.12*left);
+        ML.setPower(-1.12*left);
+        FL.setPower(-1.12*left);
         BR.setPower(-right);
         MR.setPower(-right);
         FR.setPower(-right);
@@ -56,6 +60,35 @@ public class Drivetrain {
             startMotors(power, power);
         }
         stopMotors();
+    }
+
+    public void moveStraight(double power, int encoder) throws InterruptedException {
+
+//        double gyroGoal = sensor.getGyroYaw();
+//        resetEncoders();
+//        double currGyro = 0.0;
+//        double kP = .1;
+//        double rightPower = 0;
+//        double leftPower = 0;
+//        while(getEncoderAvg() < encoder) {
+//            currGyro = sensor.getGyroYaw();
+//            if(currGyro - gyroGoal > 0) {
+//                rightPower = power * (1 + kP * (gyroGoal - currGyro));
+//                leftPower = power;
+//            } else if (currGyro - gyroGoal < 0){
+//                leftPower = power * (1 + kP * (currGyro - gyroGoal));
+//                rightPower = power;
+//            } else {
+//                rightPower = power;
+//                leftPower = power;
+//            }
+//            if (Math.max(rightPower, leftPower) > 1){
+//                leftPower /= Math.max(rightPower, leftPower);
+//                rightPower /= Math.max(rightPower, leftPower);
+//            }
+//            startMotors(leftPower, rightPower);
+//        }
+//        stopMotors();
     }
 
     public void distanceRMove(double power, double distance) {
@@ -79,17 +112,44 @@ public class Drivetrain {
         stopMotors();
     }
 
+    public void wallRollR(double power, int encoder) throws InterruptedException{
+        resetEncoders();
+        while(getEncoderAvg() < encoder) {
+            if(power * 1.3 > 1){
+                power /= 1.3;
+            }
+            startMotors(power * 1.3, power);
+        }
+        stopMotors();
+    }
+
+    public void wallRollL(double power, int encoder) throws InterruptedException{
+        resetEncoders();
+        while(getEncoderAvg() < encoder) {
+            if(power * 1.3 > 1){
+                power /= 1.3;
+            }
+            startMotors(power, power * 1.3);
+        }
+        stopMotors();
+    }
+
     public void turn(double power, double angle)
     {
         times.reset();
-        double kP = .6/90;
+        double kP = .3/90;
+//        double kI = .3/400;
+        double inte = 0;
         double changePID = 0;
         double angleDiff = sensor.getGyroTrueDiff(angle);
 
-        while (Math.abs(angleDiff) > 3 && opMode.opModeIsActive() && times.seconds() < 5)
+        while (Math.abs(angleDiff) > .5 && opMode.opModeIsActive() && times.seconds() < 5)
         {
+//            inte += angleDiff*kI;
             angleDiff = sensor.getGyroTrueDiff(angle);
             changePID = angleDiff * kP;
+//            changePID += inte;
+
             if (changePID > 0)
             {
                 startMotors(Range.clip(-changePID - .1, -power, power), Range.clip(changePID + .1, -power, power));
@@ -138,6 +198,28 @@ public class Drivetrain {
         opMode.idle();
         FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         opMode.idle();
+    }
+
+    public int getEncoderR(){
+        int count = 2;
+        if ((FR.getCurrentPosition()) == -1){
+            count--;
+        }
+        if ((MR.getCurrentPosition()) == -1) {
+            count--;
+        }
+        return (Math.abs(FR.getCurrentPosition()) + Math.abs(MR.getCurrentPosition())) / count;
+    }
+
+    public int getEncoderL(){
+        int count = 2;
+        if ((FL.getCurrentPosition()) == -1){
+            count--;
+        }
+        if ((ML.getCurrentPosition()) == -1) {
+            count--;
+        }
+        return (Math.abs(FL.getCurrentPosition()) + Math.abs(ML.getCurrentPosition())) / count;
     }
 
     public int getEncoderAvg() {

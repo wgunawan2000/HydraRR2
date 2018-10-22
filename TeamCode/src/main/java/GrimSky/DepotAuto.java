@@ -9,11 +9,12 @@ import GrimSkyLibraries.Lift;
 import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 
-@Autonomous(name = "Blue Crater Far", group = "LinearOpMode")
-public class BlueCraterFar extends LinearOpMode{
+@Autonomous(name = "Depot Auto", group = "LinearOpMode")
+public class DepotAuto extends LinearOpMode {
     private Drivetrain drivetrain;
-    //    private Sensors sensors;
-//    private Marker dropper;
+    private Sensors sensors;
+
+    //    private Marker dropper;
 //    private Lift lift;
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -21,29 +22,22 @@ public class BlueCraterFar extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
 
         drivetrain = new Drivetrain(this);
-//        sensors = new Sensors(this);
+        sensors = new Sensors(this);
 //        dropper = new Marker(this);
 
         waitForStart();
         // Detach
         //lift.detach();
-        drivetrain.move(.3, 600);
+        drivetrain.move(.4, 850);
         sleep(1000);
-        //back up
-        drivetrain.move(-.3, 200);
-        //turn to depot
-        drivetrain.turn(.3, -90);
+        // drop off marker
+        drivetrain.turn(.5, 45);
         sleep(1000);
-        drivetrain.distanceRMove(.5, 20);
-        sleep(500);
-        drivetrain.turn(.3, -110);
-        sleep(500);
-        drivetrain.distanceMove(.3, 40);
-        //deposit marker
+        drivetrain.turn(.5, -115);
+        sleep(1000);
+        drivetrain.move(.4, 700);
+        drivetrain.wallRollR(.4, 700);
 
-        // turn toward far crater
-        drivetrain.turn(.5, -200);
-        // move to the far crater
-        drivetrain.move(.3, 3000);
+        }
     }
-}
+

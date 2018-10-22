@@ -13,9 +13,6 @@ import GrimSkyLibraries.Sensors;
 public class GyroTest extends LinearOpMode {
     private Drivetrain drivetrain;
     private Sensors sensors;
-
-    //    private Marker dropper;
-//    private Lift lift;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -23,13 +20,9 @@ public class GyroTest extends LinearOpMode {
 
         drivetrain = new Drivetrain(this);
         sensors = new Sensors(this);
-//        dropper = new Marker(this);
 
         waitForStart();
-        // Detach
-        //lift.detach();
-//        // Turn -20/0/20 degrees depending on sample location
-//
+
         while(runtime.seconds() < 30){
             telemetry.addData("yaw", sensors.getGyroYaw());
             telemetry.update();

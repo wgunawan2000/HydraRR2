@@ -27,10 +27,6 @@ public class Sampler {
     public int getCubePos() {
 
         time.reset();
-        int numPics = 0;
-        int redValue = 0;
-        int blueValue = 0;
-        int numFailLoops = 0;
 
         while (time.seconds() < 2 && opMode.opModeIsActive()) {
 

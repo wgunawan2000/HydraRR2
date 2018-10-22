@@ -26,8 +26,8 @@ public class Sensors{
 
     public Sensors(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
-//        distanceL = (Rev2mDistanceSensor) opMode.hardwareMap.opticalDistanceSensor.get("distanceL");
-//        distanceR = opMode.hardwareMap.i2cDevice.get("distanceR");
+        distanceL = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "distanceL");
+        distanceR = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "distanceR");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
