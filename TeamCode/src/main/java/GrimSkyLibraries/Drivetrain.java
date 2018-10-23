@@ -17,9 +17,6 @@ public class Drivetrain {
     LinearOpMode opMode;
     ElapsedTime times;
     int nullValue;
-    double angleError;
-
-    public boolean reversed;
 
     private final String LOG_TAG = "DriveTrain";
     public Drivetrain(LinearOpMode opMode)throws InterruptedException {
@@ -38,7 +35,6 @@ public class Drivetrain {
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         MR.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
-
     }
 
     public void startMotors(double left, double right){
@@ -60,35 +56,6 @@ public class Drivetrain {
             startMotors(power, power);
         }
         stopMotors();
-    }
-
-    public void moveStraight(double power, int encoder) throws InterruptedException {
-
-//        double gyroGoal = sensor.getGyroYaw();
-//        resetEncoders();
-//        double currGyro = 0.0;
-//        double kP = .1;
-//        double rightPower = 0;
-//        double leftPower = 0;
-//        while(getEncoderAvg() < encoder) {
-//            currGyro = sensor.getGyroYaw();
-//            if(currGyro - gyroGoal > 0) {
-//                rightPower = power * (1 + kP * (gyroGoal - currGyro));
-//                leftPower = power;
-//            } else if (currGyro - gyroGoal < 0){
-//                leftPower = power * (1 + kP * (currGyro - gyroGoal));
-//                rightPower = power;
-//            } else {
-//                rightPower = power;
-//                leftPower = power;
-//            }
-//            if (Math.max(rightPower, leftPower) > 1){
-//                leftPower /= Math.max(rightPower, leftPower);
-//                rightPower /= Math.max(rightPower, leftPower);
-//            }
-//            startMotors(leftPower, rightPower);
-//        }
-//        stopMotors();
     }
 
     public void distanceRMove(double power, double distance) {
@@ -134,30 +101,34 @@ public class Drivetrain {
         stopMotors();
     }
 
-    public void turn(double power, double angle)
+    public void turnLeft(double power, double angle)
     {
         times.reset();
         double kP = .3/90;
-//        double kI = .3/400;
-        double inte = 0;
-        double changePID = 0;
+        double P = 0;
         double angleDiff = sensor.getGyroTrueDiff(angle);
 
         while (Math.abs(angleDiff) > .5 && opMode.opModeIsActive() && times.seconds() < 5)
         {
-//            inte += angleDiff*kI;
             angleDiff = sensor.getGyroTrueDiff(angle);
-            changePID = angleDiff * kP;
-//            changePID += inte;
+            P = angleDiff * kP;
+            startMotors(Range.clip(-P - .1, -power, power), Range.clip(P + .1, -power, power));
+        }
+        stopMotors();
+    }
 
-            if (changePID > 0)
-            {
-                startMotors(Range.clip(-changePID - .1, -power, power), Range.clip(changePID + .1, -power, power));
-            }
-            else
-            {
-                startMotors(Range.clip(changePID + .1, -power, power), Range.clip(-changePID - .1, -power, power));
-            }
+    public void turnRight(double power, double angle)
+    {
+        times.reset();
+        double kP = .3/90;
+        double P = 0;
+        double angleDiff = sensor.getGyroTrueDiff(angle);
+
+        while (Math.abs(angleDiff) > .5 && opMode.opModeIsActive() && times.seconds() < 5)
+        {
+            angleDiff = sensor.getGyroTrueDiff(angle);
+            P = angleDiff * kP;
+            startMotors(Range.clip(-P - .1, -power, power), Range.clip(P + .1, -power, power));
         }
         stopMotors();
     }
