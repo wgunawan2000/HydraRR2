@@ -12,35 +12,43 @@ import GrimSkyLibraries.Sensors;
 @Autonomous(name = "Crater Far", group = "LinearOpMode")
 public class CraterFar extends LinearOpMode{
     private Drivetrain drivetrain;
-    //    private Sensors sensors;
-//    private Marker dropper;
-//    private Lift lift;
+    private Sensors sensors;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         drivetrain = new Drivetrain(this);
-//        sensors = new Sensors(this);
-//        dropper = new Marker(this);
+        sensors = new Sensors(this);
+
+        composeTelemetry();
 
         waitForStart();
-        // Detach
-        //lift.detach();
+
         drivetrain.move(.3, 600);
         sleep(1000);
-        //back up
+
         drivetrain.move(-.3, 250);
-        //turn to depot
-        drivetrain.turn(.3, -90);
         sleep(1000);
+
+        drivetrain.turnLeft(.3, -90);
+        sleep(1000);
+        telemetry.update();
+
         drivetrain.distanceRMove(.4, 65);
         sleep(500);
-        drivetrain.turn(.3, -110);
+
+        drivetrain.turnLeft(.3, -110);
         sleep(500);
+        telemetry.update();
+
         drivetrain.distanceMove(.3, 40);
-        //move back to close crater
-        drivetrain.turn(.3, -205);
+
+        drivetrain.turnLeft(.3, -205);
         drivetrain.wallRollR(.3, 1600);
+    }
+
+    private void composeTelemetry() {
+        telemetry.addData("yaw", sensors.getGyroYaw());
     }
 }

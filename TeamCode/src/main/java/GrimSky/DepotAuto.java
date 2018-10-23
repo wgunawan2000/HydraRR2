@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import GrimSkyLibraries.Drivetrain;
 import GrimSkyLibraries.Lift;
 import GrimSkyLibraries.Marker;
+import GrimSkyLibraries.Sampler;
 import GrimSkyLibraries.Sensors;
 
 @Autonomous(name = "Depot Auto", group = "LinearOpMode")
@@ -43,7 +44,6 @@ public class DepotAuto extends LinearOpMode {
         drivetrain.wallRollR(.4, 700);
 
         }
-
     private void composeTelemetry() {
         telemetry.addData("yaw", sensors.getGyroYaw());
     }

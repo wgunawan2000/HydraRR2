@@ -1,7 +1,6 @@
 package GrimSky;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
 @TeleOp(name = "MainTeleOp", group = "opMode")
 public class MainTeleOp extends GrimSkyOpMode {
 
