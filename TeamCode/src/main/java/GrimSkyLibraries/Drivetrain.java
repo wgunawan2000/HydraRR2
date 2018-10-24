@@ -37,6 +37,7 @@ public class Drivetrain {
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
+    //the left side has slightly more friction
     public void startMotors(double left, double right){
         if((Math.abs(1.12*left) > 1)){
             left /= 1.12;
@@ -50,6 +51,7 @@ public class Drivetrain {
         FR.setPower(-right);
     }
 
+    //simple threshold encoder move method
     public void move(double power, int encoder) throws InterruptedException{
         resetEncoders();
         while(getEncoderAvg() < encoder) {
@@ -58,6 +60,7 @@ public class Drivetrain {
         stopMotors();
     }
 
+    //simple threshold distance move methods
     public void distanceRMove(double power, double distance) {
         while(sensor.getDistanceR() > distance){
             startMotors(power, power);
@@ -79,6 +82,7 @@ public class Drivetrain {
         stopMotors();
     }
 
+    //these methods apply more power to the side opposite the wall in order to wall roll well
     public void wallRollR(double power, int encoder) throws InterruptedException{
         resetEncoders();
         while(getEncoderAvg() < encoder) {
@@ -101,37 +105,41 @@ public class Drivetrain {
         stopMotors();
     }
 
-    public void turnLeft(double power, double angle)
-    {
-        times.reset();
-        double kP = .3/90;
-        double P = 0;
-        double angleDiff = sensor.getGyroTrueDiff(angle);
-
-        while (Math.abs(angleDiff) > .5 && opMode.opModeIsActive() && times.seconds() < 5)
+    public void turnPI(double angle)
         {
-            angleDiff = sensor.getGyroTrueDiff(angle);
-            P = angleDiff * kP;
-            startMotors(Range.clip(-P - .1, -power, power), Range.clip(P + .1, -power, power));
-        }
-        stopMotors();
-    }
+            times.reset();
+            double kP = .33/100;
+            double kI = .5/100000000;
+            double currentTime = System.currentTimeMillis()*1000;
+            double pastTime = 0;
+            double P = 0;
+            double I = 0;
+            double angleDiff = sensor.getGyroTrueDiff(angle);
+            double changePID = 0;
+            while (Math.abs(angleDiff) > .5 && opMode.opModeIsActive() && times.seconds() < 5)
+            {
+                pastTime = currentTime;
+                currentTime = System.currentTimeMillis()*1000;
+                double dT = currentTime - pastTime;
+                angleDiff = sensor.getGyroTrueDiff(angle);
+                P = angleDiff * kP;
+                I += dT * angleDiff * kI;
+                changePID = P + I;
+                opMode.telemetry.addData("P", P);
+                opMode.telemetry.addData("I", I);
+                opMode.telemetry.addData("PID: ", changePID);
+                opMode.telemetry.addData("Gyro", sensor.getGyroYaw());
+                opMode.telemetry.update();
+                if (changePID < 0) {
+                    startMotors(-changePID - .15, -changePID + .15);
+                }
+                else{
+                    startMotors(-changePID + .15, changePID - .15);
+                }
 
-    public void turnRight(double power, double angle)
-    {
-        times.reset();
-        double kP = .3/90;
-        double P = 0;
-        double angleDiff = sensor.getGyroTrueDiff(angle);
-
-        while (Math.abs(angleDiff) > .5 && opMode.opModeIsActive() && times.seconds() < 5)
-        {
-            angleDiff = sensor.getGyroTrueDiff(angle);
-            P = angleDiff * kP;
-            startMotors(Range.clip(-P - .1, -power, power), Range.clip(P + .1, -power, power));
+            }
+            stopMotors();
         }
-        stopMotors();
-    }
 
     public void stopMotors() {
         BL.setPower(0);

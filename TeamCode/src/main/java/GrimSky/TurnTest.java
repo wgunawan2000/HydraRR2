@@ -9,8 +9,8 @@ import GrimSkyLibraries.Lift;
 import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 
-@Autonomous(name = "Gyro Test", group = "LinearOpMode")
-public class GyroTest extends LinearOpMode {
+@Autonomous(name = "Turn Test", group = "LinearOpMode")
+public class TurnTest extends LinearOpMode {
     private Drivetrain drivetrain;
     private Sensors sensors;
     private ElapsedTime runtime = new ElapsedTime();
@@ -23,10 +23,10 @@ public class GyroTest extends LinearOpMode {
 
         waitForStart();
 
-        while(runtime.seconds() < 30){
-            telemetry.addData("yaw", sensors.getGyroYaw());
-            telemetry.update();
-        }
+        drivetrain.turnPI(-90);
+        Thread.sleep(2000);
+        drivetrain.turnPI(0);
+
     }
 }
 
