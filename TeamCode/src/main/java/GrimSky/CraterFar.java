@@ -31,20 +31,20 @@ public class CraterFar extends LinearOpMode{
         drivetrain.move(-.3, 250);
         sleep(1000);
 
-        drivetrain.turnPI(-90);
+        drivetrain.turnPI(-90, .5, .05);
         sleep(1000);
         telemetry.update();
 
         drivetrain.distanceRMove(.4, 65);
         sleep(500);
 
-        drivetrain.turnPI(-110);
+        drivetrain.turnPI(-110, .5, .05);
         sleep(500);
         telemetry.update();
 
         drivetrain.distanceMove(.3, 40);
 
-        drivetrain.turnPI(-205);
+        drivetrain.turnPI(-205, .5, .05);
         drivetrain.wallRollR(.3, 1600);
     }
 

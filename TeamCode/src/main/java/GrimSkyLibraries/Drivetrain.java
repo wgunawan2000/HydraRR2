@@ -105,36 +105,34 @@ public class Drivetrain {
         stopMotors();
     }
 
-    public void turnPI(double angle)
-        {
-            times.reset();
-            double kP = .33/100;
-            double kI = .5/100000000;
-            double currentTime = System.currentTimeMillis()*1000;
-            double pastTime = 0;
-            double P = 0;
-            double I = 0;
-            double angleDiff = sensor.getGyroTrueDiff(angle);
-            double changePID = 0;
-            while (Math.abs(angleDiff) > .5 && opMode.opModeIsActive() && times.seconds() < 5)
-            {
-                pastTime = currentTime;
-                currentTime = System.currentTimeMillis()*1000;
-                double dT = currentTime - pastTime;
-                angleDiff = sensor.getGyroTrueDiff(angle);
-                P = angleDiff * kP;
-                I += dT * angleDiff * kI;
-                changePID = P + I;
+    public void turnPI(double angle, double p, double i) {
+        times.reset();
+        double kP = p / 90;
+        double kI = i / 100000;
+        double currentTime = times.milliseconds();
+        double pastTime = 0;
+        double P = 0;
+        double I = 0;
+        double angleDiff = sensor.getTrueDiff(angle);
+        double changePID = 0;
+        while (Math.abs(angleDiff) > .5 && opMode.opModeIsActive() && times.seconds() < 10) {
+            pastTime = currentTime;
+            currentTime = times.milliseconds();
+            double dT = currentTime - pastTime;
+            angleDiff = sensor.getTrueDiff(angle);
+            P = angleDiff * kP;
+            I += dT * angleDiff * kI;
+            changePID = P;
+                changePID += I;
+                opMode.telemetry.addData("PID: ", changePID);
+                opMode.telemetry.addData("diff", angleDiff);
                 opMode.telemetry.addData("P", P);
                 opMode.telemetry.addData("I", I);
-                opMode.telemetry.addData("PID: ", changePID);
-                opMode.telemetry.addData("Gyro", sensor.getGyroYaw());
                 opMode.telemetry.update();
                 if (changePID < 0) {
-                    startMotors(-changePID - .15, -changePID + .15);
-                }
-                else{
-                    startMotors(-changePID + .15, changePID - .15);
+                    startMotors(changePID - .12, -changePID + .12);
+                } else {
+                    startMotors(changePID + .12, -changePID - .12);
                 }
 
             }

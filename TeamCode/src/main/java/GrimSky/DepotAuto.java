@@ -16,8 +16,8 @@ import GrimSkyLibraries.Sensors;
 public class DepotAuto extends LinearOpMode {
     private Drivetrain drivetrain;
     private Sensors sensors;
-    private Sampler sampler;
-    private String cubePos;
+    //private Sampler sampler;
+    private String cubePos = "center";
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -25,42 +25,43 @@ public class DepotAuto extends LinearOpMode {
 
         drivetrain = new Drivetrain(this);
         sensors = new Sensors(this);
-        sampler = new Sampler(this);
+//        sampler = new Sampler(this);
 
-        composeTelemetry();
+//        composeTelemetry();
 
         waitForStart();
 
         //turn to see right two minerals of sample
-        drivetrain.turnPI(10);
+        drivetrain.turnPI(15, .7, .05);
 
+        sleep(2000);
         //scan sample and turn
-        cubePos = sampler.getCubePos();
-        telemetry.update();
+//        cubePos = sampler.getCubePos();
+//        telemetry.update();
         if (cubePos.equals("left")){
-            drivetrain.turnPI(-20);
+            drivetrain.turnPI(-20, .7, .05);
         }
-        if(cubePos.equals("center")){
-            drivetrain.turnPI(0);
+        else if(cubePos.equals("center")){
+            drivetrain.turnPI(0, 1, .05);
         }
         else{
-            drivetrain.turnPI(20);
+            drivetrain.turnPI(20, 1, .05);
         }
 
-        drivetrain.move(.4, 850);
-        telemetry.update();
+        drivetrain.move(.4, 950);
+//        telemetry.update();
         sleep(1000);
 
-        drivetrain.turnPI(45);
-        telemetry.update();
+        drivetrain.turnPI(35, .6, .05);
+//        telemetry.update();
         sleep(1000);
 
-        drivetrain.turnPI(-115);
-        telemetry.update();
+        drivetrain.turnPI(60, .3, .1);
+//        telemetry.update();
         sleep(1000);
 
-        drivetrain.move(.4, 700);
-        drivetrain.wallRollR(.4, 700);
+        drivetrain.move(-.4, 700);
+        drivetrain.wallRollL(-.4, 700);
     }
 
     //adds relevant telemetry statements
