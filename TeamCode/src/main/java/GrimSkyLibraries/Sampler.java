@@ -22,11 +22,12 @@ public class Sampler extends OpModeCamera {
 
     public Sampler(LinearOpMode opMode) throws InterruptedException {
         //can set to 8, 4, 2, or 1 --> 8 is the most downsampled
-        setCameraDownsampling(1);
-        this.opMode = opMode;
+//        setCameraDownsampling(1);
+////        this.opMode = opMode;
+//        this.opMode.telemetry.addData("camera init", "finished");
+//        this.opMode.telemetry.update();
         super.init(); // inits camera functions, starts preview callback
-        this.opMode.telemetry.addData("camera init", "finished");
-        this.opMode.telemetry.update();
+
     }
 
     public String getCubePos() {

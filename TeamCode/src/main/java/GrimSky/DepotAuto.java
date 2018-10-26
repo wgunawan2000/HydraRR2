@@ -16,8 +16,8 @@ import GrimSkyLibraries.Sensors;
 public class DepotAuto extends LinearOpMode {
     private Drivetrain drivetrain;
     private Sensors sensors;
-    //private Sampler sampler;
-    private String cubePos = "center";
+    private Sampler sampler;
+    private String cubePos;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -25,7 +25,7 @@ public class DepotAuto extends LinearOpMode {
 
         drivetrain = new Drivetrain(this);
         sensors = new Sensors(this);
-//        sampler = new Sampler(this);
+        sampler = new Sampler(this);
 
 //        composeTelemetry();
 
@@ -36,13 +36,13 @@ public class DepotAuto extends LinearOpMode {
 
         sleep(2000);
         //scan sample and turn
-//        cubePos = sampler.getCubePos();
-//        telemetry.update();
+        cubePos = sampler.getCubePos();
+        telemetry.update();
         if (cubePos.equals("left")){
             drivetrain.turnPI(-20, .7, .05);
         }
         else if(cubePos.equals("center")){
-            drivetrain.turnPI(0, 1, .05);
+            drivetrain.turnPI(0, .7, .05);
         }
         else{
             drivetrain.turnPI(20, 1, .05);
@@ -56,12 +56,12 @@ public class DepotAuto extends LinearOpMode {
 //        telemetry.update();
         sleep(1000);
 
-        drivetrain.turnPI(60, .3, .1);
+        drivetrain.turnPI(80, .3, .1);
 //        telemetry.update();
         sleep(1000);
 
         drivetrain.move(-.4, 700);
-        drivetrain.wallRollL(-.4, 700);
+        drivetrain.wallRollL(-.4, 800);
     }
 
     //adds relevant telemetry statements
