@@ -8,9 +8,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
 
+import for_camera_opmodes.LinearOpModeCamera;
 import for_camera_opmodes.OpModeCamera;
 
-public class Sampler extends OpModeCamera {
+public class Sampler extends LinearOpModeCamera {
 
     int ds2 = 1;
     int numPics = 0;
