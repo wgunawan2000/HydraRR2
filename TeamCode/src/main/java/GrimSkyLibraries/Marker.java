@@ -5,39 +5,23 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Marker {
     private LinearOpMode opMode;
-    Servo kickerL;
-    Servo kickerR;
+    Servo marker;
 
-    public Marker(LinearOpMode opMode)throws InterruptedException {
-
+    public Marker(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
-        kickerL = this.opMode.hardwareMap.servo.get("LeftKicker");
-        kickerR = this.opMode.hardwareMap.servo.get("RightKicker");
+        marker = this.opMode.hardwareMap.servo.get("Marker");
         this.opMode.telemetry.addData("init", "init finished");
         this.opMode.telemetry.update();
-        kickersIn();
-
+        markerIn();
     }
 
-    public void kickerRIn() {
-        kickerR.setPosition(0);
+    public void markerIn() {
+        marker.setPosition(0);
     }
 
-    public void kickerLIn() {
-        kickerL.setPosition(0);
-    }
-
-    public void kickerROut() {
-        kickerR.setPosition(1);
-    }
-
-    public void kickerLOut() {
-        kickerL.setPosition(1);
-    }
-
-    public void kickersIn() {
-        kickerRIn();
-        kickerLIn();
+    public void markerOut()
+    {
+        marker.setPosition(0);
     }
 }
 

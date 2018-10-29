@@ -27,25 +27,25 @@ public class DepotAuto extends LinearOpMode {
         sensors = new Sensors(this);
         sampler = new Sampler(this);
 
-//        composeTelemetry();
-
         waitForStart();
 
         //turn to see right two minerals of sample
-        drivetrain.turnPI(15, .7, .05);
+        drivetrain.turnPI(10, .7, .05);
 
-        sleep(2000);
+        Thread.sleep(2000);
         //scan sample and turn
         cubePos = sampler.getCubePos();
+
+        telemetry.addData("cubePos: ", cubePos);
         telemetry.update();
         if (cubePos.equals("left")){
-            drivetrain.turnPI(-20, .7, .05);
+            drivetrain.turnPI(-32, .7, .05);
         }
         else if(cubePos.equals("center")){
             drivetrain.turnPI(0, .7, .05);
         }
         else{
-            drivetrain.turnPI(20, 1, .05);
+            drivetrain.turnPI(32, .7, .05);
         }
 
         drivetrain.move(.4, 950);
@@ -62,12 +62,6 @@ public class DepotAuto extends LinearOpMode {
 
         drivetrain.move(-.4, 700);
         drivetrain.wallRollL(-.4, 800);
-    }
-
-    //adds relevant telemetry statements
-    private void composeTelemetry() {
-        telemetry.addData("yaw", sensors.getGyroYaw());
-        telemetry.addData("cubePos", cubePos);
     }
 
 }
