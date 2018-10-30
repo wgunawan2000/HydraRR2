@@ -12,16 +12,14 @@ public class Marker {
         marker = this.opMode.hardwareMap.servo.get("Marker");
         this.opMode.telemetry.addData("init", "init finished");
         this.opMode.telemetry.update();
-        markerIn();
+        Up();
     }
 
-    public void markerIn() {
-        marker.setPosition(0);
+    public void Up() {
+        marker.setPosition(1);
     }
 
-    public void markerOut()
-    {
-        marker.setPosition(0);
+    public void Down() {
+        marker.setPosition(.5);
     }
 }
-

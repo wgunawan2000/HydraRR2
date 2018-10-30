@@ -16,14 +16,12 @@ public class Drivetrain {
     Sensors sensor;
     LinearOpMode opMode;
     ElapsedTime times;
-    int nullValue;
 
     private final String LOG_TAG = "DriveTrain";
     public Drivetrain(LinearOpMode opMode)throws InterruptedException {
         sensor = new Sensors(opMode);
         times = new ElapsedTime();
         this.opMode = opMode;
-        nullValue = 0;
         BL = this.opMode.hardwareMap.dcMotor.get("BL");
         ML = this.opMode.hardwareMap.dcMotor.get("ML");
         FL = this.opMode.hardwareMap.dcMotor.get("FL");

@@ -18,6 +18,7 @@ public class DepotAuto extends LinearOpMode {
     private Sensors sensors;
     private Sampler sampler;
     private String cubePos;
+    private Marker marker;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -26,7 +27,7 @@ public class DepotAuto extends LinearOpMode {
         drivetrain = new Drivetrain(this);
         sensors = new Sensors(this);
         sampler = new Sampler(this);
-
+        marker = new Marker(this);
         waitForStart();
 
         //turn to see right two minerals of sample
@@ -53,6 +54,8 @@ public class DepotAuto extends LinearOpMode {
         sleep(1000);
 
         drivetrain.turnPI(35, .6, .05);
+        marker.Down();
+        marker.Up();
 //        telemetry.update();
         sleep(1000);
 

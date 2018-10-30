@@ -23,6 +23,23 @@ public class MainTeleOp extends GrimSkyOpMode {
             } else {
                 stopMotors();
             }
+
+            if (gamepad2.right_trigger > .1) {
+                lift.setPower(gamepad2.right_trigger / 2);
+            } else if (gamepad2.left_trigger > .1) {
+                lift.setPower(-gamepad2.left_trigger / 2);
+            } else {
+                lift.setPower(0);
+            }
+
+            if (gamepad2.dpad_right) {
+                pto.setPower(-.5);
+            } else if (gamepad2.dpad_left) {
+                pto.setPower(.5);
+            } else {
+                pto.setPower(0);
+            }
+
         } else {
             double left = 0;
             double right = 0;

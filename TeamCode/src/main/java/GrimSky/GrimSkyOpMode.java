@@ -1,8 +1,10 @@
 package GrimSky;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public abstract class GrimSkyOpMode extends OpMode{
 
@@ -12,6 +14,10 @@ public abstract class GrimSkyOpMode extends OpMode{
     DcMotor FL;
     DcMotor ML;
     DcMotor BL;
+
+    DcMotor lift;
+
+    CRServo pto;
 
     GrimSkyOpMode opMode;
 
@@ -23,6 +29,9 @@ public abstract class GrimSkyOpMode extends OpMode{
         BL = hardwareMap.dcMotor.get("BL");
         ML = hardwareMap.dcMotor.get("ML");
         MR = hardwareMap.dcMotor.get("MR");
+        lift = hardwareMap.dcMotor.get("lift");
+
+        pto = hardwareMap.crservo.get("marker");
 
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         MR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -34,6 +43,8 @@ public abstract class GrimSkyOpMode extends OpMode{
         MR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ML.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -48,6 +59,8 @@ public abstract class GrimSkyOpMode extends OpMode{
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         MR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+
 
 //        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -78,6 +91,8 @@ public abstract class GrimSkyOpMode extends OpMode{
         ML.setPower(0);
         BL.setPower(0);
     }
+
+
 
 
 

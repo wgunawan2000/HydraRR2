@@ -127,7 +127,6 @@ public class OpModeCamera extends OpMode {
 
     public void startCamera() {
         camera = openCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
-
         camera.setPreviewCallback(previewCallback);
 
         Camera.Parameters parameters = camera.getParameters();

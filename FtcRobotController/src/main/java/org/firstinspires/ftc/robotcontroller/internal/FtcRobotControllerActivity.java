@@ -171,8 +171,6 @@ public class FtcRobotControllerActivity extends Activity
 
   protected WifiMuteStateMachine wifiMuteStateMachine;
   protected MotionDetection motionDetection;
-    /////////////////////////////////////////////////////////
-    // ADDED FOR CAMERA!!!
 
     public void initPreview(final Camera camera, final OpModeCamera context, final Camera.PreviewCallback previewCallback) {
       runOnUiThread(new Runnable() {
@@ -185,7 +183,6 @@ public class FtcRobotControllerActivity extends Activity
       });
     }
 
-    // poor coding style here.  Shouldn't have to duplicate these routines for regular and linear OpModes.
     public void initPreviewLinear(final Camera camera, final LinearOpModeCamera context, final Camera.PreviewCallback previewCallback) {
       runOnUiThread(new Runnable() {
         @Override
@@ -218,8 +215,6 @@ public class FtcRobotControllerActivity extends Activity
       });
     }
 
-    // END CAMERA ADD!!!
-    //////////////////////////////////////////////
 
   protected class RobotRestarter implements Restarter {
 
