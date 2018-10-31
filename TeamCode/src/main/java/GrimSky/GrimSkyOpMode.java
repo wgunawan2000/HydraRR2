@@ -29,13 +29,15 @@ public abstract class GrimSkyOpMode extends OpMode{
         BL = hardwareMap.dcMotor.get("BL");
         ML = hardwareMap.dcMotor.get("ML");
         MR = hardwareMap.dcMotor.get("MR");
+
         lift = hardwareMap.dcMotor.get("lift");
 
-        pto = hardwareMap.crservo.get("marker");
+        pto = hardwareMap.crservo.get("pto");
 
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         MR.setDirection(DcMotorSimple.Direction.REVERSE);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -53,6 +55,8 @@ public abstract class GrimSkyOpMode extends OpMode{
         ML.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -60,6 +64,7 @@ public abstract class GrimSkyOpMode extends OpMode{
         ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         MR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
 //        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -90,6 +95,14 @@ public abstract class GrimSkyOpMode extends OpMode{
         FL.setPower(0);
         ML.setPower(0);
         BL.setPower(0);
+    }
+
+    public void liftUp(double power){
+        lift.setPower(power);
+    }
+
+    public void liftDown(double power){
+        lift.setPower(-power/2);
     }
 
 

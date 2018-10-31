@@ -1,11 +1,8 @@
-package GrimSkyLibraries;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+package OpModeLibraries;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-
-import for_camera_opmodes.LinearOpModeCamera;
 
 
 public class Drivetrain {
@@ -16,11 +13,11 @@ public class Drivetrain {
     public DcMotor MR;
     public DcMotor FR;
     Sensors sensor;
-    LinearOpMode opMode;
+    OpMode opMode;
     ElapsedTime times;
 
     private final String LOG_TAG = "DriveTrain";
-    public Drivetrain(LinearOpMode opMode)throws InterruptedException {
+    public Drivetrain(OpMode opMode) {
         sensor = new Sensors(opMode);
         times = new ElapsedTime();
         this.opMode = opMode;
@@ -52,7 +49,7 @@ public class Drivetrain {
     }
 
     //simple threshold encoder move method
-    public void move(double power, int encoder) throws InterruptedException{
+    public void move(double power, int encoder){
         resetEncoders();
         while(getEncoderAvg() < encoder) {
             startMotors(power, power);
@@ -83,7 +80,7 @@ public class Drivetrain {
     }
 
     //these methods apply more power to the side opposite the wall in order to wall roll well
-    public void wallRollR(double power, int encoder) throws InterruptedException{
+    public void wallRollR(double power, int encoder) {
         resetEncoders();
         while(getEncoderAvg() < encoder) {
             if(power * 1.3 > 1){
@@ -94,7 +91,7 @@ public class Drivetrain {
         stopMotors();
     }
 
-    public void wallRollL(double power, int encoder) throws InterruptedException{
+    public void wallRollL(double power, int encoder) {
         resetEncoders();
         while(getEncoderAvg() < encoder) {
             if(power * 1.3 > 1){
@@ -115,7 +112,7 @@ public class Drivetrain {
         double I = 0;
         double angleDiff = sensor.getTrueDiff(angle);
         double changePID = 0;
-        while (Math.abs(angleDiff) > .5 && opMode.opModeIsActive() && times.seconds() < 10) {
+        while (Math.abs(angleDiff) > .5 && times.seconds() < 10) {
             pastTime = currentTime;
             currentTime = times.milliseconds();
             double dT = currentTime - pastTime;
@@ -148,33 +145,19 @@ public class Drivetrain {
         FR.setPower(0);
     }
 
-    public void resetEncoders() throws InterruptedException {
+    public void resetEncoders()  {
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        opMode.idle();
         MR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        opMode.idle();
         FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        opMode.idle();
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        opMode.idle();
         ML.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        opMode.idle();
         FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        opMode.idle();
-
-
         BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        opMode.idle();
         MR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        opMode.idle();
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        opMode.idle();
         BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        opMode.idle();
         ML.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        opMode.idle();
         FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        opMode.idle();
     }
 
     public int getEncoderR(){

@@ -16,7 +16,6 @@ import GrimSkyLibraries.Sensors;
 public class DepotAuto extends LinearOpMode {
     private Drivetrain drivetrain;
     private Sensors sensors;
-    private Sampler sampler;
     private String cubePos;
     private Marker marker;
     private ElapsedTime runtime = new ElapsedTime();
@@ -26,35 +25,37 @@ public class DepotAuto extends LinearOpMode {
 
         drivetrain = new Drivetrain(this);
         sensors = new Sensors(this);
-        sampler = new Sampler(this);
+//        sampler = new Sampler(this);
         marker = new Marker(this);
         waitForStart();
 
         //turn to see right two minerals of sample
-        drivetrain.turnPI(10, .7, .05);
+        drivetrain.turnPI(10, .5, .05);
 
         Thread.sleep(2000);
         //scan sample and turn
-        cubePos = sampler.getCubePos();
-
-        telemetry.addData("cubePos: ", cubePos);
-        telemetry.update();
+        cubePos = "center"; //sampler.getCubePos();
+//
+//        telemetry.addData("cubePos: ", cubePos);
+//        telemetry.update();
         if (cubePos.equals("left")){
-            drivetrain.turnPI(-32, .7, .05);
+            drivetrain.turnPI(-32, .5, .05);
         }
         else if(cubePos.equals("center")){
-            drivetrain.turnPI(0, .7, .05);
+            drivetrain.turnPI(0, .5, .05);
         }
         else{
-            drivetrain.turnPI(32, .7, .05);
+            drivetrain.turnPI(32, .5, .05);
         }
 
-        drivetrain.move(.4, 950);
+        drivetrain.move(.4, 1000);
 //        telemetry.update();
         sleep(1000);
 
-        drivetrain.turnPI(35, .6, .05);
+        drivetrain.turnPI(35, .4, .05);
+        sleep(1000);
         marker.Down();
+        sleep(1000);
         marker.Up();
 //        telemetry.update();
         sleep(1000);

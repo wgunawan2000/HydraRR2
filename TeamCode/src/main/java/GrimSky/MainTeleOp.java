@@ -13,6 +13,8 @@ public class MainTeleOp extends GrimSkyOpMode {
             tank = !tank;
 
         }
+        telemetry.addData("mode", tank ? "tank" : "arcade");
+        telemetry.update();
         double sC = gamepad1.left_bumper ? .5 : 1;
 
         if (tank) {
@@ -25,9 +27,9 @@ public class MainTeleOp extends GrimSkyOpMode {
             }
 
             if (gamepad2.right_trigger > .1) {
-                lift.setPower(gamepad2.right_trigger / 2);
-            } else if (gamepad2.left_trigger > .1) {
-                lift.setPower(-gamepad2.left_trigger / 2);
+                liftUp(gamepad2.right_trigger);
+            } else if (gamepad2.left_trigger > .1){
+                liftDown(gamepad2.left_trigger);
             } else {
                 lift.setPower(0);
             }
