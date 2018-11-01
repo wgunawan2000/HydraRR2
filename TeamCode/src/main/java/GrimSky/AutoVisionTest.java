@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
 
+import GrimSkyLibraries.Sampler;
 import OpModeLibraries.Drivetrain;
 import OpModeLibraries.Marker;
 import OpModeLibraries.Sensors;
@@ -20,7 +21,7 @@ public class AutoVisionTest extends OpModeCamera {
     int numPics = 0;
     double avgX = 0;
     int validPix = 0;
-    String pos = "";
+    String pos = "center";
     int red = 0, blue = 0;
     ElapsedTime times;
     OpMode opMode;
@@ -36,13 +37,17 @@ public class AutoVisionTest extends OpModeCamera {
         drivetrain = new Drivetrain(this);
         sensors = new Sensors(this);
         marker = new Marker(this);
-
+        telemetry.addData("init", "done");
+        telemetry.update();
     }
 
 
     //Loop: Loops once driver hits play after start() runs.
     @Override
     public void loop() {
+        //turn to see right two minerals of sample
+        drivetrain.turnPI(10, .5, .05);
+
         if (imageReady()) { // only do this if an image has been returned from the camera
 
             numPics++;
@@ -54,7 +59,6 @@ public class AutoVisionTest extends OpModeCamera {
             int cubePixelCount = 0;
             ArrayList<Integer> xValues = new ArrayList<>();
             for (int x = (int) ((2.0 / 3) * rgbImage.getWidth()); x < rgbImage.getWidth(); x += 2) {
-
                 for (int y = 0; y < rgbImage.getHeight(); y += 2) {
                     int pixel = rgbImage.getPixel(x, y);
                     red += red(pixel);
@@ -78,28 +82,25 @@ public class AutoVisionTest extends OpModeCamera {
             else if (avgX > .6 * rgbImage.getHeight()) pos = "center";
 
             else pos = "right";
-
-            //turn to see right two minerals of sample
-            drivetrain.turnPI(10, .5, .05);
+        }
 
             sleep(2000);
             //scan sample and turn
-            cubePos = "center"; //sampler.getCubePos();
-//
-//        telemetry.addData("cubePos: ", cubePos);
-//        telemetry.update();
-            if (cubePos.equals("left")){
+            telemetry.addData("cubePos: ", pos);
+            telemetry.update();
+
+            if (pos.equals("left")){
                 drivetrain.turnPI(-32, .5, .05);
             }
-            else if(cubePos.equals("center")){
-                drivetrain.turnPI(0, .5, .05);
+            else if(pos.equals("center")){
+                drivetrain.turnPI(-2, .5, .05);
             }
             else{
                 drivetrain.turnPI(32, .5, .05);
             }
 
+            sleep(1000);
             drivetrain.move(.4, 1000);
-//        telemetry.update();
             sleep(1000);
 
             drivetrain.turnPI(35, .4, .05);
@@ -107,21 +108,19 @@ public class AutoVisionTest extends OpModeCamera {
             marker.Down();
             sleep(1000);
             marker.Up();
-//        telemetry.update();
             sleep(1000);
 
             drivetrain.turnPI(80, .3, .1);
-//        telemetry.update();
             sleep(1000);
 
             drivetrain.move(-.4, 700);
             drivetrain.wallRollL(-.4, 800);
-        }
+
     }
 
     public void sleep(int milis){
         try {
-            Thread.sleep(milis);
+            wait(milis);
         } catch (Exception e){}
     }
 
