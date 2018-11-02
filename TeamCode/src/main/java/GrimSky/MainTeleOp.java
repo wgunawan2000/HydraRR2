@@ -1,6 +1,8 @@
 package GrimSky;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 @TeleOp(name = "MainTeleOp", group = "opMode")
 public class MainTeleOp extends GrimSkyOpMode {
 
@@ -20,29 +22,6 @@ public class MainTeleOp extends GrimSkyOpMode {
         if (tank) {
             //tank drive
 
-            if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_y)) > .1) {
-                startMotors(gamepad1.left_stick_y * sC, gamepad1.right_stick_y * sC);
-            } else {
-                stopMotors();
-            }
-
-            if (gamepad2.right_trigger > .1) {
-                liftUp(gamepad2.right_trigger);
-            } else if (gamepad2.left_trigger > .1){
-                liftDown(gamepad2.left_trigger);
-            } else {
-                lift.setPower(0);
-            }
-
-            if (gamepad2.dpad_right) {
-                pto.setPower(-.5);
-            } else if (gamepad2.dpad_left) {
-                pto.setPower(.5);
-            } else {
-                pto.setPower(0);
-            }
-
-        } else {
             double left = 0;
             double right = 0;
             double max;
@@ -62,6 +41,33 @@ public class MainTeleOp extends GrimSkyOpMode {
             } else {
                 stopMotors();
             }
+
+            if (gamepad2.right_trigger > .1) {
+                liftUp(gamepad2.right_trigger);
+            } else if (gamepad2.left_trigger > .1){
+                liftDown(gamepad2.left_trigger);
+            } else {
+                lift.setPower(0);
+            }
+
+            if (gamepad2.dpad_right) {
+                pto.setPower(-.5);
+                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            } else if (gamepad2.dpad_left) {
+                pto.setPower(.5);
+            } else {
+                pto.setPower(0);
+            }
+
+        } else {
+
+            if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_y)) > .1) {
+                startMotors(gamepad1.left_stick_y * sC, gamepad1.right_stick_y * sC);
+            } else {
+                stopMotors();
+            }
+
+
         }
 
     }

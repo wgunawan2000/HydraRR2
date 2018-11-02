@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
 
-import GrimSkyLibraries.Sampler;
 import OpModeLibraries.Drivetrain;
 import OpModeLibraries.Marker;
 import OpModeLibraries.Sensors;
@@ -114,6 +113,7 @@ public class AutoVisionTest extends OpModeCamera {
             sleep(1000);
 
             drivetrain.move(-.4, 700);
+            sleep(1000);
             drivetrain.wallRollL(-.4, 800);
 
     }
