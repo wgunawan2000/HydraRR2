@@ -55,6 +55,7 @@ public class MainTeleOp extends GrimSkyOpMode {
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             } else if (gamepad2.dpad_left) {
                 pto.setPower(.5);
+                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             } else {
                 pto.setPower(0);
             }
