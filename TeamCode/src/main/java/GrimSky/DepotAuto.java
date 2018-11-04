@@ -3,17 +3,13 @@ package GrimSky;
 import android.graphics.Bitmap;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.ArrayList;
 
 import GrimSkyLibraries.Drivetrain;
 import GrimSkyLibraries.Lift;
 import GrimSkyLibraries.Marker;
-import GrimSkyLibraries.Sampler;
 import GrimSkyLibraries.Sensors;
 import for_camera_opmodes.LinearOpModeCamera;
 
@@ -29,6 +25,7 @@ public class DepotAuto extends LinearOpModeCamera {
     private Sensors sensors;
     private String cubePos;
     private Marker marker;
+    private Lift lift;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -37,50 +34,61 @@ public class DepotAuto extends LinearOpModeCamera {
         drivetrain = new Drivetrain(this);
         sensors = new Sensors(this);
         marker = new Marker(this);
+        lift = new Lift(this);
         startCamera();
 
         waitForStart();
 
-        //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10, .5, .05);
-        sleep(2000);
-
-        //============================ SAMPLE =======================================================
-        cubePos = getCubePos();
-        if (cubePos.equals("left")) {
-            drivetrain.turnPI(-28, .2, .05);
-            sleep(500);
-            drivetrain.move(.4, 475);
-            drivetrain.turnPI(35, .2, .05);
-        } else if (cubePos.equals("center")) {
-            drivetrain.turnPI(0, .2, .05);
-            sleep(500);
-            drivetrain.move(.4, 300);
-        } else {
-            drivetrain.turnPI(28, .2, .05);
-            sleep(500);
-            drivetrain.move(.4, 475);
-            drivetrain.turnPI(-35, .2, .05);
-        }
-
-        //=========================== MOVE TO DEPOT ================================================
-        drivetrain.move(.4, 550);
-        sleep(1000);
-
-        //=========================== MARKER DEPOSIT ===============================================
-        drivetrain.turnPI(25, .5, .05);
-        sleep(1000);
-        marker.Down();
-        sleep(1000);
-        marker.Up();
-
-        //============================ PARK =========================================================
-        sleep(1000);
-        drivetrain.turnPI(80, .3, .1);
-        sleep(1000);
-        drivetrain.move(-.4, 700);
-        drivetrain.wallRollL(-.4, 800);
+        //=========================== UNHANG =======================================================
+//        drivetrain.unhang(.5, 200);
+//
+//        //=========================== REPOSITION ===================================================
+//        lift.move(-4, 275);
+        drivetrain.move(.4, 500);
     }
+
+//        //=========================== INITIAL TURN AND SCAN ========================================
+//        drivetrain.turnPI(10, .8, .1);
+//        sleep(2000);
+//
+//        //============================ SAMPLE ======================================================
+////        cubePos = getCubePos();
+//        cubePos = "right";
+//        if (cubePos.equals("left")) {
+//            drivetrain.turnPI(-25, .2, .05);
+//            sleep(500);
+//            drivetrain.move(.4, 475);
+//            sleep(500);
+//            drivetrain.turnPI(35, .2, .05);
+//        } else if (cubePos.equals("center")) {
+//            drivetrain.turnPI(0, .2, .05);
+//            sleep(500);
+//            drivetrain.move(.4, 300);
+//        } else {
+//            drivetrain.turnPI(25, .42, .1);
+//            sleep(500);
+//            drivetrain.move(.4, 475);
+//            sleep(500);
+//            drivetrain.turnPI(-30, .15, .05);
+//        }
+//
+//        //=========================== MOVE TO DEPOT ================================================
+//        drivetrain.move(.4, 370);
+//        sleep(1000);
+//
+//        //=========================== MARKER DEPOSIT ===============================================
+//        drivetrain.turnPI(-10, .5, .05);
+//        sleep(1000);
+//        marker.Down();
+//        sleep(1000);
+//        marker.Up();
+//
+//        //============================ PARK =========================================================
+//        sleep(1000);
+//        drivetrain.turnPI(60, .32, .1);
+//        sleep(1000);
+//        drivetrain.wallRollL(-.7, 1250);
+//    }
 
 
     //================================ LOCAL METHODS ===============================================

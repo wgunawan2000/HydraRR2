@@ -35,9 +35,7 @@ public class MainTeleOp extends GrimSkyOpMode {
                     left /= max;
                     right /= max;
                 }
-
                 startMotors(left * sC, right * sC);
-
             } else {
                 stopMotors();
             }

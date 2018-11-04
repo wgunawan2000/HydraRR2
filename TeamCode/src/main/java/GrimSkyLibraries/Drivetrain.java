@@ -1,5 +1,6 @@
 package GrimSkyLibraries;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -16,13 +17,15 @@ public class Drivetrain {
     public DcMotor MR;
     public DcMotor FR;
     Sensors sensor;
+    CRServo pto;
     LinearOpMode opMode;
     ElapsedTime times;
-
+    Lift lift;
     private final String LOG_TAG = "DriveTrain";
     public Drivetrain(LinearOpMode opMode)throws InterruptedException {
         sensor = new Sensors(opMode);
         times = new ElapsedTime();
+        lift = new Lift(opMode);
         this.opMode = opMode;
         BL = this.opMode.hardwareMap.dcMotor.get("BL");
         ML = this.opMode.hardwareMap.dcMotor.get("ML");
@@ -30,6 +33,8 @@ public class Drivetrain {
         BR = this.opMode.hardwareMap.dcMotor.get("BR");
         MR = this.opMode.hardwareMap.dcMotor.get("MR");
         FR = this.opMode.hardwareMap.dcMotor.get("FR");
+        pto = this.opMode.hardwareMap.crservo.get("pto");
+
         this.opMode.telemetry.addData(LOG_TAG + "init", "finished init");
         this.opMode.telemetry.update();
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -37,6 +42,29 @@ public class Drivetrain {
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
+    public void unhang(double power, double encoder) throws InterruptedException {
+        times.reset();
+        lift.setFloat();
+        resetEncoders();
+
+        while (getEncoderL() < encoder) {
+            startMotors(-power, 0);
+        }
+
+        Thread.sleep(100);
+        //disengage
+        times.reset();
+        while(times.seconds() < 1) {
+            pto.setPower(1);
+        }
+        pto.setPower(0);
+
+        Thread.sleep(1000);
+        lift.setBrake();
+        lift.move(power, 75);
+
+        stopMotors();
+    }
     //the left side has slightly more friction
     public void startMotors(double left, double right){
         if((Math.abs(1.07*left) > 1)){
@@ -55,6 +83,12 @@ public class Drivetrain {
     public void move(double power, int encoder) throws InterruptedException{
         resetEncoders();
         while(getEncoderAvg() < encoder) {
+            opMode.telemetry.addData("ML", ML.getCurrentPosition());
+            opMode.telemetry.addData("FL", FL.getCurrentPosition());
+            opMode.telemetry.addData("MR", MR.getCurrentPosition());
+            opMode.telemetry.addData("FR", FR.getCurrentPosition());
+            opMode.telemetry.addData("lift", lift.getEncoder());
+            opMode.telemetry.update();
             startMotors(power, power);
         }
         stopMotors();
@@ -86,10 +120,10 @@ public class Drivetrain {
     public void wallRollR(double power, int encoder) throws InterruptedException{
         resetEncoders();
         while(getEncoderAvg() < encoder) {
-            if(power * 1.3 > 1){
-                power /= 1.3;
+            if(power * 1.2 > 1){
+                power /= 1.2;
             }
-            startMotors(power * 1.3, power);
+            startMotors(power * 1.2, power);
         }
         stopMotors();
     }
@@ -97,10 +131,10 @@ public class Drivetrain {
     public void wallRollL(double power, int encoder) throws InterruptedException{
         resetEncoders();
         while(getEncoderAvg() < encoder) {
-            if(power * 1.3 > 1){
-                power /= 1.3;
+            if(power * 1.2 > 1){
+                power /= 1.2;
             }
-            startMotors(power, power * 1.3);
+            startMotors(power, power * 1.2);
         }
         stopMotors();
     }
@@ -115,7 +149,7 @@ public class Drivetrain {
         double I = 0;
         double angleDiff = sensor.getTrueDiff(angle);
         double changePID = 0;
-        while (Math.abs(angleDiff) > .5 && opMode.opModeIsActive() && times.seconds() < 10) {
+        while (Math.abs(angleDiff) > 1 && opMode.opModeIsActive() && times.seconds() < 5) {
             pastTime = currentTime;
             currentTime = times.milliseconds();
             double dT = currentTime - pastTime;
@@ -123,16 +157,16 @@ public class Drivetrain {
             P = angleDiff * kP;
             I += dT * angleDiff * kI;
             changePID = P;
-                changePID += I;
-                opMode.telemetry.addData("PID: ", changePID);
-                opMode.telemetry.addData("diff", angleDiff);
-                opMode.telemetry.addData("P", P);
-                opMode.telemetry.addData("I", I);
-                opMode.telemetry.update();
-                if (changePID < 0) {
-                    startMotors(changePID - .12, -changePID + .12);
-                } else {
-                    startMotors(changePID + .12, -changePID - .12);
+            changePID += I;
+            opMode.telemetry.addData("PID: ", changePID);
+            opMode.telemetry.addData("diff", angleDiff);
+            opMode.telemetry.addData("P", P);
+            opMode.telemetry.addData("I", I);
+            opMode.telemetry.update();
+            if (changePID < 0) {
+                startMotors(changePID - .1, -changePID + .1);
+            } else {
+                startMotors(changePID + .1, -changePID - .1);
                 }
 
             }
@@ -200,17 +234,17 @@ public class Drivetrain {
     }
 
     public int getEncoderAvg() {
-        int count = 4;
-        if ((FR.getCurrentPosition()) == -1){
+        int count = 5;
+        if ((FR.getCurrentPosition()) == 0){
             count--;
         }
-        if ((FL.getCurrentPosition()) == -1){
+        if ((FL.getCurrentPosition()) == 0){
             count--;
         }
-        if ((MR.getCurrentPosition()) == -1){
+        if ((MR.getCurrentPosition()) == 0){
             count--;
         }
-        if ((ML.getCurrentPosition()) == -1){
+        if ((ML.getCurrentPosition()) == 0){
             count--;
         }
         return (Math.abs(FR.getCurrentPosition()) +  Math.abs(FL.getCurrentPosition())
