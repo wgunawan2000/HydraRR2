@@ -40,13 +40,14 @@ public class DepotAuto extends LinearOpModeCamera {
         waitForStart();
 
         //=========================== UNHANG =======================================================
-//        drivetrain.unhang(.5, 200);
-//
-//        //=========================== REPOSITION ===================================================
-//        lift.move(-4, 275);
-        drivetrain.move(.4, 500);
+        drivetrain.unhang(.5, 500);
+        stopCamera();
     }
 
+//        //=========================== REPOSITION ===================================================
+//        lift.move(-4, 275);
+//
+//
 //        //=========================== INITIAL TURN AND SCAN ========================================
 //        drivetrain.turnPI(10, .8, .1);
 //        sleep(2000);
@@ -57,23 +58,23 @@ public class DepotAuto extends LinearOpModeCamera {
 //        if (cubePos.equals("left")) {
 //            drivetrain.turnPI(-25, .2, .05);
 //            sleep(500);
-//            drivetrain.move(.4, 475);
+//            drivetrain.move(.4, 20);
 //            sleep(500);
 //            drivetrain.turnPI(35, .2, .05);
 //        } else if (cubePos.equals("center")) {
 //            drivetrain.turnPI(0, .2, .05);
 //            sleep(500);
-//            drivetrain.move(.4, 300);
+//            drivetrain.move(.4, 12);
 //        } else {
 //            drivetrain.turnPI(25, .42, .1);
 //            sleep(500);
-//            drivetrain.move(.4, 475);
+//            drivetrain.move(.4, 20);
 //            sleep(500);
 //            drivetrain.turnPI(-30, .15, .05);
 //        }
 //
 //        //=========================== MOVE TO DEPOT ================================================
-//        drivetrain.move(.4, 370);
+//        drivetrain.move(.4, 15);
 //        sleep(1000);
 //
 //        //=========================== MARKER DEPOSIT ===============================================
@@ -87,7 +88,8 @@ public class DepotAuto extends LinearOpModeCamera {
 //        sleep(1000);
 //        drivetrain.turnPI(60, .32, .1);
 //        sleep(1000);
-//        drivetrain.wallRollL(-.7, 1250);
+//        drivetrain.wallRollL(-.7, 50);
+//        stopCamera();
 //    }
 
 

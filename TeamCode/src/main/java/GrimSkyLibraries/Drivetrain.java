@@ -47,42 +47,45 @@ public class Drivetrain {
         lift.setFloat();
         resetEncoders();
 
+        //raise lift
         while (getEncoderL() < encoder) {
             startMotors(-power, 0);
         }
+        stopMotors();
+        Thread.sleep(1000);
 
-        Thread.sleep(100);
         //disengage
         times.reset();
-        while(times.seconds() < 1) {
+        while(times.milliseconds() < 150) {
             pto.setPower(1);
         }
         pto.setPower(0);
-
         Thread.sleep(1000);
-        lift.setBrake();
-        lift.move(power, 75);
 
+        //move lift to unhang
+        lift.setBrake();
+        lift.move(power, 175);
         stopMotors();
     }
-    //the left side has slightly more friction
+
+    //the right side has slightly more friction
     public void startMotors(double left, double right){
-        if((Math.abs(1.07*left) > 1)){
-            left /= 1.07;
-            right /= 1.07;
+        if((Math.abs(1.04*right) > 1)){
+            left /= 1.04;
+            right /= 1.04;
         }
-        BL.setPower(-1.07*left);
-        ML.setPower(-1.07*left);
-        FL.setPower(-1.07*left);
-        BR.setPower(-right);
-        MR.setPower(-right);
-        FR.setPower(-right);
+        BL.setPower(-left);
+        BR.setPower(-1.04*right);
+        ML.setPower(-left);
+        MR.setPower(-1.04*right);
+        FL.setPower(-left);
+        FR.setPower(-1.04*right);
     }
 
-    //simple threshold encoder move method
-    public void move(double power, int encoder) throws InterruptedException{
+    //simple threshold encoder move method, 25 ticks = ~1 inches//
+    public void move(double power, double inches) throws InterruptedException{
         resetEncoders();
-        while(getEncoderAvg() < encoder) {
+        while(getEncoderAvg() < inches*25 && !opMode.isStopRequested() && opMode.opModeIsActive()) {
             opMode.telemetry.addData("ML", ML.getCurrentPosition());
             opMode.telemetry.addData("FL", FL.getCurrentPosition());
             opMode.telemetry.addData("MR", MR.getCurrentPosition());
@@ -96,30 +99,30 @@ public class Drivetrain {
 
     //simple threshold distance move methods
     public void distanceRMove(double power, double distance) {
-        while(sensor.getDistanceR() > distance){
+        while(sensor.getDistanceR() > distance && !opMode.isStopRequested() && opMode.opModeIsActive()){
             startMotors(power, power);
         }
         stopMotors();
     }
 
     public void distanceLMove(double power, double distance) {
-        while(sensor.getDistanceL() > distance){
+        while(sensor.getDistanceL() > distance && !opMode.isStopRequested() && opMode.opModeIsActive()){
             startMotors(power, power);
         }
         stopMotors();
     }
 
     public void distanceMove(double power, double distance) {
-        while(sensor.getAvgDistance() > distance){
+        while(sensor.getAvgDistance() > distance && !opMode.isStopRequested() && opMode.opModeIsActive()){
             startMotors(power, power);
         }
         stopMotors();
     }
 
-    //these methods apply more power to the side opposite the wall in order to wall roll well
-    public void wallRollR(double power, int encoder) throws InterruptedException{
-        resetEncoders();
-        while(getEncoderAvg() < encoder) {
+    //wall roll methods apply more power to the side opposite the wall in order to wall roll
+        public void wallRollR(double power, double inches) throws InterruptedException{
+            resetEncoders();
+            while(getEncoderAvg() < inches*25 && !opMode.isStopRequested() && opMode.opModeIsActive()) {
             if(power * 1.2 > 1){
                 power /= 1.2;
             }
@@ -128,9 +131,9 @@ public class Drivetrain {
         stopMotors();
     }
 
-    public void wallRollL(double power, int encoder) throws InterruptedException{
+    public void wallRollL(double power, double inches) throws InterruptedException{
         resetEncoders();
-        while(getEncoderAvg() < encoder) {
+        while(getEncoderAvg() < inches*25 && !opMode.isStopRequested() && opMode.opModeIsActive()) {
             if(power * 1.2 > 1){
                 power /= 1.2;
             }
@@ -139,6 +142,7 @@ public class Drivetrain {
         stopMotors();
     }
 
+    //main turning method
     public void turnPI(double angle, double p, double i) {
         times.reset();
         double kP = p / 90;
@@ -149,7 +153,7 @@ public class Drivetrain {
         double I = 0;
         double angleDiff = sensor.getTrueDiff(angle);
         double changePID = 0;
-        while (Math.abs(angleDiff) > 1 && opMode.opModeIsActive() && times.seconds() < 5) {
+        while (Math.abs(angleDiff) > 1 && times.seconds() < 5 && !opMode.isStopRequested() && opMode.opModeIsActive()) {
             pastTime = currentTime;
             currentTime = times.milliseconds();
             double dT = currentTime - pastTime;
@@ -211,23 +215,24 @@ public class Drivetrain {
         opMode.idle();
     }
 
+    //encoder methods, divide by more than the motor count to prevent divide by zero exception
     public int getEncoderR(){
-        int count = 2;
-        if ((FR.getCurrentPosition()) == -1){
+        int count = 3;
+        if ((FR.getCurrentPosition()) == 0){
             count--;
         }
-        if ((MR.getCurrentPosition()) == -1) {
+        if ((MR.getCurrentPosition()) == 0) {
             count--;
         }
         return (Math.abs(FR.getCurrentPosition()) + Math.abs(MR.getCurrentPosition())) / count;
     }
 
     public int getEncoderL(){
-        int count = 2;
-        if ((FL.getCurrentPosition()) == -1){
+        int count = 3;
+        if ((FL.getCurrentPosition()) == 0){
             count--;
         }
-        if ((ML.getCurrentPosition()) == -1) {
+        if ((ML.getCurrentPosition()) == 0) {
             count--;
         }
         return (Math.abs(FL.getCurrentPosition()) + Math.abs(ML.getCurrentPosition())) / count;
