@@ -40,57 +40,55 @@ public class DepotAuto extends LinearOpModeCamera {
         waitForStart();
 
         //=========================== UNHANG =======================================================
-        drivetrain.unhang(.5, 500);
+        drivetrain.unhang();
+
+
+        //=========================== REPOSITION ===================================================
+        lift.move(-4, 160);
+
+        //=========================== INITIAL TURN AND SCAN ========================================
+        drivetrain.turnPI(10, .7, .3);
+        sleep(1000);
+
+        //============================ SAMPLE ======================================================
+//        cubePos = getCubePos();
+        cubePos = "right";
+        if (cubePos.equals("left")) {
+            drivetrain.turnPI(-25, .2, .05);
+            sleep(500);
+            drivetrain.move(.4, 20);
+            sleep(500);
+            drivetrain.turnPI(35, .2, .05);
+        } else if (cubePos.equals("center")) {
+            drivetrain.turnPI(0, .2, .05);
+            sleep(500);
+            drivetrain.move(.4, 12);
+        } else {
+            drivetrain.turnPI(35, .6, .5);
+            sleep(500);
+            drivetrain.move(.6, 30);
+            sleep(500);
+            drivetrain.turnPI(-15, .6, .65);
+        }
+
+        //=========================== MOVE TO DEPOT ================================================
+        drivetrain.move(.6, 22);
+        sleep(500);
+
+        //=========================== MARKER DEPOSIT ===============================================
+        drivetrain.turnPI(-5, .6, .4);
+        sleep(500);
+        marker.Down();
+        sleep(500);
+        marker.Up();
+
+        //============================ PARK =========================================================
+        sleep(500);
+        drivetrain.turnPI(70, .35, .6);
+        sleep(500);
+        drivetrain.wallRollL(-.7, 70);
         stopCamera();
     }
-
-//        //=========================== REPOSITION ===================================================
-//        lift.move(-4, 275);
-//
-//
-//        //=========================== INITIAL TURN AND SCAN ========================================
-//        drivetrain.turnPI(10, .8, .1);
-//        sleep(2000);
-//
-//        //============================ SAMPLE ======================================================
-////        cubePos = getCubePos();
-//        cubePos = "right";
-//        if (cubePos.equals("left")) {
-//            drivetrain.turnPI(-25, .2, .05);
-//            sleep(500);
-//            drivetrain.move(.4, 20);
-//            sleep(500);
-//            drivetrain.turnPI(35, .2, .05);
-//        } else if (cubePos.equals("center")) {
-//            drivetrain.turnPI(0, .2, .05);
-//            sleep(500);
-//            drivetrain.move(.4, 12);
-//        } else {
-//            drivetrain.turnPI(25, .42, .1);
-//            sleep(500);
-//            drivetrain.move(.4, 20);
-//            sleep(500);
-//            drivetrain.turnPI(-30, .15, .05);
-//        }
-//
-//        //=========================== MOVE TO DEPOT ================================================
-//        drivetrain.move(.4, 15);
-//        sleep(1000);
-//
-//        //=========================== MARKER DEPOSIT ===============================================
-//        drivetrain.turnPI(-10, .5, .05);
-//        sleep(1000);
-//        marker.Down();
-//        sleep(1000);
-//        marker.Up();
-//
-//        //============================ PARK =========================================================
-//        sleep(1000);
-//        drivetrain.turnPI(60, .32, .1);
-//        sleep(1000);
-//        drivetrain.wallRollL(-.7, 50);
-//        stopCamera();
-//    }
 
 
     //================================ LOCAL METHODS ===============================================

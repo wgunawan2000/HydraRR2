@@ -30,6 +30,7 @@ public class Lift {
         while (getEncoder() < encoder) {
             lift.setPower(power);
         }
+        lift.setPower(0);
     }
 
     public int getEncoder(){

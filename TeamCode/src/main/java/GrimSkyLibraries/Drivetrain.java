@@ -42,14 +42,14 @@ public class Drivetrain {
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    public void unhang(double power, double encoder) throws InterruptedException {
+    public void unhang() throws InterruptedException {
         times.reset();
         lift.setFloat();
         resetEncoders();
 
         //raise lift
-        while (getEncoderL() < encoder) {
-            startMotors(-power, 0);
+        while (getEncoderL() < 500) {
+            startMotors(-.5, 0);
         }
         stopMotors();
         Thread.sleep(1000);
@@ -63,8 +63,10 @@ public class Drivetrain {
         Thread.sleep(1000);
 
         //move lift to unhang
-        lift.setBrake();
-        lift.move(power, 175);
+        lift.move(1, 100);
+        Thread.sleep(500);
+        move(.4, .5);
+        Thread.sleep(500);
         stopMotors();
     }
 
@@ -153,7 +155,7 @@ public class Drivetrain {
         double I = 0;
         double angleDiff = sensor.getTrueDiff(angle);
         double changePID = 0;
-        while (Math.abs(angleDiff) > 1 && times.seconds() < 5 && !opMode.isStopRequested() && opMode.opModeIsActive()) {
+        while (Math.abs(angleDiff) > .5 && times.seconds() < 5 && !opMode.isStopRequested() && opMode.opModeIsActive()) {
             pastTime = currentTime;
             currentTime = times.milliseconds();
             double dT = currentTime - pastTime;
@@ -171,8 +173,7 @@ public class Drivetrain {
                 startMotors(changePID - .1, -changePID + .1);
             } else {
                 startMotors(changePID + .1, -changePID - .1);
-                }
-
+            }
             }
             stopMotors();
         }
