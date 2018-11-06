@@ -21,6 +21,7 @@ public class DepotAuto extends LinearOpModeCamera {
     int validPix = 0;
     String pos = "notFound";
     int red = 0, blue = 0;
+    int offset;
     private Drivetrain drivetrain;
     private Sensors sensors;
     private String cubePos;
@@ -36,62 +37,68 @@ public class DepotAuto extends LinearOpModeCamera {
         marker = new Marker(this);
         lift = new Lift(this);
         startCamera();
+        //offset = difference between angle of lander and lander tape (assuming lander tape is straight)
+        offset = 5;
 
         waitForStart();
 
         //=========================== UNHANG =======================================================
         drivetrain.unhang();
 
-
         //=========================== REPOSITION ===================================================
         lift.move(-4, 160);
 
         //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10, .7, .3);
+        drivetrain.turnPI(10 + offset, .8, 1.0, 2);
         sleep(1000);
+        telemetry.addData("first turn",  " done");
+        telemetry.update();
 
         //============================ SAMPLE ======================================================
-//        cubePos = getCubePos();
-        cubePos = "right";
+        cubePos = getCubePos();
+
+        //=================== HIT MINERAL AND GO TO DEPOT ==========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPI(-25, .2, .05);
+            drivetrain.turnPI(-32 + offset, .26, 0.18, 4);
             sleep(500);
-            drivetrain.move(.4, 20);
+            drivetrain.move(.4, 46.5);
             sleep(500);
-            drivetrain.turnPI(35, .2, .05);
+            drivetrain.turnPI(45 + offset, .15, 0.20, 4);
+            sleep(500);
+            drivetrain.move(.6, 25.5);
         } else if (cubePos.equals("center")) {
-            drivetrain.turnPI(0, .2, .05);
+            drivetrain.turnPI(0 + offset, .6, 1.1, 2);
             sleep(500);
-            drivetrain.move(.4, 12);
+            drivetrain.move(.4, 63);
+            sleep(500);
+            drivetrain.turnPI(45 + offset, .25, 0.2, 4);
+
         } else {
-            drivetrain.turnPI(35, .6, .5);
+            drivetrain.turnPI(33 + offset, .6, 0.12, 2);
             sleep(500);
-            drivetrain.move(.6, 30);
+            drivetrain.move(.6, 35.5);
             sleep(500);
-            drivetrain.turnPI(-15, .6, .65);
+            drivetrain.turnPI(-45 + offset, .16, 0.1, 4);
+            sleep(500);
+            drivetrain.move(.6, 28.5);
+            sleep(500);
+            drivetrain.turnPI(50 + offset, .28, .21, 4);
         }
 
-        //=========================== MOVE TO DEPOT ================================================
-        drivetrain.move(.6, 22);
-        sleep(500);
-
-        //=========================== MARKER DEPOSIT ===============================================
-        drivetrain.turnPI(-5, .6, .4);
+        //==================================== MARKER DEPOSIT ======================================
         sleep(500);
         marker.Down();
         sleep(500);
         marker.Up();
+        sleep(500);
 
-        //============================ PARK =========================================================
-        sleep(500);
-        drivetrain.turnPI(70, .35, .6);
-        sleep(500);
-        drivetrain.wallRollL(-.7, 70);
+        //======================================= PARK =============================================
+        drivetrain.wallRollL(-.5, 80);
         stopCamera();
     }
 
 
-    //================================ LOCAL METHODS ===============================================
+    //=================================== LOCAL METHODS ============================================
     public void sleep(int millis) {
         try {
             Thread.sleep(millis);

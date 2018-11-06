@@ -63,9 +63,9 @@ public class Drivetrain {
         Thread.sleep(1000);
 
         //move lift to unhang
-        lift.move(1, 100);
+        lift.move(1, 140);
         Thread.sleep(500);
-        move(.4, .5);
+        move(.2, 1);
         Thread.sleep(500);
         stopMotors();
     }
@@ -136,16 +136,16 @@ public class Drivetrain {
     public void wallRollL(double power, double inches) throws InterruptedException{
         resetEncoders();
         while(getEncoderAvg() < inches*25 && !opMode.isStopRequested() && opMode.opModeIsActive()) {
-            if(power * 1.2 > 1){
-                power /= 1.2;
+            if(power * 1.15 > 1){
+                power /= 1.15;
             }
-            startMotors(power, power * 1.2);
+            startMotors(power, power * 1.15);
         }
         stopMotors();
     }
 
     //main turning method
-    public void turnPI(double angle, double p, double i) {
+    public void turnPI(double angle, double p, double i, double timeout) {
         times.reset();
         double kP = p / 90;
         double kI = i / 100000;
@@ -155,7 +155,7 @@ public class Drivetrain {
         double I = 0;
         double angleDiff = sensor.getTrueDiff(angle);
         double changePID = 0;
-        while (Math.abs(angleDiff) > .5 && times.seconds() < 5 && !opMode.isStopRequested() && opMode.opModeIsActive()) {
+        while (Math.abs(angleDiff) > 1 && times.seconds() < timeout && !opMode.isStopRequested() && opMode.opModeIsActive()) {
             pastTime = currentTime;
             currentTime = times.milliseconds();
             double dT = currentTime - pastTime;
@@ -170,9 +170,9 @@ public class Drivetrain {
             opMode.telemetry.addData("I", I);
             opMode.telemetry.update();
             if (changePID < 0) {
-                startMotors(changePID - .1, -changePID + .1);
+                startMotors(changePID - .10, -changePID + .10);
             } else {
-                startMotors(changePID + .1, -changePID - .1);
+                startMotors(changePID + .10, -changePID - .10);
             }
             }
             stopMotors();
