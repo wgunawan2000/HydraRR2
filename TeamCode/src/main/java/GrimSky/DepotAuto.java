@@ -23,6 +23,7 @@ public class DepotAuto extends LinearOpModeCamera {
     String pos = "notFound";
     int red = 0, blue = 0;
     int offset;
+    int cubePixelCount = 0;
     private Drivetrain drivetrain;
     private Sensors sensors;
     private String cubePos;
@@ -62,51 +63,53 @@ public class DepotAuto extends LinearOpModeCamera {
         lift.move(-4, 160);
 
         //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10 + offset, .57, 0.5, 2);
+        drivetrain.turnPI(10 + offset, .57, 0.35, 2);
         sleep(1000);
-        telemetry.addData("first turn",  " done");
-        telemetry.update();
 
         //============================ SAMPLE ======================================================
         cubePos = getCubePos();
-
-        //=================== HIT MINERAL AND GO TO DEPOT ==========================================
-        if (cubePos.equals("left")) {
-            drivetrain.turnPI(-33 + offset, .21, 0.16, 4);
-            sleep(500);
-            drivetrain.move(.4, 46.5);
-            sleep(500);
-            drivetrain.turnPI(45 + offset, .08, 0.13, 4);
-            sleep(500);
-            drivetrain.move(.6, 25.5);
-        } else if (cubePos.equals("center")) {
-            drivetrain.turnPI(0 + offset, .6, 1.1, 2);
-            sleep(500);
-            drivetrain.move(.4, 63);
-            sleep(500);
-            drivetrain.turnPI(45 + offset, .25, 0.2, 4);
-
-        } else {
-            drivetrain.turnPI(33 + offset, .50, 0.12, 2);
-            sleep(500);
-            drivetrain.move(.6, 35.5);
-            sleep(500);
-            drivetrain.turnPI(-45 + offset, .08, 0.13, 4);
-            sleep(500);
-            drivetrain.move(.6, 28.5);
-            sleep(500);
-            drivetrain.turnPI(47 + offset, .24, .21, 4);
-        }
-
-        //==================================== MARKER DEPOSIT ======================================
-        sleep(500);
-        marker.Down();
-        sleep(500);
-        marker.Up();
-        sleep(500);
-
-        //======================================= PARK =============================================
-        drivetrain.wallRollL(-.5, 80);
+        telemetry.addData("cubePos", cubePos);
+        telemetry.addData("PixelCount", cubePixelCount);
+        telemetry.update();
+        sleep(5000);
+//
+//        //=================== HIT MINERAL AND GO TO DEPOT ==========================================
+//        if (cubePos.equals("left")) {
+//            drivetrain.turnPI(-33 + offset, .06, 0, 4);
+//            sleep(500);
+//            drivetrain.move(.4, 32.5);
+//            sleep(500);
+//            drivetrain.turnPI(45 + offset, .04, 0, 4);
+//            sleep(500);
+//            drivetrain.move(.6, 28.5);
+//        } else if (cubePos.equals("center")) {
+//            drivetrain.turnPI(0 + offset, .57, .35, 2);
+//            sleep(500);
+//            drivetrain.move(.4, 63);
+//            sleep(500);
+//            drivetrain.turnPI(45 + offset, .25, 0.2, 4);
+//
+//        } else {
+//            drivetrain.turnPI(33 + offset, .50, 0.12, 2);
+//            sleep(500);
+//            drivetrain.move(.6, 35.5);
+//            sleep(500);
+//            drivetrain.turnPI(-45 + offset, .08, 0.12, 4);
+//            sleep(500);
+//            drivetrain.move(.6, 28.5);
+//            sleep(500);
+//            drivetrain.turnPI(47 + offset, .24, .21, 4);
+//        }
+//
+//        //==================================== MARKER DEPOSIT ======================================
+//        sleep(500);
+//        marker.Down();
+//        sleep(500);
+//        marker.Up();
+//        sleep(500);
+//
+//        //======================================= PARK =============================================
+//        drivetrain.wallRollL(-.5, 80);
         stopCamera();
     }
 
@@ -129,9 +132,9 @@ public class DepotAuto extends LinearOpModeCamera {
             Bitmap rgbImage;
             rgbImage = convertYuvImageToRgb(yuvImage, width, height, ds2);
 
-            int cubePixelCount = 0;
+            cubePixelCount = 0;
             ArrayList<Integer> xValues = new ArrayList<>();
-            for (int x = (int) ((2.0 / 3) * rgbImage.getWidth()); x < rgbImage.getWidth(); x += 2) {
+            for (int x = (int) ((3.0 / 4) * rgbImage.getWidth()); x < rgbImage.getWidth(); x += 2) {
                 for (int y = 0; y < rgbImage.getHeight(); y += 2) {
                     int pixel = rgbImage.getPixel(x, y);
                     red += red(pixel);
@@ -152,7 +155,7 @@ public class DepotAuto extends LinearOpModeCamera {
 
             if (cubePixelCount < 30) pos = "left";
 
-            else if (avgX > .6 * rgbImage.getHeight()) pos = "center";
+            else if (avgX > .45 * rgbImage.getHeight()) pos = "center";
 
             else pos = "right";
         }

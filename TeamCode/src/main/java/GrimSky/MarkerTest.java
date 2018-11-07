@@ -18,14 +18,19 @@ public class MarkerTest extends OpMode{
     public void loop(){
         if(gamepad1.a){
             servo.setPower(.5);
-        } else {
-            servo.setPower(0);
+        }
+        if (gamepad1.x){
+            servo.setPower(1);
         }
 
-        if(gamepad1.b){
-            servo.setPower(-.5);
-        } else {
+        if(gamepad1.y){
             servo.setPower(0);
+        }
+        if (gamepad1.dpad_up){
+            servo.setPower(.25);
+        }
+        if (gamepad1.dpad_down) {
+            servo.setPower(.75);
         }
     }
 }
