@@ -43,13 +43,13 @@ public class Drivetrain {
     }
 
     public void unhang() throws InterruptedException {
-        times.reset();
         lift.setFloat();
         resetEncoders();
 
+        times.reset();
         //raise lift
-        while (getEncoderL() < 500) {
-            startMotors(-.5, 0);
+        while (getEncoderL() < 250 && times.milliseconds() < 2000) {
+            startMotors(-.35, 0);
         }
         stopMotors();
         Thread.sleep(1000);
@@ -70,18 +70,46 @@ public class Drivetrain {
         stopMotors();
     }
 
+    public void detach() throws InterruptedException{
+        lift.setFloat();
+        resetEncoders();
+
+        times.reset();
+        //raise lift
+        while (getEncoderL() < 100 && times.milliseconds() < 2000) {
+            startMotors(.5, 0);
+        }
+        stopMotors();
+        Thread.sleep(2000);
+
+        //disengage
+        times.reset();
+        while(times.milliseconds() < 150) {
+            pto.setPower(1);
+        }
+        pto.setPower(0);
+        Thread.sleep(1000);
+
+        //move lift to unhang
+        lift.move(1, 140);
+        Thread.sleep(500);
+        move(.2, 1);
+        Thread.sleep(500);
+        stopMotors();
+
+    }
     //the right side has slightly more friction
     public void startMotors(double left, double right){
-        if((Math.abs(1.04*right) > 1)){
+        if((Math.abs(1.04*left) > 1)){
             left /= 1.04;
             right /= 1.04;
         }
-        BL.setPower(-left);
-        BR.setPower(-1.04*right);
-        ML.setPower(-left);
-        MR.setPower(-1.04*right);
-        FL.setPower(-left);
-        FR.setPower(-1.04*right);
+        BL.setPower(-1.04*left);
+        BR.setPower(-right);
+        ML.setPower(-1.04*left);
+        MR.setPower(-right);
+        FL.setPower(-1.04*left);
+        FR.setPower(-right);
     }
 
     //simple threshold encoder move method, 25 ticks = ~1 inches//

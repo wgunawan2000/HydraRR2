@@ -5,21 +5,20 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "MainTeleOp", group = "opMode")
 public class MainTeleOp extends GrimSkyOpMode {
-
     public void loop() {
-        boolean tank = true;
+        boolean arcade = true;
         if (gamepad1.b) {
             //prevents from looping more than once
             while (gamepad1.b){
             }
-            tank = !tank;
+            arcade = !arcade;
 
         }
-        telemetry.addData("mode", tank ? "tank" : "arcade");
+        telemetry.addData("mode", arcade ? "arcade" : "tank");
         telemetry.update();
         double sC = gamepad1.left_bumper ? .5 : 1;
-
-        if (tank) {
+        double tC = gamepad1.right_bumper ? 1 : 2;
+        if (arcade) {
             //tank drive
 
             double left = 0;
@@ -27,8 +26,8 @@ public class MainTeleOp extends GrimSkyOpMode {
             double max;
 
             if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_x)) > .1) {
-                left = gamepad1.left_stick_y - gamepad1.right_stick_x;
-                right = gamepad1.left_stick_y + gamepad1.right_stick_x;
+                left = gamepad1.left_stick_y - gamepad1.right_stick_x / tC;
+                right = gamepad1.left_stick_y + gamepad1.right_stick_x / tC;
 
                 max = Math.max(Math.abs(left), Math.abs(right));
                 if (max > 1.0) {
@@ -51,9 +50,15 @@ public class MainTeleOp extends GrimSkyOpMode {
             if (gamepad2.dpad_right) {
                 pto.setPower(-.5);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             } else if (gamepad2.dpad_left) {
                 pto.setPower(.5);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             } else {
                 pto.setPower(0);
             }
@@ -70,4 +75,5 @@ public class MainTeleOp extends GrimSkyOpMode {
         }
 
     }
+
 }

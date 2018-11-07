@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.sun.tools.javac.Main;
 
 import java.util.ArrayList;
 
@@ -37,8 +38,20 @@ public class DepotAuto extends LinearOpModeCamera {
         marker = new Marker(this);
         lift = new Lift(this);
         startCamera();
+        int offset = 5;
         //offset = difference between angle of lander and lander tape (assuming lander tape is straight)
-        offset = 5;
+//        while(!isStarted()) {
+//            telemetry.addData("offset: ", offset);
+//            telemetry.update();
+//            if (gamepad1.dpad_up) {
+//                offset++;
+//                while (gamepad1.dpad_up) ;
+//            }
+//            if (gamepad1.dpad_down) {
+//                offset--;
+//                while (gamepad1.dpad_down) ;
+//            }
+//        }
 
         waitForStart();
 
@@ -49,7 +62,7 @@ public class DepotAuto extends LinearOpModeCamera {
         lift.move(-4, 160);
 
         //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10 + offset, .8, 1.0, 2);
+        drivetrain.turnPI(10 + offset, .57, 0.5, 2);
         sleep(1000);
         telemetry.addData("first turn",  " done");
         telemetry.update();
@@ -59,11 +72,11 @@ public class DepotAuto extends LinearOpModeCamera {
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPI(-32 + offset, .26, 0.18, 4);
+            drivetrain.turnPI(-33 + offset, .21, 0.16, 4);
             sleep(500);
             drivetrain.move(.4, 46.5);
             sleep(500);
-            drivetrain.turnPI(45 + offset, .15, 0.20, 4);
+            drivetrain.turnPI(45 + offset, .08, 0.13, 4);
             sleep(500);
             drivetrain.move(.6, 25.5);
         } else if (cubePos.equals("center")) {
@@ -74,15 +87,15 @@ public class DepotAuto extends LinearOpModeCamera {
             drivetrain.turnPI(45 + offset, .25, 0.2, 4);
 
         } else {
-            drivetrain.turnPI(33 + offset, .6, 0.12, 2);
+            drivetrain.turnPI(33 + offset, .50, 0.12, 2);
             sleep(500);
             drivetrain.move(.6, 35.5);
             sleep(500);
-            drivetrain.turnPI(-45 + offset, .16, 0.1, 4);
+            drivetrain.turnPI(-45 + offset, .08, 0.13, 4);
             sleep(500);
             drivetrain.move(.6, 28.5);
             sleep(500);
-            drivetrain.turnPI(50 + offset, .28, .21, 4);
+            drivetrain.turnPI(47 + offset, .24, .21, 4);
         }
 
         //==================================== MARKER DEPOSIT ======================================
