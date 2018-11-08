@@ -13,7 +13,9 @@ public class MainTeleOp extends GrimSkyOpMode {
             }
             arcade = !arcade;
 
+
         }
+
         telemetry.addData("mode", arcade ? "arcade" : "tank");
         telemetry.update();
         double sC = gamepad1.left_bumper ? .5 : 1;
@@ -70,7 +72,6 @@ public class MainTeleOp extends GrimSkyOpMode {
             } else {
                 stopMotors();
             }
-
 
         }
 

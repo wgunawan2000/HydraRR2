@@ -14,8 +14,8 @@ import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 import for_camera_opmodes.LinearOpModeCamera;
 
-@Autonomous(name = "Depot Auto", group = "LinearOpMode")
-public class DepotAuto extends LinearOpModeCamera {
+@Autonomous(name = "PinDepot.0", group = "LinearOpMode")
+public class PinDepot extends LinearOpModeCamera {
     int ds2 = 1;
     int numPics = 0;
     double avgX = 0;
@@ -40,7 +40,10 @@ public class DepotAuto extends LinearOpModeCamera {
         lift = new Lift(this);
         startCamera();
         int offset = 5;
+
         //offset = difference between angle of lander and lander tape (assuming lander tape is straight)
+
+        //code to change offset with controller (unused)
 //        while(!isStarted()) {
 //            telemetry.addData("offset: ", offset);
 //            telemetry.update();
@@ -57,7 +60,7 @@ public class DepotAuto extends LinearOpModeCamera {
         waitForStart();
 
         //=========================== UNHANG =======================================================
-        drivetrain.unhang();
+        drivetrain.pinUnhang();
 
         //=========================== REPOSITION ===================================================
         lift.move(-4, 160);
@@ -68,48 +71,44 @@ public class DepotAuto extends LinearOpModeCamera {
 
         //============================ SAMPLE ======================================================
         cubePos = getCubePos();
-        telemetry.addData("cubePos", cubePos);
-        telemetry.addData("PixelCount", cubePixelCount);
-        telemetry.update();
-        sleep(5000);
-//
-//        //=================== HIT MINERAL AND GO TO DEPOT ==========================================
-//        if (cubePos.equals("left")) {
-//            drivetrain.turnPI(-33 + offset, .06, 0, 4);
-//            sleep(500);
-//            drivetrain.move(.4, 32.5);
-//            sleep(500);
-//            drivetrain.turnPI(45 + offset, .04, 0, 4);
-//            sleep(500);
-//            drivetrain.move(.6, 28.5);
-//        } else if (cubePos.equals("center")) {
-//            drivetrain.turnPI(0 + offset, .57, .35, 2);
-//            sleep(500);
-//            drivetrain.move(.4, 63);
-//            sleep(500);
-//            drivetrain.turnPI(45 + offset, .25, 0.2, 4);
-//
-//        } else {
-//            drivetrain.turnPI(33 + offset, .50, 0.12, 2);
-//            sleep(500);
-//            drivetrain.move(.6, 35.5);
-//            sleep(500);
-//            drivetrain.turnPI(-45 + offset, .08, 0.12, 4);
-//            sleep(500);
-//            drivetrain.move(.6, 28.5);
-//            sleep(500);
-//            drivetrain.turnPI(47 + offset, .24, .21, 4);
-//        }
-//
-//        //==================================== MARKER DEPOSIT ======================================
-//        sleep(500);
-//        marker.Down();
-//        sleep(500);
-//        marker.Up();
-//        sleep(500);
-//
-//        //======================================= PARK =============================================
-//        drivetrain.wallRollL(-.5, 80);
+
+        //=================== HIT MINERAL AND GO TO DEPOT ==========================================
+        if (cubePos.equals("left")) {
+            drivetrain.turnPI(-33 + offset, .11, 0.06, 4);
+            sleep(500);
+            drivetrain.move(.4, 32.5);
+            sleep(500);
+            drivetrain.turnPI(45 + offset, .09, 0.02, 4);
+            sleep(500);
+            drivetrain.move(.6, 28.5);
+        } else if (cubePos.equals("center")) {
+            drivetrain.turnPI(0 + offset, .47, .30, 2);
+            sleep(500);
+            drivetrain.move(.4, 63);
+            sleep(500);
+            drivetrain.turnPI(45 + offset, .25, 0.2, 4);
+
+        } else {
+            drivetrain.turnPI(33 + offset, .28, 0, 2);
+            sleep(500);
+            drivetrain.move(.6, 35.5);
+            sleep(500);
+            drivetrain.turnPI(-45 + offset, .08, 0, 4);
+            sleep(500);
+            drivetrain.move(.6, 28.5);
+            sleep(500);
+            drivetrain.turnPI(47 + offset, .24, .21, 4);
+        }
+
+        //==================================== MARKER DEPOSIT ======================================
+        sleep(500);
+        marker.Down();
+        sleep(500);
+        marker.Back();
+        sleep(500);
+
+        //======================================= PARK =============================================
+        drivetrain.wallRollL(-.5, 80);
         stopCamera();
     }
 
@@ -153,7 +152,7 @@ public class DepotAuto extends LinearOpModeCamera {
             }
             avgX /= xValues.size();
 
-            if (cubePixelCount < 30) pos = "left";
+            if (cubePixelCount < 400) pos = "left";
 
             else if (avgX > .45 * rgbImage.getHeight()) pos = "center";
 

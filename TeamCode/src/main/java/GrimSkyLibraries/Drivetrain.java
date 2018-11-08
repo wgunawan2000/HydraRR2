@@ -70,17 +70,24 @@ public class Drivetrain {
         stopMotors();
     }
 
-    public void detach() throws InterruptedException{
+    public void pinUnhang() throws InterruptedException{
         lift.setFloat();
         resetEncoders();
 
         times.reset();
-        //raise lift
-        while (getEncoderL() < 100 && times.milliseconds() < 2000) {
-            startMotors(.5, 0);
+        //undo pin
+        while (getEncoderL() < 175 && times.milliseconds() < 5000) {
+            startMotors(.4, 0);
         }
         stopMotors();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
+        resetEncoders();
+        times.reset();
+
+        while (getEncoderL() < 80 && times.milliseconds() < 3000) {
+            startMotors(-.5, 0);
+        }
+        stopMotors();
 
         //disengage
         times.reset();

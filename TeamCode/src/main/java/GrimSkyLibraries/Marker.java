@@ -16,10 +16,14 @@ public class Marker {
     }
 
     public void Up() {
-        marker.setPosition(1);
+        marker.setPosition(.53);
     }
 
     public void Down() {
-        marker.setPosition(.5);
+        marker.setPosition(0);
+    }
+
+    public void Back() {
+        marker.setPosition(.85);
     }
 }

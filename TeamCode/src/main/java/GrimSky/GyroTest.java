@@ -1,6 +1,7 @@
 package GrimSky;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -9,7 +10,7 @@ import GrimSkyLibraries.Lift;
 import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 
-@Autonomous(name = "Gyro Test", group = "LinearOpMode")
+//@Autonomous(name = "Gyro Test", group = "LinearOpMode")
 public class GyroTest extends LinearOpMode {
     private Drivetrain drivetrain;
     private Sensors sensors;
