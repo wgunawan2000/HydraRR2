@@ -79,39 +79,39 @@ public class Depot extends LinearOpModeCamera {
         if (cubePos.equals("left")) {
             drivetrain.turnPI(-30 + offset, .10, 0.05, 4);
             sleep(500);
-            drivetrain.move(.3, 32.5);
+            drivetrain.move(.3, 35.5);
             sleep(500);
             drivetrain.turnPI(47 + offset, .09, 0.02, 4);
             sleep(500);
             drivetrain.move(.4, 26.5);
         } else if (cubePos.equals("center")) {
-            drivetrain.turnPI(0 + offset, .2, 0, 2);
+            drivetrain.turnPI(0 + offset, .2, 0.02, 2);
             sleep(500);
             drivetrain.move(.3, 63);
             sleep(500);
             drivetrain.turnPI(47 + offset, .25, 0.2, 4);
 
         } else {
-            drivetrain.turnPI(33 + offset, .28, 0.08, 2);
+            drivetrain.turnPI(33 + offset, .26, 0.05, 2);
             sleep(500);
-            drivetrain.move(.3, 32.5);
+            drivetrain.move(.3, 37.5);
             sleep(500);
-            drivetrain.turnPI(-45 + offset, .12, 0.03, 4);
+            drivetrain.turnPI(-45 + offset, .09, 0.02, 4);
             sleep(500);
             drivetrain.move(.4, 20.5);
             sleep(500);
-            drivetrain.turnPI(47 + offset, .19, 0.04, 4);
+            drivetrain.turnPI(47 + offset, .19, 0.08, 4);
         }
 
         //==================================== MARKER DEPOSIT ======================================
         sleep(500);
         marker.Down();
-        sleep(500);
+        sleep(1000);
         marker.Back();
         sleep(500);
 
         //======================================= PARK =============================================
-        drivetrain.wallRollL(-.5, 70);
+        drivetrain.wallRollL(-.5, 65);
         sleep(100);
         drivetrain.wallRollL(-.3, 15);
 

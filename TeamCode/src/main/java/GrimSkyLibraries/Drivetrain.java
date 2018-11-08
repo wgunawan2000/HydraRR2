@@ -107,15 +107,15 @@ public class Drivetrain {
     }
     //the right side has slightly more friction
     public void startMotors(double left, double right){
-        if((Math.abs(1.04*left) > 1)){
-            left /= 1.04;
-            right /= 1.04;
+        if((Math.abs(1.07*left) > 1)){
+            left /= 1.07;
+            right /= 1.07;
         }
-        BL.setPower(-1.04*left);
+        BL.setPower(-1.07*left);
         BR.setPower(-right);
-        ML.setPower(-1.04*left);
+        ML.setPower(-1.07*left);
         MR.setPower(-right);
-        FL.setPower(-1.04*left);
+        FL.setPower(-1.07*left);
         FR.setPower(-right);
     }
 
