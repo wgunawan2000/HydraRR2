@@ -19,6 +19,8 @@ public abstract class GrimSkyOpMode extends OpMode{
 
     CRServo pto;
 
+    Servo marker;
+
     GrimSkyOpMode opMode;
 
     public void init() {
@@ -32,6 +34,7 @@ public abstract class GrimSkyOpMode extends OpMode{
 
         lift = hardwareMap.dcMotor.get("lift");
 
+        marker = hardwareMap.servo.get("Marker");
         pto = hardwareMap.crservo.get("pto");
 
         FR.setDirection(DcMotorSimple.Direction.REVERSE);

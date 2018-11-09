@@ -12,8 +12,6 @@ public class MainTeleOp extends GrimSkyOpMode {
             while (gamepad1.b){
             }
             arcade = !arcade;
-
-
         }
 
         telemetry.addData("mode", arcade ? "arcade" : "tank");
@@ -64,6 +62,11 @@ public class MainTeleOp extends GrimSkyOpMode {
             } else {
                 pto.setPower(0);
             }
+
+            if (gamepad2.dpad_down)
+                marker.setPosition(0);
+            else if (gamepad2.dpad_up)
+                marker.setPosition(.85);
 
         } else {
 

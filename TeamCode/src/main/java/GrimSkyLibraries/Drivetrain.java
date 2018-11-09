@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 import for_camera_opmodes.LinearOpModeCamera;
 
 
-public class Drivetrain {
+public class Drivetrain{
     public DcMotor BL;
     public DcMotor ML;
     public DcMotor FL;
@@ -122,7 +122,7 @@ public class Drivetrain {
     //simple threshold encoder move method, 25 ticks = ~1 inches//
     public void move(double power, double inches) throws InterruptedException{
         resetEncoders();
-        while(getEncoderAvg() < inches*25 && !opMode.isStopRequested() && opMode.opModeIsActive()) {
+        while(getEncoderAvg() < inches*25 ) {
             opMode.telemetry.addData("ML", ML.getCurrentPosition());
             opMode.telemetry.addData("FL", FL.getCurrentPosition());
             opMode.telemetry.addData("MR", MR.getCurrentPosition());
@@ -136,21 +136,21 @@ public class Drivetrain {
 
     //simple threshold distance move methods
     public void distanceRMove(double power, double distance) {
-        while(sensor.getDistanceR() > distance && !opMode.isStopRequested() && opMode.opModeIsActive()){
+        while(sensor.getDistanceR() > distance){
             startMotors(power, power);
         }
         stopMotors();
     }
 
     public void distanceLMove(double power, double distance) {
-        while(sensor.getDistanceL() > distance && !opMode.isStopRequested() && opMode.opModeIsActive()){
+        while(sensor.getDistanceL() > distance){
             startMotors(power, power);
         }
         stopMotors();
     }
 
     public void distanceMove(double power, double distance) {
-        while(sensor.getAvgDistance() > distance && !opMode.isStopRequested() && opMode.opModeIsActive()){
+        while(sensor.getAvgDistance() > distance){
             startMotors(power, power);
         }
         stopMotors();
@@ -159,7 +159,7 @@ public class Drivetrain {
     //wall roll methods apply more power to the side opposite the wall in order to wall roll
         public void wallRollR(double power, double inches) throws InterruptedException{
             resetEncoders();
-            while(getEncoderAvg() < inches*25 && !opMode.isStopRequested() && opMode.opModeIsActive()) {
+            while(getEncoderAvg() < inches*25) {
             if(power * 1.2 > 1){
                 power /= 1.2;
             }
@@ -170,7 +170,7 @@ public class Drivetrain {
 
     public void wallRollL(double power, double inches) throws InterruptedException{
         resetEncoders();
-        while(getEncoderAvg() < inches*25 && !opMode.isStopRequested() && opMode.opModeIsActive()) {
+        while(getEncoderAvg() < inches*25) {
             if(power * 1.15 > 1){
                 power /= 1.15;
             }
@@ -190,7 +190,7 @@ public class Drivetrain {
         double I = 0;
         double angleDiff = sensor.getTrueDiff(angle);
         double changePID = 0;
-        while (Math.abs(angleDiff) > 1 && times.seconds() < timeout && !opMode.isStopRequested() && opMode.opModeIsActive()) {
+        while (Math.abs(angleDiff) > 1 && times.seconds() < timeout) {
             pastTime = currentTime;
             currentTime = times.milliseconds();
             double dT = currentTime - pastTime;
@@ -235,7 +235,6 @@ public class Drivetrain {
         opMode.idle();
         FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         opMode.idle();
-
 
         BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         opMode.idle();
@@ -291,6 +290,10 @@ public class Drivetrain {
         return (Math.abs(FR.getCurrentPosition()) +  Math.abs(FL.getCurrentPosition())
                 + Math.abs(MR.getCurrentPosition())
                 + Math.abs(ML.getCurrentPosition())) / count;
+    }
+
+    public void runOpMode(){
+
     }
 }
 

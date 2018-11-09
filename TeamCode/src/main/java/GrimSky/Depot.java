@@ -96,11 +96,11 @@ public class Depot extends LinearOpModeCamera {
             sleep(500);
             drivetrain.move(.3, 37.5);
             sleep(500);
-            drivetrain.turnPI(-45 + offset, .09, 0.02, 4);
+            drivetrain.turnPI(-45 + offset, .09, 0.035, 4);
             sleep(500);
             drivetrain.move(.4, 20.5);
             sleep(500);
-            drivetrain.turnPI(47 + offset, .19, 0.08, 4);
+            drivetrain.turnPI(47 + offset, .15, 0.10, 4);
         }
 
         //==================================== MARKER DEPOSIT ======================================
@@ -111,9 +111,10 @@ public class Depot extends LinearOpModeCamera {
         sleep(500);
 
         //======================================= PARK =============================================
-        drivetrain.wallRollL(-.5, 65);
+        drivetrain.wallRollL(-.75, 60);
         sleep(100);
-        drivetrain.wallRollL(-.3, 15);
+
+        drivetrain.wallRollL(-.2, 10);
 
         stopCamera();
     }
