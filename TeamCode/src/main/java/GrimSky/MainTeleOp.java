@@ -39,10 +39,8 @@ public class MainTeleOp extends GrimSkyOpMode {
                 stopMotors();
             }
 
-            if (gamepad2.right_trigger > .1) {
-                liftUp(gamepad2.right_trigger);
-            } else if (gamepad2.left_trigger > .1){
-                liftDown(gamepad2.left_trigger);
+            if (Math.abs(gamepad2.right_stick_y) > .1) {
+                setLift(gamepad2.right_stick_y);
             } else {
                 lift.setPower(0);
             }

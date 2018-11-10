@@ -40,7 +40,6 @@ public abstract class GrimSkyOpMode extends OpMode{
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         MR.setDirection(DcMotorSimple.Direction.REVERSE);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -100,13 +99,15 @@ public abstract class GrimSkyOpMode extends OpMode{
         BL.setPower(0);
     }
 
-    public void liftUp(double power){
-        lift.setPower(power);
+    public void setLift(double power){
+        if(power < 0) {
+            lift.setPower(power);
+        }
+        else {
+            lift.setPower(power / 2);
+        }
     }
 
-    public void liftDown(double power){
-        lift.setPower(-power/2);
-    }
 
 
 

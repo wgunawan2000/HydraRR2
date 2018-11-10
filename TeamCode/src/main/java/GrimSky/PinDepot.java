@@ -14,7 +14,7 @@ import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 import for_camera_opmodes.LinearOpModeCamera;
 
-@Autonomous(name = "PinDepot.0", group = "LinearOpMode")
+@Autonomous(name = "PinDepot", group = "LinearOpMode")
 public class PinDepot extends LinearOpModeCamera {
     int ds2 = 1;
     int numPics = 0;
