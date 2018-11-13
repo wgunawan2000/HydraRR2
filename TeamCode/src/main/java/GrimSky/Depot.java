@@ -107,8 +107,6 @@ public class Depot extends LinearOpModeCamera {
         sleep(500);
         marker.Down();
         sleep(1000);
-        marker.Back();
-        sleep(500);
 
         //======================================= PARK =============================================
         drivetrain.wallRollL(-.75, 60);

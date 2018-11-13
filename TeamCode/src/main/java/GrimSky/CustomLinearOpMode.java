@@ -45,6 +45,10 @@ public class CustomLinearOpMode extends LinearOpModeCamera {
     DcMotor FR;
     DcMotor lift;
     Servo marker;
+    Servo pivotL;
+    Servo pivotR;
+    Servo gateL;
+    Servo gateR;
     CRServo pto;
     public BNO055IMU gyro;
     LinearOpMode opMode;

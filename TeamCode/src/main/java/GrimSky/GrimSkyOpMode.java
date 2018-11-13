@@ -21,6 +21,11 @@ public abstract class GrimSkyOpMode extends OpMode{
 
     Servo marker;
 
+    Servo gateL;
+    Servo gateR;
+    Servo pivotL;
+    Servo pivotR;
+
     GrimSkyOpMode opMode;
 
     public void init() {
@@ -36,6 +41,10 @@ public abstract class GrimSkyOpMode extends OpMode{
 
         marker = hardwareMap.servo.get("Marker");
         pto = hardwareMap.crservo.get("pto");
+        pivotL = hardwareMap.servo.get("pivotL");
+        pivotR = hardwareMap.servo.get("pivotR");
+        gateL = hardwareMap.servo.get("gateL");
+        gateR = hardwareMap.servo.get("gateR");
 
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         MR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -68,16 +77,71 @@ public abstract class GrimSkyOpMode extends OpMode{
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
-//        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        MR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        pivotInit();
+        closeGate();
+        marker.setPosition(.85);
 
         telemetry.addData("init ", "completed");
         telemetry.update();
+    }
+
+//    public void openBigL(){
+//        gateL.setPosition(.40);
+//    }
+//
+//    public void openBigR(){
+//        gateR.setPosition(.62);
+//    }
+
+    public void openSmallL(){
+        gateL.setPosition(.37);
+    }
+
+    public void openSmallR(){
+        gateR.setPosition(.65);
+    }
+
+    public void closeL(){
+        gateL.setPosition(.01);
+    }
+
+    public void closeR(){
+        gateR.setPosition(.99);
+    }
+
+    public void closeGate(){
+        closeL();
+        closeR();
+    }
+
+    public void pivotParallelForward(){
+        pivot(1,.04);
+    }
+
+    public void pivotAngleBack(){
+        pivot(.4, .68);
+    }
+
+    public void pivotAngleForward(){
+        pivot(.87, .16);
+    }
+
+    public void pivotInit(){
+        pivot(.65, .41);
+    }
+
+//    public void pivotR(){
+//        pivotR.setPosition(pivotR.getPosition()+.01);
+//    }
+//
+//    public void pivotL(){
+//        pivotL.setPosition(pivotL.getPosition()-.01);
+//    }
+
+
+    public void pivot(double l, double r) {
+        pivotL.setPosition(l);
+        pivotR.setPosition(r);
     }
 
     public void startMotors(double l, double r){
