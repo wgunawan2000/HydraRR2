@@ -5,7 +5,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "MainTeleOp", group = "opMode")
 public class MainTeleOp extends GrimSkyOpMode {
+    //keeps track of whether or not the lift is raised
+    boolean liftIsUp = false;
     public void loop() {
+
+
         double sC = gamepad1.left_bumper ? .5 : 1;
         double tC = gamepad1.right_bumper ? 1 : 2;
 
@@ -29,9 +33,17 @@ public class MainTeleOp extends GrimSkyOpMode {
         }
 
         //==================================== LIFT ================================================
-        if (Math.abs(gamepad2.right_stick_y) > .1) {
-            setLift(gamepad2.right_stick_y * .75);
-        } else {
+        if (Math.abs(gamepad2.left_stick_y) > .1) {
+            if(gamepad2.left_stick_y < .1) liftIsUp = true;
+            if(gamepad2.left_stick_y > .1) {
+                liftIsUp = false;
+                pivotInit();
+            }
+            setLift(gamepad2.left_stick_y * 1);
+        } else if (liftIsUp) {
+            setLift(-.212);
+        }
+        else {
             lift.setPower(0);
         }
 
@@ -59,13 +71,13 @@ public class MainTeleOp extends GrimSkyOpMode {
                 marker.setPosition(.85);
 
             //=========================== OUTPUT ===================================================
-            if (gamepad2.right_bumper) {
+            if (gamepad2.left_bumper) {
                 openSmallR();
             } else {
                 closeR();
             }
 
-            if (gamepad2.left_bumper) {
+            if (gamepad2.right_bumper) {
                 openSmallL();
 
             } else {
@@ -91,6 +103,10 @@ public class MainTeleOp extends GrimSkyOpMode {
                     pivotAngleForward();
                 else
                 pivotAngleBack();
+            }
+
+            if (gamepad2.b){
+                pivotInit();
             }
 
             telemetry.addData("R", pivotR.getPosition());
