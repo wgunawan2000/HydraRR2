@@ -73,13 +73,16 @@ public class MainTeleOp extends GrimSkyOpMode {
             //=========================== OUTPUT ===================================================
             if (gamepad2.left_bumper) {
                 openSmallR();
-            } else {
+            } else if (gamepad2.left_trigger > .1) {
+                openBigR();
+            }else {
                 closeR();
             }
 
             if (gamepad2.right_bumper) {
                 openSmallL();
-
+            } else if (gamepad2.right_trigger > .1) {
+                openBigL();
             } else {
                 closeL();
             }
@@ -99,10 +102,11 @@ public class MainTeleOp extends GrimSkyOpMode {
             }
 
             if (gamepad2.x){
-                if(gamepad2.left_trigger > .1)
-                    pivotAngleForward();
-                else
                 pivotAngleBack();
+            }
+
+            if (gamepad2.a) {
+                pivotAngleForward();
             }
 
             if (gamepad2.b){

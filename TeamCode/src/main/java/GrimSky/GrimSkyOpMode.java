@@ -85,20 +85,20 @@ public abstract class GrimSkyOpMode extends OpMode{
         telemetry.update();
     }
 
-//    public void openBigL(){
-//        gateL.setPosition(.40);
-//    }
-//
-//    public void openBigR(){
-//        gateR.setPosition(.62);
-//    }
+    public void openBigL(){
+        gateL.setPosition(.40);
+    }
+
+    public void openBigR(){
+        gateR.setPosition(.62);
+    }
 
     public void openSmallL(){
-        gateL.setPosition(.37);
+        gateL.setPosition(.32);
     }
 
     public void openSmallR(){
-        gateR.setPosition(.65);
+        gateR.setPosition(.70);
     }
 
     public void closeL(){
