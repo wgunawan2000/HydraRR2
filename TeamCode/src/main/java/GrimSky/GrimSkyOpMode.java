@@ -119,7 +119,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotAngleBack(){
-        pivot(.4, .68);
+        pivot(.32, .75);
     }
 
     public void pivotAngleForward(){
@@ -127,16 +127,21 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotInit(){
-        pivot(.65, .41);
+        pivot(.66, .40);
     }
 
-//    public void pivotR(){
-//        pivotR.setPosition(pivotR.getPosition()+.01);
-//    }
-//
-//    public void pivotL(){
-//        pivotL.setPosition(pivotL.getPosition()-.01);
-//    }
+    public void pivotR(){
+        pivotR.setPosition(pivotR.getPosition()+.01);
+    }
+
+    public void pivotL(){
+        pivotL.setPosition(pivotL.getPosition()-.01);
+    }
+
+    public void semiGate(){
+        gateL.setPosition(.13);
+        gateR.setPosition(.89);
+    }
 
 
     public void pivot(double l, double r) {

@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class MainTeleOp extends GrimSkyOpMode {
     //keeps track of whether or not the lift is raised
     boolean liftIsUp = false;
+    boolean reverseGates = false;
     public void loop() {
 
 
@@ -54,69 +55,81 @@ public class MainTeleOp extends GrimSkyOpMode {
             BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            } else if (gamepad2.dpad_left) {
+        }
+        else if (gamepad2.dpad_left) {
                 pto.setPower(.5);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
                 ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
                 FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            } else {
+        }
+        else {
                 pto.setPower(0);
-            }
+        }
 
-            // =========================== MARKER ==================================================
-            if (gamepad2.dpad_down)
-                marker.setPosition(0);
-            else if (gamepad2.dpad_up)
-                marker.setPosition(.85);
+        // =========================== MARKER ==================================================
+        if (gamepad2.dpad_down)
+            marker.setPosition(0);
+        else if (gamepad2.dpad_up)
+            marker.setPosition(.85);
 
-            //=========================== OUTPUT ===================================================
-            if (gamepad2.left_bumper) {
-                openSmallR();
-            } else if (gamepad2.left_trigger > .1) {
-                openBigR();
-            }else {
-                closeR();
-            }
-
-            if (gamepad2.right_bumper) {
+        //=========================== OUTPUT ===================================================
+        if (gamepad2.left_bumper) {
+            if (reverseGates)
                 openSmallL();
-            } else if (gamepad2.right_trigger > .1) {
-                openBigL();
-            } else {
-                closeL();
-            }
+            else openSmallR();
+        }
+        else
+//        {
+//            closeR();
+//        }
 
-//            if (gamepad2.right_stick_x > .1){
-//                while (gamepad2.right_stick_x > .1);
-//                pivotR();
-//            }
-//
-//            if (gamepad2.left_stick_x > .1){
-//                while (gamepad2.left_stick_x > .1);
-//                pivotL();
-//            }
+        if (gamepad2.right_bumper) {
+            if (reverseGates)
+                openSmallR();
+            else openSmallL();
+        }
+//        else {
+//            closeL();
+//        }
 
-            if (gamepad2.y){
-                pivotParallelForward();
-            }
+        if(gamepad2.x){
+            semiGate();
+        }
 
-            if (gamepad2.x){
-                pivotAngleBack();
-            }
+//        if (gamepad2.right_stick_x > .1){
+//            while (gamepad2.right_stick_x > .1);
+//            pivotR();
+//        }
+//        if (gamepad2.left_stick_x > .1){
+//            while (gamepad2.left_stick_x > .1);
+//            pivotL();
+//        }
 
-            if (gamepad2.a) {
-                pivotAngleForward();
-            }
+//        if (gamepad2.right_stick_x > .1){
+//            while (gamepad2.right_stick_x > .1);
+//            gateR();
+//        }
+//        if (gamepad2.left_stick_x > .1){
+//            while (gamepad2.left_stick_x > .1);
+//            gateL();
+//        }
 
-            if (gamepad2.b){
-                pivotInit();
-            }
+        if (gamepad2.y){
+            reverseGates = false;
+            pivotAngleBack();
+        }
 
-            telemetry.addData("R", pivotR.getPosition());
-            telemetry.addData("L", pivotL.getPosition());
-            telemetry.update();
-
+        if (gamepad2.a) {
+            reverseGates = true;
+            pivotParallelForward();
+        }
+        if (gamepad2.b){
+            pivotInit();
+        }
+        telemetry.addData("R", gateR.getPosition());
+        telemetry.addData("L", gateL.getPosition());
+        telemetry.update();
 
     }
 
