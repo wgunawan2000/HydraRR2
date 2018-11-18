@@ -50,7 +50,7 @@ public class Drivetrain {
 
         times.reset();
         //raise lift
-        while (getEncoderL() < 250 && times.milliseconds() < 2000) {
+        while (getEncoderL() < 350 && times.milliseconds() < 2000) {
             startMotors(-.35, 0);
         }
         stopMotors();
@@ -65,7 +65,7 @@ public class Drivetrain {
         Thread.sleep(1000);
 
         //move lift to unhang
-        lift.move(1, 140);
+        lift.move(1, 180);
         Thread.sleep(500);
         move(.2, 1);
         Thread.sleep(500);
