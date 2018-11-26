@@ -82,9 +82,9 @@ public class Crater extends LinearOpModeCamera {
             drivetrain.move(.3, 25);
             sleep(500);
             drivetrain.move(-.3, 5);
-            drivetrain.turnPI(-165 + offset, .2, 0, 4);
+            drivetrain.turnPI(-90 + offset, .11, 0.02, 4);
             sleep(500);
-            drivetrain.move(.4, 26.5);
+            drivetrain.move(.4, 30);
         } else if (cubePos.equals("center")) {
             drivetrain.turnPI(0 + offset, .2, 0.02, 2);
             sleep(500);
@@ -94,7 +94,7 @@ public class Crater extends LinearOpModeCamera {
             sleep(500);
             drivetrain.turnPI(-90 + offset, .2, 0, 4);
             sleep(500);
-            drivetrain.move(.4, 15);
+            drivetrain.move(.4, 30);
             sleep(500);
             drivetrain.turnPI(-140 + offset, .15, 0, 4);
             sleep(500);

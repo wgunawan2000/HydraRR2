@@ -14,8 +14,8 @@ import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 import for_camera_opmodes.LinearOpModeCamera;
 
-@Autonomous(name = "newDepot", group = "LinearOpMode")
-public class Depot extends LinearOpModeCamera {
+@Autonomous(name = "Depot", group = "LinearOpMode")
+public class NewDepot extends LinearOpModeCamera {
     int ds2 = 1;
     int numPics = 0;
     double avgX = 0;
@@ -38,7 +38,6 @@ public class Depot extends LinearOpModeCamera {
         sensors = new Sensors(this);
         marker = new Marker(this);
         lift = new Lift(this);
-
         startCamera();
         int offset = 5;
 
@@ -64,10 +63,10 @@ public class Depot extends LinearOpModeCamera {
         drivetrain.unhang();
 
         //=========================== REPOSITION ===================================================
-//        lift.move(-4, 20);
+        lift.move(-4, 20);
 
         //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10 + offset, .45, .3, 4);
+        drivetrain.turnPI(10 + offset, .45, 0.3, 4);
         sleep(1000);
 
         //============================ SAMPLE ======================================================
@@ -78,30 +77,30 @@ public class Depot extends LinearOpModeCamera {
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPD(-27 + offset, .35, .22, 4);
+            drivetrain.turnPI(-30 + offset, .10, 0.05, 4);
             sleep(500);
-            drivetrain.move(.3, 41.5);
+            drivetrain.move(.3, 35.5);
             sleep(500);
-            drivetrain.turnPD(47 + offset, .2, .1, 4);
+            drivetrain.turnPI(47 + offset, .09, 0.02, 4);
             sleep(500);
-            drivetrain.move(.4, 16.5);
+            drivetrain.move(.4, 26.5);
         } else if (cubePos.equals("center")) {
-            drivetrain.turnPI(0 + offset, .23, 0.02, 2);
+            drivetrain.turnPI(0 + offset, .2, 0.02, 2);
             sleep(500);
-            drivetrain.move(.3, 65);
+            drivetrain.move(.3, 63);
             sleep(500);
-            drivetrain.turnPD(47 + offset, .4, .2, 4);
+            drivetrain.turnPI(47 + offset, .25, 0.2, 4);
 
         } else {
-            drivetrain.turnPD(33 + offset, .35, .15, 2);
+            drivetrain.turnPI(33 + offset, .26, 0.05, 2);
             sleep(500);
             drivetrain.move(.3, 37.5);
             sleep(500);
-            drivetrain.turnPD(-45 + offset, .25, .1, 4);
+            drivetrain.turnPI(-45 + offset, .09, 0.035, 4);
             sleep(500);
             drivetrain.move(.4, 20.5);
             sleep(500);
-            drivetrain.turnPD(47 + offset, .2, .1, 4);
+            drivetrain.turnPI(47 + offset, .15, 0.10, 4);
         }
 
         //==================================== MARKER DEPOSIT ======================================
@@ -111,9 +110,9 @@ public class Depot extends LinearOpModeCamera {
 
         //======================================= PARK =============================================
         drivetrain.wallRollL(-.75, 60);
-        sleep(1000);
+        sleep(100);
 
-        drivetrain.wallRollL(-.4, 15);
+        drivetrain.wallRollL(-.2, 10);
 
         stopCamera();
     }

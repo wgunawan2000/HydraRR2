@@ -50,7 +50,7 @@ public class Drivetrain {
 
         times.reset();
         //raise lift
-        while (getEncoderL() < 350 && times.milliseconds() < 2000) {
+        while (getEncoderL() < 390 && times.milliseconds() < 2000) {
             startMotors(-.35, 0);
         }
         stopMotors();
@@ -58,14 +58,14 @@ public class Drivetrain {
 
         //disengage
         times.reset();
-        while(times.milliseconds() < 150) {
+        while(times.milliseconds() < 250) {
             pto.setPower(1);
         }
         pto.setPower(0);
         Thread.sleep(1000);
 
         //move lift to unhang
-        lift.move(1, 180);
+        lift.move(1, 650);
         Thread.sleep(500);
         move(.2, 1);
         Thread.sleep(500);
@@ -181,6 +181,39 @@ public class Drivetrain {
         stopMotors();
     }
 
+    public void turnPD(double angle, double p, double d, double timeout){
+        times.reset();
+        double kP = p / 90;
+        double kD = d / 1000000;
+        double currentTime = times.milliseconds();
+        double pastTime = 0;
+        double P = 0;
+        double D = 0;
+        double prevAngleDiff = sensor.getTrueDiff(angle);
+        double angleDiff = prevAngleDiff;
+        double changePID = 0;
+        while (Math.abs(angleDiff) > .5 && times.seconds() < timeout) {
+            pastTime = currentTime;
+            currentTime = times.milliseconds();
+            double dT = currentTime - pastTime;
+            angleDiff = sensor.getTrueDiff(angle);
+            P = angleDiff * kP;
+            D = ((Math.abs(angleDiff) - Math.abs(prevAngleDiff)) / dT) * kD;
+            changePID = P + D;
+            opMode.telemetry.addData("PID: ", changePID);
+            opMode.telemetry.addData("diff", angleDiff);
+            opMode.telemetry.addData("P", P);
+            opMode.telemetry.addData("D", D);
+            opMode.telemetry.update();
+            if (changePID < 0) {
+                startMotors(changePID - .10, -changePID + .10);
+            } else {
+                startMotors(changePID + .10, -changePID - .10);
+            }
+            prevAngleDiff = angleDiff;
+        }
+        stopMotors();
+    }
     //main turning method
     public void turnPI(double angle, double p, double i, double timeout) {
         times.reset();
@@ -211,9 +244,9 @@ public class Drivetrain {
             } else {
                 startMotors(changePID + .10, -changePID - .10);
             }
-            }
-            stopMotors();
         }
+            stopMotors();
+    }
 
     public void stopMotors() {
         BL.setPower(0);
