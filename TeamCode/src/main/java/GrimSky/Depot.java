@@ -67,7 +67,7 @@ public class Depot extends LinearOpModeCamera {
 //        lift.move(-4, 20);
 
         //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10 + offset, .45, .3, 4);
+        drivetrain.turnPI(10 + offset, .35, .2, 4);
         sleep(1000);
 
         //============================ SAMPLE ======================================================
@@ -78,11 +78,11 @@ public class Depot extends LinearOpModeCamera {
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPD(-27 + offset, .35, .22, 4);
+            drivetrain.turnPD(-27 + offset, .72, 0, 4);
             sleep(500);
             drivetrain.move(.3, 41.5);
             sleep(500);
-            drivetrain.turnPD(47 + offset, .2, .1, 4);
+            drivetrain.turnPD(47 + offset, .6, .2, 4);
             sleep(500);
             drivetrain.move(.4, 16.5);
         } else if (cubePos.equals("center")) {
@@ -90,18 +90,18 @@ public class Depot extends LinearOpModeCamera {
             sleep(500);
             drivetrain.move(.3, 65);
             sleep(500);
-            drivetrain.turnPD(47 + offset, .4, .2, 4);
+            drivetrain.turnPD(47 + offset, .63, .21, 4);
 
         } else {
-            drivetrain.turnPD(33 + offset, .35, .15, 2);
+            drivetrain.turnPD(33 + offset, .8, 0, 4);
             sleep(500);
             drivetrain.move(.3, 37.5);
             sleep(500);
-            drivetrain.turnPD(-45 + offset, .25, .1, 4);
+            drivetrain.turnPD(-45 + offset, .5, 0, 4);
             sleep(500);
             drivetrain.move(.4, 20.5);
             sleep(500);
-            drivetrain.turnPD(47 + offset, .2, .1, 4);
+            drivetrain.turnPD(47 + offset, .4, 0, 4);
         }
 
         //==================================== MARKER DEPOSIT ======================================

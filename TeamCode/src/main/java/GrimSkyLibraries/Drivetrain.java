@@ -65,7 +65,7 @@ public class Drivetrain {
         Thread.sleep(1000);
 
         //move lift to unhang
-        lift.move(1, 650);
+        lift.move(1, 250);
         Thread.sleep(500);
         move(.2, 1);
         Thread.sleep(500);
@@ -180,6 +180,47 @@ public class Drivetrain {
         }
         stopMotors();
     }
+    public void turnPDO(double angle, double p, double d, int o, double timeout){
+        times.reset();
+        double kP = p / 90;
+        double kD = d / 1000000;
+        double currentTime = times.milliseconds();
+        double pastTime = 0;
+        double P = 0;
+        double D = 0;
+        double oscillations = 0;
+        double prevAngleDiff = sensor.getTrueDiff(angle);
+        double angleDiff = prevAngleDiff;
+        double changePID = 0;
+        boolean prevIsPositive = true;
+        boolean isPositive = true;
+        while (oscillations <= o && times.seconds() < timeout) {
+            pastTime = currentTime;
+            currentTime = times.milliseconds();
+            double dT = currentTime - pastTime;
+            angleDiff = sensor.getTrueDiff(angle);
+            isPositive = angleDiff > 0;
+            if (isPositive ^ prevIsPositive)
+                oscillations++;
+            P = angleDiff * kP;
+            D = ((Math.abs(angleDiff) - Math.abs(prevAngleDiff)) / dT) * kD;
+            changePID = P + D;
+            opMode.telemetry.addData("PID: ", changePID);
+            opMode.telemetry.addData("diff", angleDiff);
+            opMode.telemetry.addData("P", P);
+            opMode.telemetry.addData("D", D);
+            opMode.telemetry.update();
+            //makes the robot turn
+            if (changePID < 0) {
+                startMotors(changePID - .10, -changePID + .10);
+            } else {
+                startMotors(changePID + .10, -changePID - .10);
+            }
+            prevAngleDiff = angleDiff;
+            prevIsPositive = isPositive;
+        }
+        turnPD(angle, p, d, timeout - times.seconds());
+    }
 
     public void turnPD(double angle, double p, double d, double timeout){
         times.reset();
@@ -192,7 +233,7 @@ public class Drivetrain {
         double prevAngleDiff = sensor.getTrueDiff(angle);
         double angleDiff = prevAngleDiff;
         double changePID = 0;
-        while (Math.abs(angleDiff) > .5 && times.seconds() < timeout) {
+        while (Math.abs(angleDiff) > 0 && times.seconds() < timeout) {
             pastTime = currentTime;
             currentTime = times.milliseconds();
             double dT = currentTime - pastTime;
