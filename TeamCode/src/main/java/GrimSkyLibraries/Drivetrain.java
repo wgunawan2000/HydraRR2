@@ -180,46 +180,40 @@ public class Drivetrain {
         }
         stopMotors();
     }
-    public void turnPDO(double angle, double p, double d, int o, double timeout){
+    public void turnPID(double angle, double kP, double kI, double kD, double timeout){
         times.reset();
-        double kP = p / 90;
-        double kD = d / 1000000;
-        double currentTime = times.milliseconds();
+        double currentTime = times.seconds();
         double pastTime = 0;
         double P = 0;
+        double I = 0;
         double D = 0;
-        double oscillations = 0;
         double prevAngleDiff = sensor.getTrueDiff(angle);
         double angleDiff = prevAngleDiff;
+        double angleTurn = Math.abs(angleDiff);
         double changePID = 0;
-        boolean prevIsPositive = true;
-        boolean isPositive = true;
-        while (oscillations <= o && times.seconds() < timeout) {
-            pastTime = currentTime;
-            currentTime = times.milliseconds();
+        while (Math.abs(angleDiff) > 1.0/angleTurn) {
+            currentTime = times.seconds();
             double dT = currentTime - pastTime;
-            angleDiff = sensor.getTrueDiff(angle);
-            isPositive = angleDiff > 0;
-            if (isPositive ^ prevIsPositive)
-                oscillations++;
+            angleDiff = sensor.getTrueDiff(angle) / angleTurn;
             P = angleDiff * kP;
+            I += dT * angleDiff * kI;
             D = ((Math.abs(angleDiff) - Math.abs(prevAngleDiff)) / dT) * kD;
-            changePID = P + D;
+            changePID = P + I + D;
             opMode.telemetry.addData("PID: ", changePID);
             opMode.telemetry.addData("diff", angleDiff);
             opMode.telemetry.addData("P", P);
+            opMode.telemetry.addData("I", I);
             opMode.telemetry.addData("D", D);
             opMode.telemetry.update();
-            //makes the robot turn
             if (changePID < 0) {
                 startMotors(changePID - .10, -changePID + .10);
             } else {
                 startMotors(changePID + .10, -changePID - .10);
             }
             prevAngleDiff = angleDiff;
-            prevIsPositive = isPositive;
+            pastTime = currentTime;
         }
-        turnPD(angle, p, d, timeout - times.seconds());
+        stopMotors();
     }
 
     public void turnPD(double angle, double p, double d, double timeout){
@@ -252,6 +246,40 @@ public class Drivetrain {
                 startMotors(changePID + .10, -changePID - .10);
             }
             prevAngleDiff = angleDiff;
+        }
+        stopMotors();
+    }
+
+    public void turnZN(double angle, double p, double i){
+        times.reset();
+        double kP = p;
+        double kI = i;
+        double currentTime = times.milliseconds();
+        double pastTime = 0;
+        double P = 0;
+        double I = 0;
+        double angleDiff = sensor.getTrueDiff(angle);
+        double angleTurn = Math.abs(angleDiff);
+        double changePID = 0;
+        while (times.seconds() < 30) {
+            pastTime = currentTime;
+            currentTime = times.milliseconds();
+            double dT = currentTime - pastTime;
+            angleDiff = sensor.getTrueDiff(angle);
+            P = angleDiff/(angleTurn) * kP;
+            I += dT * (angleDiff/angleTurn) * kI;
+            changePID = P;
+            changePID += I;
+            opMode.telemetry.addData("PID: ", changePID);
+            opMode.telemetry.addData("diff", angleDiff);
+            opMode.telemetry.addData("P", P);
+            opMode.telemetry.addData("I", I);
+            opMode.telemetry.update();
+            if (changePID < 0) {
+                startMotors(changePID - .10, -changePID + .10);
+            } else {
+                startMotors(changePID + .10, -changePID - .10);
+            }
         }
         stopMotors();
     }

@@ -25,6 +25,30 @@ public class TurnTest extends LinearOpMode {
 
         waitForStart();
 
-        drivetrain.turnPD(-90, .5, .15,10);
+        double Ku = 1.0;
+        double Tu = .5;
+        //Ku = 1.0, Tu = .5
+//            drivetrain.turnZN(90, 1.0, 0);
+//        //P
+//        drivetrain.turnPID(90, .8, 0, 0, 10);
+//
+//        //PI
+//        drivetrain.turnPID(90, .72, .6, 0, 10);
+//
+//        //PD
+//        drivetrain.turnPID(90, 1.28, 0, .09, 10);
+//
+//        //classic PID
+//        drivetrain.turnPID(90, .96, .36, .09, 10);
+//
+//        //Pessen Integral Rule
+//        drivetrain.turnPID(90, 1.12, .29, .11, 10);
+//
+//        //Some overshoot
+//        drivetrain.turnPID(90, .53, .36, .24, 10);
+//
+//        //No overshoot
+//          drivetrain.turnPID(-90, .32, .36, .24, 10);
+
     }
 }
