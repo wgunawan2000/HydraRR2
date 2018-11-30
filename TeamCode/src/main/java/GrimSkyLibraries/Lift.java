@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import GrimSky.GrimSkyOpMode;
 
@@ -17,6 +18,7 @@ public class Lift {
 
     LinearOpMode opMode;
 
+    ElapsedTime times;
     public Lift(LinearOpMode opMode) {
         this.opMode = opMode;
         lift = opMode.hardwareMap.dcMotor.get("lift");
@@ -26,7 +28,7 @@ public class Lift {
         pivotR = opMode.hardwareMap.servo.get("pivotR");
         gateL = opMode.hardwareMap.servo.get("gateL");
         gateR = opMode.hardwareMap.servo.get("gateR");
-
+        times = new ElapsedTime();
         pivotInit();
         closeGate();
     }
@@ -59,6 +61,15 @@ public class Lift {
     public void closeGate(){
         closeL();
         closeR();
+    }
+
+    public void moveT(double power, double milli) throws InterruptedException{
+        times.reset();
+        resetEncoder();
+        while (times.milliseconds() < milli) {
+            lift.setPower(power);
+        }
+        lift.setPower(0);
     }
 
     public void move(double power, double encoder) throws InterruptedException{

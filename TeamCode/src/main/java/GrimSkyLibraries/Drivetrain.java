@@ -65,7 +65,7 @@ public class Drivetrain {
         Thread.sleep(1000);
 
         //move lift to unhang
-        lift.move(1, 250);
+        lift.moveT(1, 2000);
         Thread.sleep(500);
         move(.2, 1);
         Thread.sleep(500);
@@ -182,35 +182,28 @@ public class Drivetrain {
     }
     public void turnPID(double angle, double kP, double kI, double kD, double timeout){
         times.reset();
-        double currentTime = times.seconds();
+        double currentTime = 0;
         double pastTime = 0;
-        double P = 0;
-        double I = 0;
-        double D = 0;
-        double prevAngleDiff = sensor.getTrueDiff(angle);
-        double angleDiff = prevAngleDiff;
-        double angleTurn = Math.abs(angleDiff);
+        double totalError = 0;
+        double prevError = sensor.getTrueDiff(angle);
+        double error = prevError;
+        double angleTurn = Math.abs(error);
         double changePID = 0;
-        while (Math.abs(angleDiff) > 1.0/angleTurn) {
+        while (Math.abs(error) > (1.0/angleTurn)) {
             currentTime = times.seconds();
             double dT = currentTime - pastTime;
-            angleDiff = sensor.getTrueDiff(angle) / angleTurn;
-            P = angleDiff * kP;
-            I += dT * angleDiff * kI;
-            D = ((Math.abs(angleDiff) - Math.abs(prevAngleDiff)) / dT) * kD;
-            changePID = P + I + D;
-            opMode.telemetry.addData("PID: ", changePID);
-            opMode.telemetry.addData("diff", angleDiff);
-            opMode.telemetry.addData("P", P);
-            opMode.telemetry.addData("I", I);
-            opMode.telemetry.addData("D", D);
+            error = sensor.getTrueDiff(angle) / angleTurn;
+            totalError += error;
+            changePID = error * kP + dT * totalError * kI + (error - prevError) / dT * kD;
+            opMode.telemetry.addData("power: ", changePID);
+            opMode.telemetry.addData("diff: ", error);
             opMode.telemetry.update();
             if (changePID < 0) {
                 startMotors(changePID - .10, -changePID + .10);
             } else {
                 startMotors(changePID + .10, -changePID - .10);
             }
-            prevAngleDiff = angleDiff;
+            prevError = error;
             pastTime = currentTime;
         }
         stopMotors();
@@ -222,24 +215,17 @@ public class Drivetrain {
         double kD = d / 1000000;
         double currentTime = times.milliseconds();
         double pastTime = 0;
-        double P = 0;
-        double D = 0;
         double prevAngleDiff = sensor.getTrueDiff(angle);
         double angleDiff = prevAngleDiff;
         double changePID = 0;
-        while (Math.abs(angleDiff) > 0 && times.seconds() < timeout) {
+        while (Math.abs(angleDiff) > .5 && times.seconds() < timeout) {
             pastTime = currentTime;
             currentTime = times.milliseconds();
             double dT = currentTime - pastTime;
             angleDiff = sensor.getTrueDiff(angle);
-            P = angleDiff * kP;
-            D = ((Math.abs(angleDiff) - Math.abs(prevAngleDiff)) / dT) * kD;
-            changePID = P + D;
-            opMode.telemetry.addData("PID: ", changePID);
-            opMode.telemetry.addData("diff", angleDiff);
-            opMode.telemetry.addData("P", P);
-            opMode.telemetry.addData("D", D);
+            changePID = (angleDiff * kP) + ((angleDiff - prevAngleDiff) / dT * kD);
             opMode.telemetry.update();
+            startMotors(changePID, - changePID);
             if (changePID < 0) {
                 startMotors(changePID - .10, -changePID + .10);
             } else {
