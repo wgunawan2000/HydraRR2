@@ -100,7 +100,7 @@ public class Drivetrain {
         Thread.sleep(1000);
 
         //move lift to unhang
-        lift.move(1, 140);
+        lift.move(1, 180);
         Thread.sleep(500);
         move(.2, 1);
         Thread.sleep(500);

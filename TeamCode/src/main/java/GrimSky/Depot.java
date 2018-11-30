@@ -9,6 +9,7 @@ import com.sun.tools.javac.Main;
 import java.util.ArrayList;
 
 import GrimSkyLibraries.Drivetrain;
+import GrimSkyLibraries.Intake;
 import GrimSkyLibraries.Lift;
 import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
@@ -16,19 +17,13 @@ import for_camera_opmodes.LinearOpModeCamera;
 
 @Autonomous(name = "newDepot", group = "LinearOpMode")
 public class Depot extends LinearOpModeCamera {
-    int ds2 = 1;
-    int numPics = 0;
-    double avgX = 0;
-    int validPix = 0;
-    String pos = "notFound";
-    int red = 0, blue = 0;
-    int offset;
-    int cubePixelCount = 0;
+
     private Drivetrain drivetrain;
     private Sensors sensors;
     private String cubePos;
     private Marker marker;
     private Lift lift;
+    private Intake intake;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -38,6 +33,7 @@ public class Depot extends LinearOpModeCamera {
         sensors = new Sensors(this);
         marker = new Marker(this);
         lift = new Lift(this);
+        intake = new Intake(this);
 
         startCamera();
         int offset = 5;
@@ -63,9 +59,6 @@ public class Depot extends LinearOpModeCamera {
         //=========================== UNHANG =======================================================
         drivetrain.unhang();
 
-        //=========================== REPOSITION ===================================================
-//        lift.move(-4, 20);
-
         //=========================== INITIAL TURN AND SCAN ========================================
         drivetrain.turnPI(10 + offset, .35, .2, 4);
         sleep(1000);
@@ -80,7 +73,9 @@ public class Depot extends LinearOpModeCamera {
         if (cubePos.equals("left")) {
             drivetrain.turnPD(-27 + offset, .5, .3, 4);
             sleep(500);
+            //intake.intakeIn();
             drivetrain.move(.3, 41.5);
+            //intake.intakeStop();
             sleep(500);
             drivetrain.turnPD(47 + offset, .46, .2, 4);
             sleep(500);
@@ -88,14 +83,18 @@ public class Depot extends LinearOpModeCamera {
         } else if (cubePos.equals("center")) {
             drivetrain.turnPI(0 + offset, .23, 0.02, 2);
             sleep(500);
+            //intake.intakeIn();
             drivetrain.move(.3, 65);
+            //intake.intakeStop();
             sleep(500);
             drivetrain.turnPD(47 + offset, .63, .21, 4);
 
         } else {
             drivetrain.turnPD(33 + offset, .7, .2, 4);
             sleep(500);
+            //intake.intakeIn();
             drivetrain.move(.3, 41.5);
+            //intake.intakeStop();
             sleep(500);
             drivetrain.turnPD(-45 + offset, .44, .22, 4);
             sleep(500);
@@ -120,6 +119,15 @@ public class Depot extends LinearOpModeCamera {
 
 
     //=================================== LOCAL METHODS ============================================
+    int ds2 = 1;
+    int numPics = 0;
+    double avgX = 0;
+    int validPix = 0;
+    String pos = "notFound";
+    int red = 0, blue = 0;
+    int offset;
+    int cubePixelCount = 0;
+
     public void sleep(int millis) {
         try {
             Thread.sleep(millis);
@@ -128,6 +136,7 @@ public class Depot extends LinearOpModeCamera {
         }
     }
 
+    //returns left, right or center from the robot POV
     public String getCubePos() {
         if (imageReady()) { // only do this if an image has been returned from the camera
 
