@@ -18,6 +18,8 @@ public abstract class GrimSkyOpMode extends OpMode{
     DcMotor lift;
 
     CRServo pto;
+    CRServo intakeL;
+    CRServo intakeR;
 
     Servo marker;
 
@@ -41,6 +43,8 @@ public abstract class GrimSkyOpMode extends OpMode{
 
         marker = hardwareMap.servo.get("Marker");
         pto = hardwareMap.crservo.get("pto");
+        intakeL = hardwareMap.crservo.get("intakeL");
+        intakeR = hardwareMap.crservo.get("intakeR");
         pivotL = hardwareMap.servo.get("pivotL");
         pivotR = hardwareMap.servo.get("pivotR");
         gateL = hardwareMap.servo.get("gateL");
@@ -78,13 +82,14 @@ public abstract class GrimSkyOpMode extends OpMode{
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         pivotInit();
-        closeGate();
+        closeGates();
         marker.setPosition(.85);
 
         telemetry.addData("init ", "completed");
         telemetry.update();
     }
 
+    //============================= OUTPUT =========================================================
     public void openBigL(){
         gateL.setPosition(.40);
     }
@@ -109,7 +114,7 @@ public abstract class GrimSkyOpMode extends OpMode{
         gateR.setPosition(.99);
     }
 
-    public void closeGate(){
+    public void closeGates(){
         closeL();
         closeR();
     }
@@ -143,12 +148,12 @@ public abstract class GrimSkyOpMode extends OpMode{
         gateR.setPosition(.89);
     }
 
-
     public void pivot(double l, double r) {
         pivotL.setPosition(l);
         pivotR.setPosition(r);
     }
 
+    //================================== DRIVETRAIN/LIFT/INTAKE ====================================
     public void startMotors(double l, double r){
         FR.setPower(r);
         MR.setPower(r);
@@ -177,9 +182,18 @@ public abstract class GrimSkyOpMode extends OpMode{
         }
     }
 
+    public void intakeOut(){
+        intakeL.setPower(.8);
+        intakeR.setPower(-.8);
+    }
 
+    public void intakeIn(){
+        intakeL.setPower(-.8);
+        intakeR.setPower(.8);
+    }
 
-
-
-
+    public void intakeStop(){
+        intakeL.setPower(0);
+        intakeR.setPower(0);
+    }
 }

@@ -63,15 +63,6 @@ public class Lift {
         closeR();
     }
 
-    public void moveT(double power, double milli) throws InterruptedException{
-        times.reset();
-        resetEncoder();
-        while (times.milliseconds() < milli) {
-            lift.setPower(power);
-        }
-        lift.setPower(0);
-    }
-
     public void move(double power, double encoder) throws InterruptedException{
         resetEncoder();
         while (getEncoder() < encoder) {

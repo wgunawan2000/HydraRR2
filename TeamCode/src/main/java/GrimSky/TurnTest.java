@@ -1,20 +1,28 @@
 package GrimSky;
 
+import android.graphics.Bitmap;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.ArrayList;
+
 import GrimSkyLibraries.Drivetrain;
+import GrimSkyLibraries.Intake;
+import GrimSkyLibraries.Lift;
+import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
+import for_camera_opmodes.LinearOpModeCamera;
 
-/**
- * Created by Avi on 11/19/2018.
- */
+@Autonomous(name = "TurnTest", group = "LinearOpMode")
+public class TurnTest extends LinearOpModeCamera {
 
-@Autonomous(name = "Turn Test", group = "LinearOpMode")
-public class TurnTest extends LinearOpMode {
     private Drivetrain drivetrain;
     private Sensors sensors;
+    private String cubePos;
+    private Marker marker;
+    private Lift lift;
+    private Intake intake;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -22,35 +30,14 @@ public class TurnTest extends LinearOpMode {
 
         drivetrain = new Drivetrain(this);
         sensors = new Sensors(this);
+        marker = new Marker(this);
+        lift = new Lift(this);
+        intake = new Intake(this);
 
         waitForStart();
 
-        double Ku = 1.0;
-        double Tu = .5;
-
-        drivetrain.turnPD(90, .4, .2, 10);
-        //Ku = 1.0, Tu = .5
-//            drivetrain.turnZN(90, 1.0, 0);
-//        //P
-//        drivetrain.turnPID(90, .8, 0, 0, 10);
-//
-//        //PI
-//        drivetrain.turnPID(90, .72, .6, 0, 10);
-//
-//        //PD
-//        drivetrain.turnPID(90, 1.28, 0, .09, 10);
-//
-//        //classic PID
-//        drivetrain.turnPID(90, .6*Ku, Tu / 2, Tu / 8, 10);
-//
-//        //Pessen Integral Rule
-//        drivetrain.turnPID(90, 1.12, .29, .11, 10);
-//
-//        //Some overshoot
-//        drivetrain.turnPID(90, .33*Ku, Tu/2, Tu/3, 10);
-//
-//        //No overshoot
-//          drivetrain.turnPID(-90, .32, .36, .24, 10);
-
+        drivetrain.turnPD(90, .8, 1.3, 10);
     }
+
 }
+

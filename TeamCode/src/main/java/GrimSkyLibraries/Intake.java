@@ -18,12 +18,12 @@ public class Intake {
         intakeR = this.opMode.hardwareMap.crservo.get("intakeR");
     }
 
-    public void intakeIn(){
+    public void intakeOut(){
         intakeL.setPower(.8);
         intakeR.setPower(-.8);
     }
 
-    public void intakeOut(){
+    public void intakeIn(){
         intakeL.setPower(-.8);
         intakeR.setPower(.8);
     }

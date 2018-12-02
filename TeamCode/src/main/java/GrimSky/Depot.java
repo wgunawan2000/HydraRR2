@@ -15,7 +15,7 @@ import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 import for_camera_opmodes.LinearOpModeCamera;
 
-@Autonomous(name = "newDepot", group = "LinearOpMode")
+@Autonomous(name = "Depot", group = "LinearOpMode")
 public class Depot extends LinearOpModeCamera {
 
     private Drivetrain drivetrain;
@@ -38,22 +38,6 @@ public class Depot extends LinearOpModeCamera {
         startCamera();
         int offset = 5;
 
-        //offset = difference between angle of lander and lander tape (assuming lander tape is straight)
-
-        //code to change offset with controller (unused)
-//        while(!isStarted()) {
-//            telemetry.addData("offset: ", offset);
-//            telemetry.update();
-//            if (gamepad1.dpad_up) {
-//                offset++;
-//                while (gamepad1.dpad_up) ;
-//            }
-//            if (gamepad1.dpad_down) {
-//                offset--;
-//                while (gamepad1.dpad_down) ;
-//            }
-//        }
-
         waitForStart();
 
         //=========================== UNHANG =======================================================
@@ -71,10 +55,10 @@ public class Depot extends LinearOpModeCamera {
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPD(-27 + offset, .5, .3, 4);
+            drivetrain.turnPD(-25 + offset, .5, .3, 4);
             sleep(500);
             //intake.intakeIn();
-            drivetrain.move(.3, 41.5);
+            drivetrain.move(.3, 45.5);
             //intake.intakeStop();
             sleep(500);
             drivetrain.turnPD(47 + offset, .46, .2, 4);
@@ -90,17 +74,17 @@ public class Depot extends LinearOpModeCamera {
             drivetrain.turnPD(47 + offset, .63, .21, 4);
 
         } else {
-            drivetrain.turnPD(33 + offset, .7, .2, 4);
+            drivetrain.turnPD(35 + offset, .40, .27, 4);
             sleep(500);
             //intake.intakeIn();
-            drivetrain.move(.3, 41.5);
+            drivetrain.move(.3, 45.5);
             //intake.intakeStop();
             sleep(500);
-            drivetrain.turnPD(-45 + offset, .44, .22, 4);
+            drivetrain.turnPD(-45 + offset, .5, .3, 4);
             sleep(500);
             drivetrain.move(.4, 20.5);
             sleep(500);
-            drivetrain.turnPD(47 + offset, .4, 2, 4);
+            drivetrain.turnPD(47 + offset, .32, .19, 4);
         }
 
         //==================================== MARKER DEPOSIT ======================================
