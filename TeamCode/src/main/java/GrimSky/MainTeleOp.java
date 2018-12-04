@@ -40,8 +40,6 @@ public class MainTeleOp extends GrimSkyOpMode {
                 closeGates();
             }
             setLift(gamepad2.left_stick_y * 1);
-        } else if (liftIsUp) {
-//            setLift(-.15);
         }
         else {
             lift.setPower(0);

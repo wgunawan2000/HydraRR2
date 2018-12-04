@@ -178,7 +178,7 @@ public abstract class GrimSkyOpMode extends OpMode{
             lift.setPower(power);
         }
         else {
-            lift.setPower(power / 3);
+            lift.setPower(power);
         }
     }
 

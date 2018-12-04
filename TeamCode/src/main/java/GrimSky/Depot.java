@@ -15,6 +15,8 @@ import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 import for_camera_opmodes.LinearOpModeCamera;
 
+//C:\Users\Avi\AppData\Local\Android\sdk\platform-tools
+
 @Autonomous(name = "Depot", group = "LinearOpMode")
 public class Depot extends LinearOpModeCamera {
 
@@ -44,7 +46,7 @@ public class Depot extends LinearOpModeCamera {
         drivetrain.unhang();
 
         //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10 + offset, .35, .2, 4);
+        drivetrain.turnPI(10 + offset, .27, 0.02, 4);
         sleep(1000);
 
         //============================ SAMPLE ======================================================
@@ -55,47 +57,50 @@ public class Depot extends LinearOpModeCamera {
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPD(-25 + offset, .5, .3, 4);
+            drivetrain.turnPD(-25 + offset, .38, .39, 4);
             sleep(500);
             //intake.intakeIn();
-            drivetrain.move(.3, 45.5);
+            drivetrain.move(.3, 46.5);
             //intake.intakeStop();
             sleep(500);
-            drivetrain.turnPD(47 + offset, .46, .2, 4);
+            drivetrain.turnPD(50 + offset, .33, .57, 4);
             sleep(500);
-            drivetrain.move(.4, 16.5);
+            drivetrain.move(.4, 28);
+            sleep(500);
+            drivetrain.move(-.2, 3);
+
         } else if (cubePos.equals("center")) {
-            drivetrain.turnPI(0 + offset, .23, 0.02, 2);
+            drivetrain.turnPI(offset, .27, 0.02, 2);
             sleep(500);
             //intake.intakeIn();
-            drivetrain.move(.3, 65);
+            drivetrain.move(.6, 55);
             //intake.intakeStop();
             sleep(500);
-            drivetrain.turnPD(47 + offset, .63, .21, 4);
+            drivetrain.turnPD(50 + offset, .38, .45, 4);
 
         } else {
-            drivetrain.turnPD(35 + offset, .40, .27, 4);
-            sleep(500);
+            drivetrain.turnPD(35 + offset, .4, .5, 4);
+            sleep(250);
             //intake.intakeIn();
-            drivetrain.move(.3, 45.5);
+            drivetrain.move(.3, 46.5);
             //intake.intakeStop();
-            sleep(500);
-            drivetrain.turnPD(-45 + offset, .5, .3, 4);
-            sleep(500);
-            drivetrain.move(.4, 20.5);
-            sleep(500);
-            drivetrain.turnPD(47 + offset, .32, .19, 4);
+            sleep(250);
+            drivetrain.turnPD(-45 + offset, .35, .55, 4);
+            sleep(250);
+            drivetrain.move(1, 10);
+            sleep(250);
+            drivetrain.move(-.2, 1.5);
+            drivetrain.turnPD(50 + offset, .32, .6, 4);
         }
 
         //==================================== MARKER DEPOSIT ======================================
-        sleep(500);
+        sleep(250);
         marker.Down();
-        sleep(1000);
+        sleep(250);
 
         //======================================= PARK =============================================
-        drivetrain.wallRollL(-.75, 60);
-        sleep(1000);
-
+        drivetrain.wallRollL(-1, 55);
+        Thread.sleep(500);
         drivetrain.wallRollL(-.4, 15);
 
         stopCamera();

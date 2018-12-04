@@ -65,9 +65,11 @@ public class Drivetrain {
         Thread.sleep(1000);
 
         //move lift to unhang
-        lift.move(1, 250);
+        lift.move(1, 380);
         Thread.sleep(500);
         move(.2, 1);
+        Thread.sleep(500);
+        lift.move(-.5, 180);
         Thread.sleep(500);
         stopMotors();
     }
@@ -203,7 +205,7 @@ public class Drivetrain {
                 startMotors(changePID + .10, -changePID - .10);
             }
             opMode.telemetry.addData("P", (angleDiff * kP));
-            opMode.telemetry.addData("D", ((angleDiff - prevAngleDiff) / dT * kD));
+            opMode.telemetry.addData("D", ((Math.abs(angleDiff) - Math.abs(prevAngleDiff)) / dT * kD));
             opMode.telemetry.update();
             prevAngleDiff = angleDiff;
         }

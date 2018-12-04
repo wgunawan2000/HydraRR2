@@ -36,7 +36,7 @@ public class TurnTest extends LinearOpModeCamera {
 
         waitForStart();
 
-        drivetrain.turnPD(90, .8, 1.3, 10);
+        drivetrain.turnPD(90, .4, .2, 10);
     }
 
 }
