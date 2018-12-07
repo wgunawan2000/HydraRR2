@@ -23,6 +23,7 @@ public class Crater extends LinearOpModeCamera {
     String pos = "notFound";
     int red = 0, blue = 0;
     int offset;
+    int distInc;
     int cubePixelCount = 0;
     private Drivetrain drivetrain;
     private Sensors sensors;
@@ -39,34 +40,15 @@ public class Crater extends LinearOpModeCamera {
         marker = new Marker(this);
         lift = new Lift(this);
         startCamera();
-        int offset = 5;
-
-        //offset = difference between angle of lander and lander tape (assuming lander tape is straight)
-
-        //code to change offset with controller (unused)
-//        while(!isStarted()) {
-//            telemetry.addData("offset: ", offset);
-//            telemetry.update();
-//            if (gamepad1.dpad_up) {
-//                offset++;
-//                while (gamepad1.dpad_up) ;
-//            }
-//            if (gamepad1.dpad_down) {
-//                offset--;
-//                while (gamepad1.dpad_down) ;
-//            }
-//        }
+        int offset = 6;
 
         waitForStart();
 
         //=========================== UNHANG =======================================================
         drivetrain.unhang();
 
-        //=========================== REPOSITION ===================================================
-        lift.move(-4, 20);
-
         //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10 + offset, .45, 0.3, 4);
+        drivetrain.turnPI(10 + offset, .27, 0.02, 4);
         sleep(1000);
 
         //============================ SAMPLE ======================================================
@@ -77,57 +59,49 @@ public class Crater extends LinearOpModeCamera {
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPI(-30 + offset, .10, 0.05, 4);
+            drivetrain.turnPD(-25 + offset, .38, .39, 4);
             sleep(500);
             drivetrain.move(.3, 25);
             sleep(500);
-            drivetrain.move(-.3, 5);
-            drivetrain.turnPI(-90 + offset, .11, 0.02, 4);
-            sleep(500);
-            drivetrain.move(.4, 30);
+            drivetrain.move(-.4, 3);
+            drivetrain.turnPD(-90, .34, .5, 4);
         } else if (cubePos.equals("center")) {
-            drivetrain.turnPI(0 + offset, .2, 0.02, 2);
+            distInc += 8;
+            drivetrain.turnPI(offset, .27, 0.02, 2);
             sleep(500);
-            drivetrain.move(.3, 25);
+            drivetrain.move(.3, 18);
             sleep(500);
-            drivetrain.move(-.3, 5);
-            sleep(500);
-            drivetrain.turnPI(-90 + offset, .2, 0, 4);
-            sleep(500);
-            drivetrain.move(.4, 30);
-            sleep(500);
-            drivetrain.turnPI(-140 + offset, .15, 0, 4);
-            sleep(500);
-            drivetrain.move(.4, 26.5);
+            drivetrain.move(-.4, 3);
+            drivetrain.turnPD(-90, .32, .6, 4);
         } else {
-            drivetrain.turnPI(33 + offset, .26, 0.05, 2);
+            distInc += 16;
+            drivetrain.turnPD(35 + offset, .4, .5, 4);
             sleep(500);
             drivetrain.move(.3, 25);
             sleep(500);
-            drivetrain.move(-.3, 5);
-            sleep(500);
-            drivetrain.turnPI(-90 + offset, .2, 0, 4);
-            sleep(500);
-            drivetrain.move(.4, 15);
-            sleep(500);
-            drivetrain.turnPI(-140 + offset, .15, 0, 4);
-            sleep(500);
-            drivetrain.move(.4, 26.5);
+            drivetrain.move(-.4, 3);
+            drivetrain.turnPD(-90, .3, .65, 4);
         }
+        sleep(500);
+        drivetrain.move(.5, 33 + distInc);
+        sleep(500);
+        drivetrain.turnPD(-120, .38, .38, 3);
+        sleep(500);
 
         //==================================== MARKER DEPOSIT ======================================
+        drivetrain.wallRollR(.5, 48);
         sleep(500);
+        drivetrain.move(-.2, 1.5);
         marker.Down();
         sleep(1000);
 
         //======================================= PARK =============================================
-        drivetrain.wallRollR(-.75, 60);
-        sleep(100);
-
-        drivetrain.wallRollR(-.2, 10);
-
+        drivetrain.wallRollR(-1, 62);
+        Thread.sleep(500);
+        drivetrain.wallRollR(-.4, 10);
         stopCamera();
     }
+
 
 
     //=================================== LOCAL METHODS ============================================

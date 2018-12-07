@@ -17,8 +17,8 @@ import for_camera_opmodes.LinearOpModeCamera;
 
 //C:\Users\Avi\AppData\Local\Android\sdk\platform-tools
 
-@Autonomous(name = "Depot", group = "LinearOpMode")
-public class Depot extends LinearOpModeCamera {
+@Autonomous(name = "Crater65", group = "LinearOpMode")
+public class Crater65 extends LinearOpModeCamera {
 
     private Drivetrain drivetrain;
     private Sensors sensors;
@@ -59,50 +59,18 @@ public class Depot extends LinearOpModeCamera {
         if (cubePos.equals("left")) {
             drivetrain.turnPD(-25 + offset, .38, .39, 4);
             sleep(500);
-            //intake.intakeIn();
-            drivetrain.move(.3, 46.5);
-            //intake.intakeStop();
-            sleep(500);
-            drivetrain.turnPD(50 + offset, .33, .57, 4);
-            sleep(500);
-            drivetrain.move(.4, 28);
-            sleep(500);
-            drivetrain.move(-.2, 3);
-
+            drivetrain.move(.3, 40);
         } else if (cubePos.equals("center")) {
             drivetrain.turnPI(offset, .27, 0.02, 2);
             sleep(500);
-            //intake.intakeIn();
-            drivetrain.move(.6, 55);
-            //intake.intakeStop();
-            sleep(500);
-            drivetrain.turnPD(50 + offset, .38, .45, 4);
-
+            drivetrain.move(.3, 35);
         } else {
             drivetrain.turnPD(35 + offset, .4, .5, 4);
-            sleep(250);
-            //intake.intakeIn();
-            drivetrain.move(.3, 46.5);
-            //intake.intakeStop();
-            sleep(250);
-            drivetrain.turnPD(-45 + offset, .35, .55, 4);
-            sleep(250);
-            drivetrain.move(1, 10);
-            sleep(250);
-            drivetrain.move(-.2, 1.5);
-            drivetrain.turnPD(50 + offset, .32, .6, 4);
+            sleep(500);
+            drivetrain.move(.3, 40);
         }
-
-        //==================================== MARKER DEPOSIT ======================================
-        sleep(250);
-        marker.Down();
-        sleep(250);
-
-        //======================================= PARK =============================================
-        drivetrain.wallRollL(-1, 55);
-        Thread.sleep(500);
-        drivetrain.wallRollL(-.4, 10);
-
+        sleep(1000);
+        drivetrain.move(.4, 15);
         stopCamera();
     }
 

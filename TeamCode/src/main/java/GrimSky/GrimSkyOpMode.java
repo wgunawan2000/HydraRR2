@@ -1,9 +1,11 @@
 package GrimSky;
 
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public abstract class GrimSkyOpMode extends OpMode{
@@ -28,6 +30,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     Servo pivotL;
     Servo pivotR;
 
+    DigitalChannel touchPTO;
     GrimSkyOpMode opMode;
 
     public void init() {
@@ -40,6 +43,8 @@ public abstract class GrimSkyOpMode extends OpMode{
         MR = hardwareMap.dcMotor.get("MR");
 
         lift = hardwareMap.dcMotor.get("lift");
+
+        touchPTO = hardwareMap.digitalChannel.get("touchPTO");
 
         marker = hardwareMap.servo.get("Marker");
         pto = hardwareMap.crservo.get("pto");

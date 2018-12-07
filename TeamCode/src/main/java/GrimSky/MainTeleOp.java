@@ -41,6 +41,14 @@ public class MainTeleOp extends GrimSkyOpMode {
             }
             setLift(gamepad2.left_stick_y * 1);
         }
+        else if (Math.abs(gamepad2.right_stick_y) > .1){
+            if(gamepad2.right_stick_y > .1) {
+                liftIsUp = false;
+                pivotInit();
+                closeGates();
+            }
+            setLift(gamepad2.right_stick_y * .5);
+        }
         else {
             lift.setPower(0);
         }
@@ -63,12 +71,19 @@ public class MainTeleOp extends GrimSkyOpMode {
         else {
             pto.setPower(0);
         }
-
-        // =========================== MARKER ==================================================
-        if (gamepad2.dpad_down)
+        if (gamepad2.dpad_up) {
             marker.setPosition(0);
-        else if (gamepad2.dpad_up)
+        }
+        else if(touchPTO.getState()) {
+            telemetry.addData("ENGAGED", "ENGAGED");
+            telemetry.update();
+            marker.setPosition(.53);
+        }
+        else{
+            telemetry.clear();
+            telemetry.update();
             marker.setPosition(.85);
+        }
 
         // ========================== INTAKE ===================================================
         if (gamepad1.left_trigger > .1) {
