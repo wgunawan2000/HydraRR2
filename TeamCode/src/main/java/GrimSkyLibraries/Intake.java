@@ -20,12 +20,12 @@ public class Intake {
 
     public void intakeOut(){
         intakeL.setPower(.8);
-        intakeR.setPower(-.8);
+        intakeR.setPower(.8);
     }
 
     public void intakeIn(){
         intakeL.setPower(-.8);
-        intakeR.setPower(.8);
+        intakeR.setPower(-.8);
     }
 
     public void intakeStop(){

@@ -188,13 +188,13 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void intakeOut(){
-        intakeL.setPower(.6);
-        intakeR.setPower(.6);
+        intakeL.setPower(.8);
+        intakeR.setPower(.8);
     }
 
     public void intakeIn(){
-        intakeL.setPower(-.6);
-        intakeR.setPower(-.6);
+        intakeL.setPower(-.8);
+        intakeR.setPower(-.8);
     }
 
     public void intakeStop(){

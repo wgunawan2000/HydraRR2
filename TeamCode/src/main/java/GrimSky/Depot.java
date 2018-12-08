@@ -59,7 +59,7 @@ public class Depot extends LinearOpModeCamera {
         if (cubePos.equals("left")) {
             drivetrain.turnPD(-25 + offset, .38, .39, 4);
             sleep(500);
-            //intake.intakeIn();
+            intake.intakeIn();
             drivetrain.move(.3, 46.5);
             //intake.intakeStop();
             sleep(500);
@@ -72,7 +72,7 @@ public class Depot extends LinearOpModeCamera {
         } else if (cubePos.equals("center")) {
             drivetrain.turnPI(offset, .27, 0.02, 2);
             sleep(500);
-            //intake.intakeIn();
+            intake.intakeIn();
             drivetrain.move(.6, 55);
             //intake.intakeStop();
             sleep(500);
@@ -81,7 +81,7 @@ public class Depot extends LinearOpModeCamera {
         } else {
             drivetrain.turnPD(35 + offset, .4, .5, 4);
             sleep(250);
-            //intake.intakeIn();
+            intake.intakeIn();
             drivetrain.move(.3, 46.5);
             //intake.intakeStop();
             sleep(250);
@@ -94,6 +94,7 @@ public class Depot extends LinearOpModeCamera {
         }
 
         //==================================== MARKER DEPOSIT ======================================
+        intake.intakeStop();
         sleep(250);
         marker.Down();
         sleep(250);
@@ -101,7 +102,7 @@ public class Depot extends LinearOpModeCamera {
         //======================================= PARK =============================================
         drivetrain.wallRollL(-1, 55);
         Thread.sleep(500);
-        drivetrain.wallRollL(-.4, 10);
+        drivetrain.wallRollL(-.4, 14);
 
         stopCamera();
     }

@@ -13,6 +13,7 @@ import GrimSkyLibraries.Lift;
 import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 import for_camera_opmodes.LinearOpModeCamera;
+import GrimSkyLibraries.Intake;
 
 @Autonomous(name = "Crater", group = "LinearOpMode")
 public class Crater extends LinearOpModeCamera {
@@ -30,6 +31,7 @@ public class Crater extends LinearOpModeCamera {
     private String cubePos;
     private Marker marker;
     private Lift lift;
+    private Intake intake;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -39,8 +41,9 @@ public class Crater extends LinearOpModeCamera {
         sensors = new Sensors(this);
         marker = new Marker(this);
         lift = new Lift(this);
+        intake = new Intake(this);
         startCamera();
-        int offset = 6;
+        int offset = 7;
 
         waitForStart();
 
@@ -48,7 +51,7 @@ public class Crater extends LinearOpModeCamera {
         drivetrain.unhang();
 
         //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10 + offset, .27, 0.02, 4);
+        drivetrain.turnPI(10 + offset, .27, 0.8, 4);
         sleep(1000);
 
         //============================ SAMPLE ======================================================
@@ -61,48 +64,50 @@ public class Crater extends LinearOpModeCamera {
         if (cubePos.equals("left")) {
             drivetrain.turnPD(-25 + offset, .38, .39, 4);
             sleep(500);
-            drivetrain.move(.3, 25);
+            intake.intakeIn();
+            drivetrain.move(.3, 23);
             sleep(500);
             drivetrain.move(-.4, 3);
             drivetrain.turnPD(-90, .34, .5, 4);
         } else if (cubePos.equals("center")) {
-            distInc += 8;
-            drivetrain.turnPI(offset, .27, 0.02, 2);
+            distInc += 4;
+            drivetrain.turnPI(offset - 1, .27, 0.8, 2);
             sleep(500);
+            intake.intakeIn();
             drivetrain.move(.3, 18);
             sleep(500);
-            drivetrain.move(-.4, 3);
+            drivetrain.move(-.4, 2);
             drivetrain.turnPD(-90, .32, .6, 4);
         } else {
-            distInc += 16;
+            distInc += 8;
             drivetrain.turnPD(35 + offset, .4, .5, 4);
             sleep(500);
-            drivetrain.move(.3, 25);
+            intake.intakeIn();
+            drivetrain.move(.3, 23);
             sleep(500);
             drivetrain.move(-.4, 3);
             drivetrain.turnPD(-90, .3, .65, 4);
         }
         sleep(500);
-        drivetrain.move(.5, 33 + distInc);
+        drivetrain.move(1, 25 + distInc);
+        intake.intakeStop();
         sleep(500);
         drivetrain.turnPD(-120, .38, .38, 3);
         sleep(500);
 
         //==================================== MARKER DEPOSIT ======================================
-        drivetrain.wallRollR(.5, 48);
+        drivetrain.wallRollR(.8, 30);
         sleep(500);
-        drivetrain.move(-.2, 1.5);
+        drivetrain.move(-.2, 3);
         marker.Down();
         sleep(1000);
 
         //======================================= PARK =============================================
-        drivetrain.wallRollR(-1, 62);
-        Thread.sleep(500);
-        drivetrain.wallRollR(-.4, 10);
+        drivetrain.wallRollR(-1, 55);
+        Thread.sleep(1000);
+        drivetrain.wallRollR(-.6, 10);
         stopCamera();
     }
-
-
 
     //=================================== LOCAL METHODS ============================================
     public void sleep(int millis) {
