@@ -46,7 +46,7 @@ public class Depot extends LinearOpModeCamera {
         drivetrain.unhang();
 
         //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10 + offset, .27, 0.02, 4);
+        drivetrain.turnPI(10 + offset, .27, 0.2, 4);
         sleep(1000);
 
         //============================ SAMPLE ======================================================
@@ -67,10 +67,10 @@ public class Depot extends LinearOpModeCamera {
             sleep(500);
             drivetrain.move(.4, 28);
             sleep(500);
-            drivetrain.move(-.2, 3);
+            drivetrain.move(-.2, 2.5);
 
         } else if (cubePos.equals("center")) {
-            drivetrain.turnPI(offset, .27, 0.02, 2);
+            drivetrain.turnPI(offset, .27, 0.2, 2);
             sleep(500);
             intake.intakeIn();
             drivetrain.move(.6, 55);
@@ -89,7 +89,7 @@ public class Depot extends LinearOpModeCamera {
             sleep(250);
             drivetrain.move(1, 10);
             sleep(250);
-            drivetrain.move(-.2, 1.5);
+            drivetrain.move(-.2, 2.5);
             drivetrain.turnPD(50 + offset, .32, .6, 4);
         }
 
@@ -100,9 +100,9 @@ public class Depot extends LinearOpModeCamera {
         sleep(250);
 
         //======================================= PARK =============================================
-        drivetrain.wallRollL(-1, 55);
+        drivetrain.wallRollL(-1, 60);
         Thread.sleep(500);
-        drivetrain.wallRollL(-.4, 14);
+        drivetrain.wallRollL(-.4, 16);
 
         stopCamera();
     }

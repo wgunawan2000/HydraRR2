@@ -51,7 +51,7 @@ public class Crater extends LinearOpModeCamera {
         drivetrain.unhang();
 
         //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10 + offset, .27, 0.8, 4);
+        drivetrain.turnPI(10 + offset, .27, 0.2, 4);
         sleep(1000);
 
         //============================ SAMPLE ======================================================
@@ -71,7 +71,7 @@ public class Crater extends LinearOpModeCamera {
             drivetrain.turnPD(-90, .34, .5, 4);
         } else if (cubePos.equals("center")) {
             distInc += 4;
-            drivetrain.turnPI(offset - 1, .27, 0.8, 2);
+            drivetrain.turnPI(offset, .27, 0.2, 2);
             sleep(500);
             intake.intakeIn();
             drivetrain.move(.3, 18);
@@ -96,14 +96,14 @@ public class Crater extends LinearOpModeCamera {
         sleep(500);
 
         //==================================== MARKER DEPOSIT ======================================
-        drivetrain.wallRollR(.8, 30);
+        drivetrain.wallRollR(.8, 26);
         sleep(500);
         drivetrain.move(-.2, 3);
         marker.Down();
         sleep(1000);
 
         //======================================= PARK =============================================
-        drivetrain.wallRollR(-1, 55);
+        drivetrain.wallRollR(-1, 60);
         Thread.sleep(1000);
         drivetrain.wallRollR(-.6, 10);
         stopCamera();

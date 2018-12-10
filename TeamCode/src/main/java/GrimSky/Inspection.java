@@ -25,6 +25,7 @@ public class Inspection extends LinearOpMode{
     public void runOpMode() throws InterruptedException{
         drivetrain = new Drivetrain(this);
         marker = new Marker(this);
+
         marker.Up();
         waitForStart();
 
