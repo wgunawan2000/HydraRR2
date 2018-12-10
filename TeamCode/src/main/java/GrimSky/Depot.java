@@ -165,6 +165,5 @@ public class Depot extends LinearOpModeCamera {
         }
         return pos;
     }
-
 }
 
