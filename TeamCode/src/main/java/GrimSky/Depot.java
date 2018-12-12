@@ -20,7 +20,6 @@ import for_camera_opmodes.LinearOpModeCamera;
 @Autonomous(name = "Depot", group = "LinearOpMode")
 public class Depot extends LinearOpModeCamera {
 
-    //making sure github still works
     private Drivetrain drivetrain;
     private Sensors sensors;
     private String cubePos;
