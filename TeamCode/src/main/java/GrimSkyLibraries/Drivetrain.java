@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import GrimSky.Depot;
-import for_camera_opmodes.LinearOpModeCamera;
 
 
 public class Drivetrain {

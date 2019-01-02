@@ -13,7 +13,6 @@ import GrimSkyLibraries.Drivetrain;
 import GrimSkyLibraries.Lift;
 import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
-import for_camera_opmodes.LinearOpModeCamera;
 
 @Autonomous(name = "NoHangAuto", group = "LinearOpMode")
 public class Inspection extends LinearOpMode{

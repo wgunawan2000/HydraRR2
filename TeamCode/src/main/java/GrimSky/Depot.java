@@ -1,32 +1,27 @@
 package GrimSky;
 
-import android.graphics.Bitmap;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.sun.tools.javac.Main;
-
-import java.util.ArrayList;
 
 import GrimSkyLibraries.Drivetrain;
+import GrimSkyLibraries.GoldDetectorVuforia;
 import GrimSkyLibraries.Intake;
 import GrimSkyLibraries.Lift;
 import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
-import for_camera_opmodes.LinearOpModeCamera;
-
-//C:\Users\Avi\AppData\Local\Android\sdk\platform-tools
 
 @Autonomous(name = "Depot", group = "LinearOpMode")
-public class Depot extends LinearOpModeCamera {
+public class Depot extends LinearOpMode {
 
     private Drivetrain drivetrain;
     private Sensors sensors;
-    private String cubePos;
     private Marker marker;
     private Lift lift;
     private Intake intake;
     private ElapsedTime runtime = new ElapsedTime();
+    private GoldDetectorVuforia sample;
+    private String cubePos = "center";
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -36,28 +31,23 @@ public class Depot extends LinearOpModeCamera {
         marker = new Marker(this);
         lift = new Lift(this);
         intake = new Intake(this);
+        sample = new GoldDetectorVuforia(this);
 
-        startCamera();
-        int offset = 5;
+        //we align at the wall, so we are hanging at approx -45 degrees
+        int offset = 135;
+
+        while (!isStarted()) {
+            cubePos = sample.getCubePos();
+        }
 
         waitForStart();
 
         //=========================== UNHANG =======================================================
         drivetrain.unhang();
 
-        //=========================== INITIAL TURN AND SCAN ========================================
-        drivetrain.turnPI(10 + offset, .27, 0.2, 4);
-        sleep(1000);
-
-        //============================ SAMPLE ======================================================
-        cubePos = getCubePos();
-        telemetry.addData("validPIX", cubePixelCount);
-        telemetry.addData("pos", cubePos);
-        telemetry.update();
-
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPD(-25 + offset, .38, .39, 4);
+            drivetrain.turnPD(-25 + offset, .4, .5, 4);
             sleep(500);
             intake.intakeIn();
             drivetrain.move(.3, 46.5);
@@ -79,7 +69,7 @@ public class Depot extends LinearOpModeCamera {
             drivetrain.turnPD(50 + offset, .38, .45, 4);
 
         } else {
-            drivetrain.turnPD(35 + offset, .4, .5, 4);
+            drivetrain.turnPD(35 + offset, .38, .39, 4);
             sleep(250);
             intake.intakeIn();
             drivetrain.move(.3, 46.5);
@@ -104,20 +94,9 @@ public class Depot extends LinearOpModeCamera {
         Thread.sleep(500);
         drivetrain.wallRollL(-.4, 16);
 
-        stopCamera();
     }
 
-
     //=================================== LOCAL METHODS ============================================
-    int ds2 = 1;
-    int numPics = 0;
-    double avgX = 0;
-    int validPix = 0;
-    String pos = "notFound";
-    int red = 0, blue = 0;
-    int offset;
-    int cubePixelCount = 0;
-
     public void sleep(int millis) {
         try {
             Thread.sleep(millis);
@@ -125,45 +104,4 @@ public class Depot extends LinearOpModeCamera {
 
         }
     }
-
-    //returns left, right or center from the robot POV
-    public String getCubePos() {
-        if (imageReady()) { // only do this if an image has been returned from the camera
-
-            numPics++;
-
-            // get image, rotated so (0,0) is in the bottom left of the preview window
-            Bitmap rgbImage;
-            rgbImage = convertYuvImageToRgb(yuvImage, width, height, ds2);
-
-            cubePixelCount = 0;
-            ArrayList<Integer> xValues = new ArrayList<>();
-            for (int x = (int) ((3.0 / 4) * rgbImage.getWidth()); x < rgbImage.getWidth(); x += 2) {
-                for (int y = 0; y < rgbImage.getHeight(); y += 2) {
-                    int pixel = rgbImage.getPixel(x, y);
-                    red += red(pixel);
-                    blue += blue(pixel);
-                    if (red(pixel) >= 140 && green(pixel) > 100 && blue(pixel) <= 50) {
-                        validPix++;
-                        cubePixelCount++;
-                        xValues.add(y);
-                    }
-                }
-
-            }
-            avgX = 0;
-            for (int xCoor : xValues) {
-                avgX += xCoor;
-            }
-            avgX /= xValues.size();
-
-            if (cubePixelCount < 400) pos = "left";
-
-            else if (avgX > .45 * rgbImage.getHeight()) pos = "center";
-
-            else pos = "right";
-        }
-        return pos;
-    }
 }
-
