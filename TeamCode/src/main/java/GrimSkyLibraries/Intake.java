@@ -6,31 +6,49 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Intake {
-    public DcMotor extend;
-    public CRServo intakeL;
-    public CRServo intakeR;
+    public DcMotor intake;
+    public CRServo collection;
+    public Servo pivot;
     LinearOpMode opMode;
 
     public Intake(LinearOpMode opMode)throws InterruptedException {
 
         this.opMode = opMode;
-        intakeL = this.opMode.hardwareMap.crservo.get("intakeL");
-        intakeR = this.opMode.hardwareMap.crservo.get("intakeR");
+        intake = this.opMode.hardwareMap.dcMotor.get("intake");
+        collection = this.opMode.hardwareMap.crservo.get("collection");
+        pivot = this.opMode.hardwareMap.servo.get("pivot");
     }
 
-    public void intakeOut(){
-        intakeL.setPower(.8);
-        intakeR.setPower(.8);
+    public void extend(){
+        intake.setPower(1);
     }
 
-    public void intakeIn(){
-        intakeL.setPower(-.8);
-        intakeR.setPower(-.8);
+    public void retract(){
+        intake.setPower(-1);
     }
 
-    public void intakeStop(){
-        intakeL.setPower(0);
-        intakeR.setPower(0);
+    public void collectOut(){
+        collection.setPower(.8);
+    }
+
+    public void collectionIn(){
+        collection.setPower(-.8);
+    }
+
+    public void collectionStop(){
+        collection.setPower(0);
+    }
+
+    public void pivotUp(){
+        pivot.setPosition(.7);
+    }
+
+    public void pivotMid(){
+        pivot.setPosition(.3);
+    }
+
+    public void pivotDown(){
+        pivot.setPosition(0);
     }
 
 }

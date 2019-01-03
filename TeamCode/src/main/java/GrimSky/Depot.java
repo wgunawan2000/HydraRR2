@@ -49,7 +49,7 @@ public class Depot extends LinearOpMode {
         if (cubePos.equals("left")) {
             drivetrain.turnPD(-25 + offset, .4, .5, 4);
             sleep(500);
-            intake.intakeIn();
+            //intake.intakeIn();
             drivetrain.move(.3, 46.5);
             //intake.intakeStop();
             sleep(500);
@@ -62,7 +62,7 @@ public class Depot extends LinearOpMode {
         } else if (cubePos.equals("center")) {
             drivetrain.turnPI(offset, .27, 0.2, 2);
             sleep(500);
-            intake.intakeIn();
+            //intake.intakeIn();
             drivetrain.move(.6, 55);
             //intake.intakeStop();
             sleep(500);
@@ -71,7 +71,7 @@ public class Depot extends LinearOpMode {
         } else {
             drivetrain.turnPD(35 + offset, .38, .39, 4);
             sleep(250);
-            intake.intakeIn();
+            //intake.intakeIn();
             drivetrain.move(.3, 46.5);
             //intake.intakeStop();
             sleep(250);
@@ -84,7 +84,7 @@ public class Depot extends LinearOpMode {
         }
 
         //==================================== MARKER DEPOSIT ======================================
-        intake.intakeStop();
+        //intake.intakeStop();
         sleep(250);
         marker.Down();
         sleep(250);
