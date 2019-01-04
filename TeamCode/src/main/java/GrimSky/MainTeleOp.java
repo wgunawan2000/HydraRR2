@@ -8,7 +8,7 @@ public class MainTeleOp extends GrimSkyOpMode {
 
     //keeps track of whether or not the lift is raised
     boolean liftIsUp = false;
-    boolean reverseGates = false;
+    boolean useRight = false;
     public void loop() {
         double sC = gamepad1.left_bumper ? .5 : 1;
 
@@ -72,7 +72,7 @@ public class MainTeleOp extends GrimSkyOpMode {
         else {
             pto.setPower(0);
         }
-        if (gamepad2.dpad_up) {
+        if (gamepad1.dpad_up) {
             marker.setPosition(0);
         }
         else if(touchPTO.getState()) {
@@ -81,45 +81,61 @@ public class MainTeleOp extends GrimSkyOpMode {
             marker.setPosition(.53);
         }
         else{
-            telemetry.clear();
-            telemetry.update();
+//            telemetry.clear();
+//            telemetry.update();
             marker.setPosition(.85);
         }
 
         // ========================== INTAKE ===================================================
         if (gamepad1.left_trigger > .1) {
-            intakeOut();
+            collectionOut();
         } else if (gamepad1.right_trigger > .1) {
-            intakeIn();
-            semiGate();
+            collectionIn();
         }
         else {
-            intakeStop();
+            collectionStop();
         }
 
-        //=========================== OUTPUT ===================================================
+        if (gamepad2.right_trigger > .1) {
+            extend();
+        } else if (gamepad2.left_trigger > .1) {
+            retract();
+        } else {
+            intakeMotorStop();
+        }
+
+        if (gamepad1.right_bumper) {
+            pivotDown();
+        }
+
         if (gamepad2.left_bumper) {
-            if (reverseGates)
-                openSmallL();
-            else
-                openSmallR();
+            pivotUp();
         }
 
+        if (gamepad2.dpad_down) {
+            useRight = !useRight;
+            sort(useRight);
+        }
+
+        if (gamepad1.dpad_down){
+            telemetry.addData("AsfdsF  ", intakePivot.getPosition());
+            telemetry.update();
+            pivotIntake();
+        }
+        //=========================== OUTPUT ===================================================
         if (gamepad2.right_bumper) {
-            if (reverseGates)
+            if (useRight)
                 openSmallR();
             else
                 openSmallL();
         }
 
         if (gamepad2.y){
-            reverseGates = false;
-            pivotAngleBack();
+            pivotAngleBack(useRight);
         }
 
         if (gamepad2.a) {
-            reverseGates = true;
-            pivotParallelForward();
+            pivotParallelForward(useRight);
         }
         if (gamepad2.b){
             pivotInit();

@@ -27,7 +27,11 @@ public class Intake {
         intake.setPower(-1);
     }
 
-    public void collectOut(){
+    public void intakeMotorStop() {
+        intake.setPower(0);
+    }
+
+    public void collectionOut(){
         collection.setPower(.8);
     }
 
