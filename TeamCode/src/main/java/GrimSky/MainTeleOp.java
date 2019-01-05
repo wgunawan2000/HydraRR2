@@ -8,11 +8,12 @@ public class MainTeleOp extends GrimSkyOpMode {
 
     //keeps track of whether or not the lift is raised
     boolean liftIsUp = false;
+    //keeps track of if we are using the right basket
     boolean useRight = false;
     public void loop() {
-        double sC = gamepad1.left_bumper ? .5 : 1;
-
         //================================= DRIVE ==================================================
+        //speed constant allows driver 1 to scale the speed of the robot
+        double sC = gamepad1.left_bumper ? .5 : 1;
         double left = 0;
         double right = 0;
         double max;
@@ -53,7 +54,8 @@ public class MainTeleOp extends GrimSkyOpMode {
             lift.setPower(0);
         }
 
-        //================================ PTO =================================================
+        //================================ PTO =====================================================
+        //macro to engage
         if (gamepad2.dpad_right) {
             pto.setPower(-.5);
             startMotors(-.2, -.2);
@@ -62,6 +64,7 @@ public class MainTeleOp extends GrimSkyOpMode {
             ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
+        //disengage
         else if (gamepad2.dpad_left) {
             pto.setPower(.5);
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -86,7 +89,8 @@ public class MainTeleOp extends GrimSkyOpMode {
             marker.setPosition(.85);
         }
 
-        // ========================== INTAKE ===================================================
+        // ========================== INTAKE =======================================================
+        //collection
         if (gamepad1.left_trigger > .1) {
             collectionOut();
         } else if (gamepad1.right_trigger > .1) {
@@ -96,22 +100,27 @@ public class MainTeleOp extends GrimSkyOpMode {
             collectionStop();
         }
 
+        //linear slides
         if (gamepad2.right_trigger > .1) {
             extend();
         } else if (gamepad2.left_trigger > .1) {
+            pivotMid();
             retract();
         } else {
             intakeMotorStop();
         }
 
+        //pivoting
         if (gamepad1.right_bumper) {
             pivotDown();
         }
 
         if (gamepad2.left_bumper) {
             pivotUp();
+            semiGate();
         }
 
+        //sorting
         if (gamepad2.dpad_down) {
             useRight = !useRight;
             sort(useRight);
@@ -122,6 +131,7 @@ public class MainTeleOp extends GrimSkyOpMode {
             telemetry.update();
             pivotIntake();
         }
+
         //=========================== OUTPUT ===================================================
         if (gamepad2.right_bumper) {
             if (useRight)

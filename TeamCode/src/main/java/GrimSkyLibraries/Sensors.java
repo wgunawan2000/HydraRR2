@@ -37,6 +37,7 @@ public class Sensors{
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         gyro = opMode.hardwareMap.get(BNO055IMU.class, "imu");
         gyro.initialize(parameters);
+
     }
 
     //distance sensor methods

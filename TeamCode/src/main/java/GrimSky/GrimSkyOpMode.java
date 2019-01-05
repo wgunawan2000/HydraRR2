@@ -59,6 +59,7 @@ public abstract class GrimSkyOpMode extends OpMode{
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         MR.setDirection(DcMotorSimple.Direction.REVERSE);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
 
         FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -99,14 +100,6 @@ public abstract class GrimSkyOpMode extends OpMode{
     public void sort(boolean right){
         if (right){}
         else{}
-    }
-
-    public void openBigL(){
-        gateL.setPosition(.40);
-    }
-
-    public void openBigR(){
-        gateR.setPosition(.62);
     }
 
     public void openSmallL(){
@@ -198,7 +191,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void retract(){
-        intake.setPower(-1);
+        intake.setPower(-.2);
     }
 
     public void intakeMotorStop() {
@@ -218,11 +211,11 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotDown(){
-        intakePivot.setPosition(.6);
+        intakePivot.setPosition(.58);
     }
 
     public void pivotMid(){
-        intakePivot.setPosition(.3);
+        intakePivot.setPosition(.25);
     }
 
     public void intakePivotInit(){
