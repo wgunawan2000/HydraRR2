@@ -20,17 +20,18 @@ public abstract class GrimSkyOpMode extends OpMode{
     DcMotor lift;
 
     CRServo pto;
-    CRServo collection;
+    CRServo collectionR;
+    CRServo collectionL;
 
     Servo sorter;
-    Servo intakePivot;
+    Servo intakePivotR;
+    Servo intakePivotL;
     Servo marker;
     Servo gateL;
     Servo gateR;
     Servo pivotL;
     Servo pivotR;
 
-    DigitalChannel touchPTO;
     GrimSkyOpMode opMode;
 
     public void init() {
@@ -44,13 +45,13 @@ public abstract class GrimSkyOpMode extends OpMode{
 
         lift = hardwareMap.dcMotor.get("lift");
 
-        touchPTO = hardwareMap.digitalChannel.get("touchPTO");
-
         marker = hardwareMap.servo.get("Marker");
         pto = hardwareMap.crservo.get("pto");
         intake = hardwareMap.dcMotor.get("intake");
-        collection = hardwareMap.crservo.get("collection");
-        intakePivot = hardwareMap.servo.get("intakePivot");
+        collectionR = hardwareMap.crservo.get("collectionR");
+        intakePivotR = hardwareMap.servo.get("intakePivotR");
+        collectionL = hardwareMap.crservo.get("collectionL");
+        intakePivotL = hardwareMap.servo.get("intakePivotL");
         pivotL = hardwareMap.servo.get("pivotL");
         pivotR = hardwareMap.servo.get("pivotR");
         gateL = hardwareMap.servo.get("gateL");
@@ -140,7 +141,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotIntake(){
-        intakePivot.setPosition(intakePivot.getPosition()+.01);
+        intakePivotR.setPosition(intakePivotR.getPosition()+.01);
     }
 
     public void pivotL(){
@@ -199,31 +200,38 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void collectionOut(){
-        collection.setPower(.8);
+        collectionR.setPower(.8);
+        collectionL.setPower(-.8);
     }
 
     public void collectionIn(){
-        collection.setPower(-.8);
+        collectionR.setPower(-.8);
+        collectionL.setPower(.8);
     }
 
     public void collectionStop(){
-        collection.setPower(0);
+        collectionR.setPower(0);
+        collectionL.setPower(0);
     }
 
     public void pivotDown(){
-        intakePivot.setPosition(.58);
+        intakePivotR.setPosition(.58);
+        intakePivotL.setPosition(0);
     }
 
     public void pivotMid(){
-        intakePivot.setPosition(.25);
+        intakePivotR.setPosition(.25);
+        intakePivotL.setPosition(.33);
     }
 
     public void intakePivotInit(){
-        intakePivot.setPosition(.18);
+        intakePivotR.setPosition(.18);
+        intakePivotL.setPosition(.4);
     }
 
     public void pivotUp(){
-        intakePivot.setPosition(0);
+        intakePivotR.setPosition(0);
+        intakePivotL.setPosition(.58);
     }
 
 }

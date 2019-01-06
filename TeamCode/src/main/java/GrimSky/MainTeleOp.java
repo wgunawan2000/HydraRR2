@@ -77,15 +77,7 @@ public class MainTeleOp extends GrimSkyOpMode {
         }
         if (gamepad1.dpad_up) {
             marker.setPosition(0);
-        }
-        else if(touchPTO.getState()) {
-            telemetry.addData("ENGAGED", "ENGAGED");
-            telemetry.update();
-            marker.setPosition(.53);
-        }
-        else{
-//            telemetry.clear();
-//            telemetry.update();
+        } else {
             marker.setPosition(.85);
         }
 
@@ -127,7 +119,7 @@ public class MainTeleOp extends GrimSkyOpMode {
         }
 
         if (gamepad1.dpad_down){
-            telemetry.addData("AsfdsF  ", intakePivot.getPosition());
+            telemetry.addData("AsfdsF  ", intakePivotR.getPosition());
             telemetry.update();
             pivotIntake();
         }
