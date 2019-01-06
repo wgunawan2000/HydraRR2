@@ -11,16 +11,13 @@ import GrimSkyLibraries.Lift;
 import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 
-@Autonomous(name = "VisionTest", group = "LinearOpMode")
-public class VisionTest extends LinearOpMode {
+@Autonomous(name = "Test Anything", group = "LinearOpMode")
+public class TestAnything extends LinearOpMode {
 
     private Drivetrain drivetrain;
     private Sensors sensors;
-    private String cubePos;
     private Marker marker;
     private Lift lift;
-    private Intake intake;
-    private GoldDetectorVuforia sample;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -30,16 +27,21 @@ public class VisionTest extends LinearOpMode {
         sensors = new Sensors(this);
         marker = new Marker(this);
         lift = new Lift(this);
-        intake = new Intake(this);
-        sample = new GoldDetectorVuforia(this);
 
         waitForStart();
 
-        while (runtime.seconds() < 30){
-            sample.getCubePos();
-            Thread.sleep(2000);
-            telemetry.update();
-        }
+        int offset = 0;
+
+        runtime.reset();
+
+        drivetrain.turnPD(25 + offset, .38, .39, 4);
+        sleep(500);
+        drivetrain.move(.3, 26);
+        sleep(500);
+        drivetrain.arcturnBackPD(-85 + offset, .8, 1.2, 4);
+        sleep(500);
+        drivetrain.moveGyro(.5, 35, -90 + offset);
+
     }
 
 }
