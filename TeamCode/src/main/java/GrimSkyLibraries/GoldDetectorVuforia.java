@@ -100,11 +100,6 @@ public class GoldDetectorVuforia extends LinearOpMode {
             pos = "center";
         }
 
-//        opMode.telemetry.addData("pixels: ", cubePixelCount);
-//        opMode.telemetry.addData("avgX", avgX);
-//        opMode.telemetry.addData("width: ", rgbImage.getWidth());
-//        opMode.telemetry.addData("e: ", pos);
-//        opMode.telemetry.update();
         return pos;
         }
     }

@@ -92,6 +92,7 @@ public abstract class GrimSkyOpMode extends OpMode{
         pivotInit();
         closeGates();
         marker.setPosition(.85);
+        pivotUp();
 
         telemetry.addData("init ", "completed");
         telemetry.update();
@@ -140,8 +141,12 @@ public abstract class GrimSkyOpMode extends OpMode{
         pivot(.66, .40);
     }
 
-    public void pivotIntake(){
-        intakePivotR.setPosition(intakePivotR.getPosition()+.01);
+    public void pivotIntakeR(){
+        intakePivotR.setPosition(intakePivotR.getPosition()-.01);
+    }
+
+    public void pivotIntakeL(){
+        intakePivotL.setPosition(intakePivotL.getPosition()+.01);
     }
 
     public void pivotL(){
@@ -187,12 +192,12 @@ public abstract class GrimSkyOpMode extends OpMode{
         }
     }
 
-    public void extend(){
-        intake.setPower(1);
+    public void extend(double power){
+        intake.setPower(power);
     }
 
-    public void retract(){
-        intake.setPower(-.2);
+    public void retract(double power){
+        intake.setPower(-power);
     }
 
     public void intakeMotorStop() {
@@ -215,8 +220,8 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotDown(){
-        intakePivotR.setPosition(.58);
-        intakePivotL.setPosition(0);
+        intakePivotR.setPosition(.22);
+        intakePivotL.setPosition(.78);
     }
 
     public void pivotMid(){
@@ -230,8 +235,8 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotUp(){
-        intakePivotR.setPosition(0);
-        intakePivotL.setPosition(.58);
+        intakePivotR.setPosition(1);
+        intakePivotL.setPosition(0);
     }
 
 }

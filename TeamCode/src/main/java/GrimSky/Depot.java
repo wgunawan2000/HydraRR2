@@ -47,11 +47,12 @@ public class Depot extends LinearOpMode {
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPD(-25 + offset, .4, .5, 4);
+            drivetrain.turnPD(25 + offset, .55, .6, 3);
             sleep(250);
-            drivetrain.moveGyro(.3, 39, -25 + offset);
+            drivetrain.moveGyro(.3, 30, 25 + offset);
+            drivetrain.arcturnPD(-55 + offset, .8, 1.2, 4);
+            drivetrain.moveGyro(.5, 5, -45 + offset);
             drivetrain.arcturnPD(45 + offset, .8, 1.2, 4);
-            drivetrain.moveGyro(.5, 10, 45 + offset);
             sleep(500);
             drivetrain.move(-.3, 4);
         } else if (cubePos.equals("center")) {

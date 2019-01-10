@@ -94,10 +94,10 @@ public class MainTeleOp extends GrimSkyOpMode {
 
         //linear slides
         if (gamepad2.right_trigger > .1) {
-            extend();
+            extend(gamepad2.right_trigger);
         } else if (gamepad2.left_trigger > .1) {
-            pivotMid();
-            retract();
+//            semiGate();
+            retract(gamepad2.left_trigger);
         } else {
             intakeMotorStop();
         }
@@ -118,10 +118,17 @@ public class MainTeleOp extends GrimSkyOpMode {
             sort(useRight);
         }
 
-        if (gamepad1.dpad_down){
-            telemetry.addData("AsfdsF  ", intakePivotR.getPosition());
+        if (gamepad1.dpad_right){
+            telemetry.addData("right  ", intakePivotR.getPosition());
             telemetry.update();
-            pivotIntake();
+            telemetry.update();
+            pivotIntakeR();
+        }
+
+        if(gamepad1.dpad_left){
+            telemetry.addData("left  ", intakePivotL.getPosition());
+            telemetry.update();
+            pivotIntakeL();
         }
 
         //=========================== OUTPUT ===================================================
