@@ -68,8 +68,8 @@ public class Drivetrain {
         Thread.sleep(500);
         move(.2, 1);
         Thread.sleep(500);
-        lift.move(-.5, 190);
-        Thread.sleep(500);
+//        lift.move(-.5, 50);
+//        Thread.sleep(500);
         stopMotors();
     }
 

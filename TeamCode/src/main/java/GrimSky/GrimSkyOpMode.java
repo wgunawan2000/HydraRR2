@@ -88,10 +88,8 @@ public abstract class GrimSkyOpMode extends OpMode{
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        pivotUp();
         closeGates();
         marker.setPosition(.85);
-        intakePivotInit();
 
         telemetry.addData("init ", "completed");
         telemetry.update();
@@ -137,7 +135,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotInit(){
-        pivot(.66, .40);
+        pivot(.66, .38);
     }
 
     public void pivotIntakeR(){

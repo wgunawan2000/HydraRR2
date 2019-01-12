@@ -22,7 +22,6 @@ public class Depot extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private GoldDetectorVuforia sample;
     private String cubePos = "null";
-    private String cubePosFinal;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -37,15 +36,14 @@ public class Depot extends LinearOpMode {
         //we align at the wall, so we are hanging at approx -45 degrees
         int offset = 135;
 
-//        while (!isStarted()) {
-//            cubePos = sample.getCubePos();
-//            cubePosFinal = cubePos;
-//            telemetry.addData("cubePos: ", cubePos);
-//            telemetry.update();
-//        }
+        while (!isStarted()) {
+            cubePos = sample.getCubePos();
+            telemetry.addData("cubePos: ", cubePos);
+            telemetry.update();
+        }
 
-//        telemetry.addData("cubePos: ", cubePos);
-//        telemetry.update();
+        telemetry.addData("cubePos: ", cubePos);
+        telemetry.update();
 
         waitForStart();
 
@@ -60,8 +58,8 @@ public class Depot extends LinearOpMode {
         drivetrain.unhang();
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
-        if (cubePosFinal.equals("left")) {
-            drivetrain.turnPD(-30 + offset, .55, .6, 3);
+        if (cubePos.equals("left")) {
+            drivetrain.turnPD(-28 + offset, .55, .6, 3);
             intake.retract();
             sleep(250);
             intake.intakeMotorStop();
@@ -74,9 +72,10 @@ public class Depot extends LinearOpMode {
             drivetrain.arcturnPD(-55 + offset, .8, 1.2, 4);
             drivetrain.moveGyro(.5, 5, -45 + offset);
             drivetrain.arcturnPD(45 + offset, .8, 1.2, 4);
+            drivetrain.moveGyro(.5, 10, 45 + offset);
             sleep(500);
             drivetrain.move(-.3, 4);
-        } else if (cubePosFinal.equals("center")) {
+        } else if (cubePos.equals("center")) {
             intake.retract();
             sleep(250);
             intake.intakeMotorStop();
@@ -84,20 +83,20 @@ public class Depot extends LinearOpMode {
             sleep(250);
             intake.collectionIn();
             drivetrain.moveGyro(.6, 55, offset);
-            intake.collectionStop();;
+            intake.collectionStop();
             intake.pivotMid();
             sleep(500);
             drivetrain.turnPD(50 + offset, .38, .45, 4);
         } else {
-            drivetrain.turnPD(30 + offset, .55, .6, 3);
+            drivetrain.turnPD(28 + offset, .55, .6, 3);
             intake.retract();
             sleep(250);
             intake.intakeMotorStop();
             intake.pivotDown();
             intake.collectionIn();
             sleep(250);
-            drivetrain.moveGyro(.3, 30, 30 + offset);
-            intake.collectionStop();;
+            drivetrain.moveGyro(.3, 42, 30 + offset);
+            intake.collectionStop();
             intake.pivotMid();
             drivetrain.arcturnPD(-55 + offset, .8, 1.2, 4);
             drivetrain.moveGyro(.5, 5, -45 + offset);

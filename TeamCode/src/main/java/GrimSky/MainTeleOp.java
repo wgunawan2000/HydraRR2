@@ -9,7 +9,7 @@ public class MainTeleOp extends GrimSkyOpMode {
     //keeps track of whether or not the lift is raised
     boolean liftIsUp = false;
     //keeps track of if we are using the right basket
-    boolean useRight = false;
+    boolean useRight = true;
     public void loop() {
         //================================= DRIVE ==================================================
         //speed constant allows driver 1 to scale the speed of the robot
@@ -109,15 +109,15 @@ public class MainTeleOp extends GrimSkyOpMode {
         }
 
         if (gamepad2.left_bumper) {
-            pivotUp();
+            intakePivotInit();
             semiGate();
         }
 
         //sorting
-        if (gamepad2.dpad_down) {
-            useRight = !useRight;
-            sort(useRight);
-        }
+//        if (gamepad2.dpad_down) {
+//            useRight = !useRight;
+//            sort(useRight);
+//        }
 
         if (gamepad1.dpad_right){
             telemetry.addData("right  ", intakePivotR.getPosition());
@@ -144,9 +144,9 @@ public class MainTeleOp extends GrimSkyOpMode {
             pivotAngleBack(useRight);
         }
 
-        if (gamepad2.a) {
-            pivotParallelForward(useRight);
-        }
+//        if (gamepad2.a) {
+//            pivotParallelForward(useRight);
+//        }
         if (gamepad2.b){
             pivotInit();
         }
