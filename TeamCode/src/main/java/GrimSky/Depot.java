@@ -21,7 +21,8 @@ public class Depot extends LinearOpMode {
     private Intake intake;
     private ElapsedTime runtime = new ElapsedTime();
     private GoldDetectorVuforia sample;
-    private String cubePos = "center";
+    private String cubePos = "null";
+    private String cubePosFinal;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -36,33 +37,68 @@ public class Depot extends LinearOpMode {
         //we align at the wall, so we are hanging at approx -45 degrees
         int offset = 135;
 
-        while (!isStarted()) {
-            cubePos = sample.getCubePos();
-        }
+//        while (!isStarted()) {
+//            cubePos = sample.getCubePos();
+//            cubePosFinal = cubePos;
+//            telemetry.addData("cubePos: ", cubePos);
+//            telemetry.update();
+//        }
+
+//        telemetry.addData("cubePos: ", cubePos);
+//        telemetry.update();
 
         waitForStart();
 
+        while(cubePos.equals("null")) {
+            cubePos = sample.getCubePos();
+        }
+        telemetry.addData("cubePos", cubePos);
+        telemetry.update();
+
+        sleep(1000);
         //=========================== UNHANG =======================================================
         drivetrain.unhang();
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
-        if (cubePos.equals("left")) {
-            drivetrain.turnPD(25 + offset, .55, .6, 3);
+        if (cubePosFinal.equals("left")) {
+            drivetrain.turnPD(-30 + offset, .55, .6, 3);
+            intake.retract();
             sleep(250);
-            drivetrain.moveGyro(.3, 30, 25 + offset);
+            intake.intakeMotorStop();
+            intake.pivotDown();
+            intake.collectionIn();
+            sleep(250);
+            drivetrain.moveGyro(.3, 30, 30 + offset);
+            intake.collectionStop();
+            intake.pivotMid();
             drivetrain.arcturnPD(-55 + offset, .8, 1.2, 4);
             drivetrain.moveGyro(.5, 5, -45 + offset);
             drivetrain.arcturnPD(45 + offset, .8, 1.2, 4);
             sleep(500);
             drivetrain.move(-.3, 4);
-        } else if (cubePos.equals("center")) {
+        } else if (cubePosFinal.equals("center")) {
+            intake.retract();
+            sleep(250);
+            intake.intakeMotorStop();
+            intake.pivotDown();
+            sleep(250);
+            intake.collectionIn();
             drivetrain.moveGyro(.6, 55, offset);
+            intake.collectionStop();;
+            intake.pivotMid();
             sleep(500);
             drivetrain.turnPD(50 + offset, .38, .45, 4);
         } else {
-            drivetrain.turnPD(25 + offset, .38, .39, 3);
+            drivetrain.turnPD(30 + offset, .55, .6, 3);
+            intake.retract();
             sleep(250);
-            drivetrain.moveGyro(.3, 30, 35 + offset);
+            intake.intakeMotorStop();
+            intake.pivotDown();
+            intake.collectionIn();
+            sleep(250);
+            drivetrain.moveGyro(.3, 30, 30 + offset);
+            intake.collectionStop();;
+            intake.pivotMid();
             drivetrain.arcturnPD(-55 + offset, .8, 1.2, 4);
             drivetrain.moveGyro(.5, 5, -45 + offset);
             drivetrain.arcturnPD(45 + offset, .8, 1.2, 4);

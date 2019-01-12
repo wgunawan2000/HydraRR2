@@ -97,6 +97,7 @@ public class MainTeleOp extends GrimSkyOpMode {
             extend(gamepad2.right_trigger);
         } else if (gamepad2.left_trigger > .1) {
 //            semiGate();
+            pivotMid();
             retract(gamepad2.left_trigger);
         } else {
             intakeMotorStop();

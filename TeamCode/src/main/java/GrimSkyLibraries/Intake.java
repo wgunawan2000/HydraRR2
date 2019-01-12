@@ -7,16 +7,20 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Intake {
     public DcMotor intake;
-    public CRServo collection;
-    public Servo pivot;
+    public CRServo collectionL;
+    public CRServo collectionR;
+    public Servo intakePivotR;
+    public Servo intakePivotL;
     LinearOpMode opMode;
 
-    public Intake(LinearOpMode opMode)throws InterruptedException {
-
+    public Intake(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
         intake = this.opMode.hardwareMap.dcMotor.get("intake");
-        collection = this.opMode.hardwareMap.crservo.get("collection");
-        pivot = this.opMode.hardwareMap.servo.get("pivot");
+        collectionR = this.opMode.hardwareMap.crservo.get("collectionR");
+        collectionL = this.opMode.hardwareMap.crservo.get("collectionL");
+        intakePivotR = this.opMode.hardwareMap.servo.get("intakePivotR");
+        intakePivotL = this.opMode.hardwareMap.servo.get("intakePivotL");
+        intakePivotInit();
     }
 
     public void extend(){
@@ -24,7 +28,7 @@ public class Intake {
     }
 
     public void retract(){
-        intake.setPower(-1);
+        intake.setPower(-.3);
     }
 
     public void intakeMotorStop() {
@@ -32,27 +36,38 @@ public class Intake {
     }
 
     public void collectionOut(){
-        collection.setPower(.8);
+        collectionR.setPower(.8);
+        collectionL.setPower(-.8);
     }
 
     public void collectionIn(){
-        collection.setPower(-.8);
+        collectionR.setPower(-.8);
+        collectionL.setPower(.8);
     }
 
     public void collectionStop(){
-        collection.setPower(0);
-    }
-
-    public void pivotUp(){
-        pivot.setPosition(.7);
+        collectionR.setPower(0);
+        collectionL.setPower(0);
     }
 
     public void pivotMid(){
-        pivot.setPosition(.3);
+//        intakePivotR.setPosition(.25);
+        intakePivotL.setPosition(.43);
+    }
+
+    public void intakePivotInit(){
+//        intakePivotR.setPosition(.18);
+        intakePivotL.setPosition(.1);
+    }
+
+    public void pivotUp(){
+        intakePivotR.setPosition(1);
+        intakePivotL.setPosition(0);
     }
 
     public void pivotDown(){
-        pivot.setPosition(0);
+        intakePivotR.setPosition(.22);
+        intakePivotL.setPosition(.78);
     }
 
 }
