@@ -217,17 +217,17 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotDown(){
-        intakePivotR.setPosition(.22);
+        intakePivotR.setPosition(.24);
         intakePivotL.setPosition(.78);
     }
 
     public void pivotMid(){
-//        intakePivotR.setPosition(.25);
+        intakePivotR.setPosition(.59);
         intakePivotL.setPosition(.43);
     }
 
     public void intakePivotInit(){
-//        intakePivotR.setPosition(.18);
+        intakePivotR.setPosition(.92);
         intakePivotL.setPosition(.1);
     }
 

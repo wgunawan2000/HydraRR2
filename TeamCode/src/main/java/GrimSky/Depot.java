@@ -42,16 +42,13 @@ public class Depot extends LinearOpMode {
             telemetry.update();
         }
 
-        telemetry.addData("cubePos: ", cubePos);
-        telemetry.update();
-
         waitForStart();
-
-        while(cubePos.equals("null")) {
-            cubePos = sample.getCubePos();
-        }
-        telemetry.addData("cubePos", cubePos);
-        telemetry.update();
+//
+//        while(cubePos.equals("null")) {
+//            cubePos = sample.getCubePos();
+//        }
+//        telemetry.addData("cubePos", cubePos);
+//        telemetry.update();
 
         sleep(1000);
         //=========================== UNHANG =======================================================
@@ -70,7 +67,6 @@ public class Depot extends LinearOpMode {
             intake.collectionStop();
             intake.pivotMid();
             drivetrain.arcturnPD(-55 + offset, .8, 1.2, 4);
-            drivetrain.moveGyro(.5, 5, -45 + offset);
             drivetrain.arcturnPD(45 + offset, .8, 1.2, 4);
             drivetrain.moveGyro(.5, 10, 45 + offset);
             sleep(500);
