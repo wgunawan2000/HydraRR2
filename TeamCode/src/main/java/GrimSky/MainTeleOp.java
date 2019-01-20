@@ -4,12 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "MainTeleOp", group = "opMode")
-public class MainTeleOp extends GrimSkyOpMode {
+public class MainTeleOp extends GrimSkyOpMode{
 
     //keeps track of whether or not the lift is raised
     boolean liftIsUp = false;
-    //keeps track of if we are using the right basket
-    boolean useRight = true;
+
     public void loop() {
         //================================= DRIVE ==================================================
         //speed constant allows driver 1 to scale the speed of the robot
@@ -37,16 +36,14 @@ public class MainTeleOp extends GrimSkyOpMode {
             if(gamepad2.left_stick_y < .1) liftIsUp = true;
             if(gamepad2.left_stick_y > .1) {
                 liftIsUp = false;
-                pivotInit();
-                closeGates();
+                basketsInit();
             }
             setLift(gamepad2.left_stick_y * 1);
         }
         else if (Math.abs(gamepad2.right_stick_y) > .1){
             if(gamepad2.right_stick_y > .1) {
                 liftIsUp = false;
-                pivotInit();
-                closeGates();
+                basketsInit();
             }
             setLift(gamepad2.right_stick_y * .5);
         }
@@ -82,73 +79,58 @@ public class MainTeleOp extends GrimSkyOpMode {
         }
 
         // ========================== INTAKE =======================================================
-        //collection
-        if (gamepad1.left_trigger > .1) {
-            collectionOut();
-        } else if (gamepad1.right_trigger > .1) {
-            collectionIn();
-        }
-        else {
-            collectionStop();
-        }
-
-        //linear slides
         if (gamepad2.right_trigger > .1) {
             extend(gamepad2.right_trigger);
         } else if (gamepad2.left_trigger > .1) {
-//            semiGate();
-//            pivotMid();
             retract(gamepad2.left_trigger);
         } else {
             intakeMotorStop();
         }
 
-        //pivoting
-        if (gamepad1.right_bumper) {
+        if (gamepad2.y){
+            pivotInit();
+        }
+
+        if (gamepad2.a){
             pivotDown();
         }
 
-        if (gamepad2.left_bumper) {
-            intakePivotInit();
-            semiGate();
-        }
-
-        //sorting
-//        if (gamepad2.dpad_down) {
-//            useRight = !useRight;
-//            sort(useRight);
-//        }
-
-        if (gamepad1.dpad_right){
-            telemetry.addData("right  ", intakePivotR.getPosition());
-            telemetry.update();
-            telemetry.update();
-            pivotIntakeR();
-        }
-
-        if(gamepad1.dpad_left){
-            telemetry.addData("left  ", intakePivotL.getPosition());
-            telemetry.update();
-            pivotIntakeL();
-        }
-
-        //=========================== OUTPUT ===================================================
-        if (gamepad2.right_bumper) {
-            if (useRight)
-                openSmallR();
-            else
-                openSmallL();
-        }
-
-        if (gamepad2.y){
-            pivotAngleBack(useRight);
-        }
-
-//        if (gamepad2.a) {
-//            pivotParallelForward(useRight);
-//        }
         if (gamepad2.b){
-            pivotInit();
+            pivotMid();
+        }
+
+        if (gamepad2.right_bumper) {
+            collectionIn();
+        }
+        else if (gamepad2.left_bumper) {
+            collectionOut();
+        }
+        else {
+            collectionStop();
+        }
+
+        if (gamepad1.dpad_left) {
+            while(gamepad1.dpad_left);
+            telemetry.addData("left  ", basketL.getPosition());
+            telemetry.update();
+        }
+
+        if(gamepad1.dpad_right){
+            while(gamepad1.dpad_right);
+            telemetry.addData("right  ", basketR.getPosition());
+            telemetry.update();
+        }
+
+        //=========================== OUTPUT =======================================================
+        
+        if (gamepad1.right_bumper) {
+            outR();
+        }
+
+        if (gamepad1.left_bumper){
+            outL();
         }
     }
+
+
 }

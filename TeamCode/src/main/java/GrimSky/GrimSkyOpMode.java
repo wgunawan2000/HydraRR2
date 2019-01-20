@@ -24,13 +24,12 @@ public abstract class GrimSkyOpMode extends OpMode{
     CRServo collectionL;
 
     Servo sorter;
-    Servo intakePivotR;
-    Servo intakePivotL;
-    Servo marker;
-    Servo gateL;
-    Servo gateR;
-    Servo pivotL;
     Servo pivotR;
+    Servo pivotL;
+    Servo marker;
+    Servo basketL;
+    Servo basketR;
+
 
     GrimSkyOpMode opMode;
 
@@ -49,13 +48,12 @@ public abstract class GrimSkyOpMode extends OpMode{
         pto = hardwareMap.crservo.get("pto");
         intake = hardwareMap.dcMotor.get("intake");
         collectionR = hardwareMap.crservo.get("collectionR");
-        intakePivotR = hardwareMap.servo.get("intakePivotR");
-        collectionL = hardwareMap.crservo.get("collectionL");
-        intakePivotL = hardwareMap.servo.get("intakePivotL");
-        pivotL = hardwareMap.servo.get("pivotL");
         pivotR = hardwareMap.servo.get("pivotR");
-        gateL = hardwareMap.servo.get("gateL");
-        gateR = hardwareMap.servo.get("gateR");
+        collectionL = hardwareMap.crservo.get("collectionL");
+        pivotL = hardwareMap.servo.get("pivotL");
+
+        basketL = hardwareMap.servo.get("basketL");
+        basketR = hardwareMap.servo.get("basketR");
 
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         MR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -88,7 +86,6 @@ public abstract class GrimSkyOpMode extends OpMode{
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        closeGates();
         marker.setPosition(.85);
 
         telemetry.addData("init ", "completed");
@@ -96,70 +93,34 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     //============================= OUTPUT =========================================================
-    public void sort(boolean right){
-        if (right){}
-        else{}
+    public void basketsInit(){
+        initL();
+        initR();
     }
 
-    public void openSmallL(){
-        gateL.setPosition(.32);
+    public void outL(){
+
     }
 
-    public void openSmallR(){
-        gateR.setPosition(.70);
+    public void outR(){
+
     }
 
-    public void closeL(){
-        gateL.setPosition(.01);
+    public void initL(){
+        basketL.setPosition(0);
     }
 
-    public void closeR(){
-        gateR.setPosition(.99);
-    }
-
-    public void closeGates(){
-        closeL();
-        closeR();
-    }
-
-    public void pivotParallelForward(boolean right){
-        if (right) pivot(.66, .04);
-        else pivot(1, .40);
-        //pivot(1,.04);
-    }
-
-    public void pivotAngleBack(boolean right){
-        if (right) pivot(.66, .75);
-        else pivot(.32, .40);
-        //pivot(.32, .75);
-    }
-
-    public void pivotInit(){
-        pivot(.66, .38);
-    }
-
-    public void pivotIntakeR(){
-        intakePivotR.setPosition(intakePivotR.getPosition()-.01);
+    public void initR(){
+        basketR.setPosition(1);
     }
 
     public void pivotIntakeL(){
-        intakePivotL.setPosition(intakePivotL.getPosition()+.01);
+        basketL.setPosition(basketL.getPosition()+.01);
     }
 
-    public void pivotL(){
-        pivotL.setPosition(pivotL.getPosition()-.01);
+    public void pivotIntakeR(){
+        basketR.setPosition(basketR.getPosition()-.01);
     }
-
-    public void semiGate(){
-        gateL.setPosition(.13);
-        gateR.setPosition(.89);
-    }
-
-    public void pivot(double l, double r) {
-        pivotL.setPosition(l);
-        pivotR.setPosition(r);
-    }
-
     //================================== DRIVETRAIN/LIFT/INTAKE ====================================
     public void startMotors(double l, double r){
         FR.setPower(r);
@@ -217,23 +178,23 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotDown(){
-        intakePivotR.setPosition(.24);
-        intakePivotL.setPosition(.78);
+        pivotR.setPosition(.24);
+        pivotL.setPosition(.78);
     }
 
     public void pivotMid(){
-        intakePivotR.setPosition(.59);
-        intakePivotL.setPosition(.43);
+        pivotR.setPosition(.59);
+        pivotL.setPosition(.43);
     }
 
-    public void intakePivotInit(){
-        intakePivotR.setPosition(.92);
-        intakePivotL.setPosition(.1);
+    public void pivotInit(){
+        pivotR.setPosition(.92);
+        pivotL.setPosition(.1);
     }
 
     public void pivotUp(){
-        intakePivotR.setPosition(1);
-        intakePivotL.setPosition(0);
+        pivotR.setPosition(1);
+        pivotL.setPosition(0);
     }
 
 }
