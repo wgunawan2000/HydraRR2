@@ -87,6 +87,7 @@ public abstract class GrimSkyOpMode extends OpMode{
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         marker.setPosition(.85);
+        basketsInit();
 
         telemetry.addData("init ", "completed");
         telemetry.update();
@@ -99,11 +100,11 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void outL(){
-
+        basketL.setPosition(.33);
     }
 
     public void outR(){
-
+        basketR.setPosition(.65);
     }
 
     public void initL(){

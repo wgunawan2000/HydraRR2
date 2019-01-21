@@ -111,18 +111,20 @@ public class MainTeleOp extends GrimSkyOpMode{
 
         if (gamepad1.dpad_left) {
             while(gamepad1.dpad_left);
+            pivotIntakeL();
             telemetry.addData("left  ", basketL.getPosition());
             telemetry.update();
         }
 
         if(gamepad1.dpad_right){
             while(gamepad1.dpad_right);
+            pivotIntakeR();
             telemetry.addData("right  ", basketR.getPosition());
             telemetry.update();
         }
 
         //=========================== OUTPUT =======================================================
-        
+
         if (gamepad1.right_bumper) {
             outR();
         }
@@ -131,6 +133,5 @@ public class MainTeleOp extends GrimSkyOpMode{
             outL();
         }
     }
-
 
 }
