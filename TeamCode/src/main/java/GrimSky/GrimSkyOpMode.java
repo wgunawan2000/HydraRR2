@@ -58,6 +58,7 @@ public abstract class GrimSkyOpMode extends OpMode{
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         MR.setDirection(DcMotorSimple.Direction.REVERSE);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
 
         FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -88,6 +89,7 @@ public abstract class GrimSkyOpMode extends OpMode{
 
         marker.setPosition(.85);
         basketsInit();
+        pivotMid();
 
         telemetry.addData("init ", "completed");
         telemetry.update();
@@ -116,11 +118,11 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotIntakeL(){
-        basketL.setPosition(basketL.getPosition()+.01);
+        pivotL.setPosition(pivotL.getPosition()+.01);
     }
 
     public void pivotIntakeR(){
-        basketR.setPosition(basketR.getPosition()-.01);
+        pivotR.setPosition(pivotR.getPosition()-.01);
     }
     //================================== DRIVETRAIN/LIFT/INTAKE ====================================
     public void startMotors(double l, double r){
@@ -152,11 +154,11 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void extend(double power){
-        intake.setPower(power);
+        intake.setPower(-power);
     }
 
     public void retract(double power){
-        intake.setPower(-power);
+        intake.setPower(power);
     }
 
     public void intakeMotorStop() {
@@ -164,13 +166,13 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void collectionOut(){
-        collectionR.setPower(.8);
-        collectionL.setPower(-.8);
+        collectionR.setPower(-.3);
+        collectionL.setPower(.3);
     }
 
-    public void collectionIn(){
-        collectionR.setPower(-.8);
-        collectionL.setPower(.8);
+    public void collectionIn(double intakeConstant){
+        collectionR.setPower(.4 * intakeConstant);
+        collectionL.setPower(-.4 * intakeConstant);
     }
 
     public void collectionStop(){
@@ -179,23 +181,23 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotDown(){
-        pivotR.setPosition(.24);
-        pivotL.setPosition(.78);
+        pivotR.setPosition(.22);
+        pivotL.setPosition(.82);
     }
 
     public void pivotMid(){
-        pivotR.setPosition(.59);
-        pivotL.setPosition(.43);
+        pivotR.setPosition(.52);
+        pivotL.setPosition(.52);
     }
 
     public void pivotInit(){
-        pivotR.setPosition(.92);
-        pivotL.setPosition(.1);
+        pivotR.setPosition(.78);
+        pivotL.setPosition(.25);
     }
 
     public void pivotUp(){
-        pivotR.setPosition(1);
-        pivotL.setPosition(0);
+        pivotR.setPosition(.84);
+        pivotL.setPosition(.19);
     }
 
 }
