@@ -15,7 +15,7 @@ public class MainTeleOp extends GrimSkyOpMode{
     public void loop() {
         //================================= DRIVE ==================================================
         //speed constant allows driver 1 to scale the speed of the robot
-        double sC = gamepad1.left_trigger > .5 ? .5 : 1;
+        double sC = gamepad1.left_bumper ? .5 : 1;
         double left = 0;
         double right = 0;
         double max;
@@ -110,10 +110,10 @@ public class MainTeleOp extends GrimSkyOpMode{
             pivotMid();
         }
 
-        if (gamepad1.right_bumper) {
+        if (gamepad1.right_trigger > .1) {
             collectionIn(iC);
         }
-        else if (gamepad1.left_bumper) {
+        else if (gamepad1.left_trigger > .1) {
             collectionOut();
         }
         else {

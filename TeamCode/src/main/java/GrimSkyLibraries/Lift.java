@@ -11,10 +11,8 @@ import GrimSky.GrimSkyOpMode;
 public class Lift {
     DcMotor lift;
 
-    Servo gateL;
-    Servo gateR;
-    Servo pivotL;
-    Servo pivotR;
+    Servo basketR;
+    Servo basketL;
 
     LinearOpMode opMode;
 
@@ -23,14 +21,10 @@ public class Lift {
         this.opMode = opMode;
         lift = opMode.hardwareMap.dcMotor.get("lift");
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        pivotL = opMode.hardwareMap.servo.get("pivotL");
-        pivotR = opMode.hardwareMap.servo.get("pivotR");
-        gateL = opMode.hardwareMap.servo.get("gateL");
-        gateR = opMode.hardwareMap.servo.get("gateR");
+        basketL = opMode.hardwareMap.servo.get("basketL");
+        basketR = opMode.hardwareMap.servo.get("basketR");
         times = new ElapsedTime();
-        pivotInit();
-        closeGate();
+        basketsInit();
     }
 
     public void setBrake() {
@@ -41,26 +35,26 @@ public class Lift {
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
-    public void pivotInit(){
-        pivot(.66, .40);
+
+    public void basketsInit(){
+        initL();
+        initR();
     }
 
-    public void pivot(double l, double r) {
-        pivotL.setPosition(l);
-        pivotR.setPosition(r);
+    public void outL(){
+        basketL.setPosition(.33);
     }
 
-    public void closeL(){
-        gateL.setPosition(.01);
+    public void outR(){
+        basketR.setPosition(.65);
     }
 
-    public void closeR(){
-        gateR.setPosition(.99);
+    public void initL(){
+        basketL.setPosition(0);
     }
 
-    public void closeGate(){
-        closeL();
-        closeR();
+    public void initR(){
+        basketR.setPosition(1);
     }
 
     public void move(double power, double encoder) throws InterruptedException{

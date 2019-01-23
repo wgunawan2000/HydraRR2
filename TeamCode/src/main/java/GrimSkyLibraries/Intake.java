@@ -3,14 +3,15 @@ package GrimSkyLibraries;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Intake {
     public DcMotor intake;
     public CRServo collectionL;
     public CRServo collectionR;
-    public Servo intakePivotR;
-    public Servo intakePivotL;
+    public Servo pivotR;
+    public Servo pivotL;
     LinearOpMode opMode;
 
     public Intake(LinearOpMode opMode) throws InterruptedException {
@@ -18,31 +19,31 @@ public class Intake {
         intake = this.opMode.hardwareMap.dcMotor.get("intake");
         collectionR = this.opMode.hardwareMap.crservo.get("collectionR");
         collectionL = this.opMode.hardwareMap.crservo.get("collectionL");
-        intakePivotR = this.opMode.hardwareMap.servo.get("intakePivotR");
-        intakePivotL = this.opMode.hardwareMap.servo.get("intakePivotL");
-        intakePivotInit();
-    }
-
-    public void extend(){
-        intake.setPower(1);
-    }
-
-    public void retract(){
-        intake.setPower(-.3);
+        pivotR = this.opMode.hardwareMap.servo.get("pivotR");
+        pivotL = this.opMode.hardwareMap.servo.get("pivotL");
+        pivotInit();
     }
 
     public void intakeMotorStop() {
         intake.setPower(0);
     }
 
+    public void move(double power, double inches) throws InterruptedException{
+        resetEncoder();
+        while(getEncoder() < inches*25) {
+            intake.setPower(power);
+        }
+        intake.setPower(0);
+    }
+
     public void collectionOut(){
-        collectionR.setPower(.8);
-        collectionL.setPower(-.8);
+        collectionR.setPower(.3);
+        collectionL.setPower(-.3);
     }
 
     public void collectionIn(){
-        collectionR.setPower(-.8);
-        collectionL.setPower(.8);
+        collectionR.setPower(-1);
+        collectionL.setPower(1);
     }
 
     public void collectionStop(){
@@ -50,24 +51,40 @@ public class Intake {
         collectionL.setPower(0);
     }
 
-    public void pivotMid(){
-//        intakePivotR.setPosition(.25);
-        intakePivotL.setPosition(.43);
+    public void pivotDown(){
+        pivotR.setPosition(.22);
+        pivotL.setPosition(.82);
     }
 
-    public void intakePivotInit(){
-//        intakePivotR.setPosition(.18);
-        intakePivotL.setPosition(.1);
+    public void pivotMid(){
+        pivotR.setPosition(.52);
+        pivotL.setPosition(.52);
+    }
+
+    public void pivotInit(){
+        pivotR.setPosition(.78);
+        pivotL.setPosition(.25);
     }
 
     public void pivotUp(){
-        intakePivotR.setPosition(1);
-        intakePivotL.setPosition(0);
+        pivotR.setPosition(.84);
+        pivotL.setPosition(.19);
     }
 
-    public void pivotDown(){
-        intakePivotR.setPosition(.22);
-        intakePivotL.setPosition(.78);
+    public void pivotIntakeL(){
+        pivotL.setPosition(pivotL.getPosition()+.01);
     }
 
+    public void pivotIntakeR(){
+        pivotR.setPosition(pivotR.getPosition()-.01);
+    }
+
+    public int getEncoder(){
+        return Math.abs(intake.getCurrentPosition());
+    }
+    public void resetEncoder(){
+        intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        opMode.idle();
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
 }
