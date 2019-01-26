@@ -41,25 +41,41 @@ public class Lift {
         initR();
     }
 
-    public void outL(){
-        basketL.setPosition(.33);
+    public void outBackL(){
+        basketL.setPosition(.79);
     }
 
-    public void outR(){
-        basketR.setPosition(.65);
+    public void outBackR(){
+        basketR.setPosition(.26);
+    }
+
+    public void outFrontL(){
+        basketL.setPosition(.02);
+    }
+
+    public void outFrontR(){
+        basketR.setPosition(.98);
     }
 
     public void initL(){
-        basketL.setPosition(0);
+        basketL.setPosition(.44);
     }
 
     public void initR(){
-        basketR.setPosition(1);
+        basketR.setPosition(.60);
     }
 
     public void move(double power, double encoder) throws InterruptedException{
         resetEncoder();
         while (getEncoder() < encoder) {
+            lift.setPower(power);
+        }
+        lift.setPower(0);
+    }
+
+    public void moveTime(double power, double millis) throws InterruptedException{
+        times.reset();
+        while (times.milliseconds() < millis) {
             lift.setPower(power);
         }
         lift.setPower(0);

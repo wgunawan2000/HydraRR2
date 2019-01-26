@@ -37,13 +37,13 @@ public class Intake {
     }
 
     public void collectionOut(){
-        collectionR.setPower(.3);
-        collectionL.setPower(-.3);
+        collectionR.setPower(-.3);
+        collectionL.setPower(.3);
     }
 
     public void collectionIn(){
-        collectionR.setPower(-1);
-        collectionL.setPower(1);
+        collectionR.setPower(.8);
+        collectionL.setPower(-.8);
     }
 
     public void collectionStop(){
@@ -52,7 +52,7 @@ public class Intake {
     }
 
     public void pivotDown(){
-        pivotR.setPosition(.22);
+        pivotR.setPosition(.18);
         pivotL.setPosition(.82);
     }
 
@@ -86,5 +86,6 @@ public class Intake {
         intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         opMode.idle();
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        opMode.idle();
     }
 }

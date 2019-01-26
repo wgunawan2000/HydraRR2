@@ -100,20 +100,28 @@ public abstract class GrimSkyOpMode extends OpMode{
         initR();
     }
 
-    public void outL(){
-        basketL.setPosition(.33);
+    public void outBackL(){
+        basketL.setPosition(.77);
     }
 
-    public void outR(){
-        basketR.setPosition(.65);
+    public void outBackR(){
+        basketR.setPosition(.22);
+    }
+
+    public void outFrontL(){
+        basketL.setPosition(.02);
+    }
+
+    public void outFrontR(){
+        basketR.setPosition(.98);
     }
 
     public void initL(){
-        basketL.setPosition(0);
+        basketL.setPosition(.44);
     }
 
     public void initR(){
-        basketR.setPosition(1);
+        basketR.setPosition(.60);
     }
 
     public void pivotIntakeL(){
@@ -180,7 +188,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotDown(){
-        pivotR.setPosition(.22);
+        pivotR.setPosition(.18);
         pivotL.setPosition(.82);
     }
 

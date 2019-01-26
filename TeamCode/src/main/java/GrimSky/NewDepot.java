@@ -53,7 +53,7 @@ public class NewDepot extends LinearOpMode {
 
         waitForStart();
 
-        cubePos = "left";
+        cubePos = "right";
 
 
         //=========================== UNHANG =======================================================
@@ -64,62 +64,61 @@ public class NewDepot extends LinearOpMode {
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPD(-25 + offset, .55, .6, 4);
+            drivetrain.turnPD(-27 + offset, .65, .6, 4);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 25);
-//            sleep(500);
-//            drivetrain.move(.3, 46.5);
-//            intake.collectionStop();
-//            intake.pivotMid();
-//            //intake.intakeStop();
-//            sleep(500);
-//            drivetrain.turnPD(50 + offset, .33, .57, 4);
-//            sleep(500);
-//            drivetrain.move(.4, 28);
-//            sleep(500);
-//            drivetrain.move(-.2, 3);
-//        } else if (cubePos.equals("center")) {
-            sleep(2000);
-            intake.move(-.4, -15);
+            intake.move(.8, 20);
+            sleep(1000);
+            intake.move(.8, 8);
+            sleep(1000);
+            intake.pivotMid();
+            intake.move(-.8, 29);
+            sleep(1000);
+            drivetrain.turnPD(-46 + offset, .8, .75, 3);
 
-//            drivetrain.turnPI(offset, .27, 0.02, 2);
-//            intake.pivotDown();
-//            intake.collectionOut();
-//            sleep(500);
-//            drivetrain.move(.6, 55);
-//            intake.collectionStop();
-//            intake.pivotMid();
-//            //intake.intakeStop();
-//            sleep(500);
-//            drivetrain.turnPD(50 + offset, .38, .45, 4);
+        } else if (cubePos.equals("center")) {
+            drivetrain.turnPD(0 + offset, .25, .3, 4);
+            intake.pivotDown();
+            intake.collectionIn();
+            intake.move(.8, 16);
+            sleep(1000);
+            intake.move(.8, 8);
+            sleep(1000);
+            intake.pivotMid();
+            intake.move(-.8, 23);
+            sleep(1000);
+            drivetrain.turnPD(-46 + offset, .55, .5, 4);
+
 
         } else {
-            drivetrain.turnPD(35 + offset, .4, .5, 4);
+            drivetrain.turnPD(27 + offset, .65, .6, 4);
             intake.pivotDown();
-            intake.collectionOut();
-            sleep(250);
-            drivetrain.move(.3, 46.5);
-            intake.collectionStop();
+            intake.collectionIn();
+            intake.move(.8, 20);
+            sleep(1000);
+            intake.move(.8, 10);
+            sleep(1000);
             intake.pivotMid();
-            sleep(250);
-            drivetrain.turnPD(-45 + offset, .35, .55, 4);
-            sleep(250);
-            drivetrain.move(1, 10);
-            sleep(250);
-            drivetrain.move(-.2, 1.5);
-            drivetrain.turnPD(50 + offset, .32, .6, 4);
+            intake.move(-.8, 29);
+            sleep(1000);
+            drivetrain.turnPD(-46 + offset, .45, .4, 5);
         }
 
         //==================================== MARKER DEPOSIT ======================================
-        sleep(250);
-        marker.Down();
-        sleep(250);
-
+        sleep(1000);
+        drivetrain.moveGyro(.5, 45, -45 + offset);
+        drivetrain.arcturnPD(-135 + offset, .8, .8, 4);
+        sleep(1000);
+        drivetrain.wallRollR(-.5, 65);
+        lift.move(1, 500);
+        lift.outBackR();
+        sleep(1001);
+        lift.basketsInit();
+        drivetrain.wallRollR(1, 80);
+        Thread.sleep(500);
+        intake.move(1, 25);
+        intake.collectionIn();
         //======================================= PARK =============================================
-//        drivetrain.wallRollL(-1, 55);
-//        Thread.sleep(500);
-//        drivetrain.wallRollL(-.4, 14);
 
     }
 

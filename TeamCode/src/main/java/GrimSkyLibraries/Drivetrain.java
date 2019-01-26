@@ -38,6 +38,13 @@ public class Drivetrain {
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         MR.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        MR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
 
@@ -47,7 +54,7 @@ public class Drivetrain {
 
         times.reset();
         //raise lift
-        while (getEncoderL() < 390 && times.milliseconds() < 2000) {
+        while (getEncoderL() < 600 && times.milliseconds() < 3000) {
             startMotors(-.35, 0);
         }
         stopMotors();
@@ -62,12 +69,13 @@ public class Drivetrain {
         Thread.sleep(1000);
 
         //move lift to unhang
-        lift.move(1, 400);
+        lift.move(1, 350);
         Thread.sleep(500);
         move(.2, 1);
         Thread.sleep(500);
 //        lift.move(-.5, 50);
 //        Thread.sleep(500);
+        lift.moveTime(-.25, 1000);
         stopMotors();
     }
 

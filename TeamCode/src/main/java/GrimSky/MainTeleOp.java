@@ -137,13 +137,13 @@ public class MainTeleOp extends GrimSkyOpMode{
         //=========================== OUTPUT =======================================================
 
         if (gamepad2.right_bumper) {
-            outL();
+            outBackL();
         } else {
             initL();
         }
 
         if (gamepad2.left_bumper){
-            outR();
+            outBackR();
         } else {
             initR();
         }
