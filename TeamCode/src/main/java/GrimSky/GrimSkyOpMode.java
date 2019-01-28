@@ -88,7 +88,7 @@ public abstract class GrimSkyOpMode extends OpMode{
 
         marker.setPosition(.85);
         basketsInit();
-        pivotMid();
+        pivotDown();
 
         telemetry.addData("init ", "completed");
         telemetry.update();
@@ -117,7 +117,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void initL(){
-        basketL.setPosition(.44);
+        basketL.setPosition(.41);
     }
 
     public void initR(){
@@ -188,7 +188,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotDown(){
-        pivotR.setPosition(.18);
+        pivotR.setPosition(.2);
         pivotL.setPosition(.82);
     }
 

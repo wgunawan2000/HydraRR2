@@ -18,7 +18,9 @@ public class TestAnything extends LinearOpMode {
     private Sensors sensors;
     private Marker marker;
     private Lift lift;
+    private Intake intake;
     private ElapsedTime runtime = new ElapsedTime();
+    private GoldDetectorVuforia sample;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -27,6 +29,8 @@ public class TestAnything extends LinearOpMode {
         sensors = new Sensors(this);
         marker = new Marker(this);
         lift = new Lift(this);
+        intake = new Intake(this);
+        sample = new GoldDetectorVuforia(this);
 
         waitForStart();
 
@@ -34,14 +38,10 @@ public class TestAnything extends LinearOpMode {
 
         runtime.reset();
 
-        drivetrain.turnPD(25 + offset, .55, .6, 3);
-        sleep(250);
-        drivetrain.moveGyro(.3, 30, 25 + offset);
-        drivetrain.arcturnPD(-55 + offset, .8, 1.2, 4);
-        drivetrain.moveGyro(.5, 5, -45 + offset);
-        drivetrain.arcturnPD(45 + offset, .8, 1.2, 4);
-        sleep(500);
-        drivetrain.move(-.3, 4);
+        while (runtime.seconds() < 30){
+            telemetry.addData("pos", sample.getCubePos());
+
+        }
 
     }
 

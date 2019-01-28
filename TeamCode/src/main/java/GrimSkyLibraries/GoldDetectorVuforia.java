@@ -67,7 +67,7 @@ public class GoldDetectorVuforia extends LinearOpMode {
         ArrayList<Integer> xValues = new ArrayList<>();
         ArrayList<Integer> yValues = new ArrayList<>();
         // (0,0) = top left
-        for (int y = (int)((1.0/6) * rgbImage.getHeight()); y < rgbImage.getHeight(); y += 2) {
+        for (int y = 0; y < (int) ((rgbImage.getHeight() / 3)); y += 2) {
             for (int x = 0; x < rgbImage.getWidth(); x += 2) {
                 int pixel = rgbImage.getPixel(x, y);
                 red += red(pixel);
@@ -90,14 +90,14 @@ public class GoldDetectorVuforia extends LinearOpMode {
         avgX /= xValues.size();
         avgY /= yValues.size();
 
-        if (cubePixelCount < 50 || avgX < 50){
+        if (cubePixelCount < 50){
             pos = "left";
         }
-        else if (avgX > .5 * rgbImage.getWidth()){
-            pos = "right";
+        else if (avgX > .4 * rgbImage.getWidth()){
+            pos = "center";
         }
         else{
-            pos = "center";
+            pos = "right";
         }
 
         return pos;

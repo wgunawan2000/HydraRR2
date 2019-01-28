@@ -12,7 +12,7 @@ public class Marker {
         marker = this.opMode.hardwareMap.servo.get("Marker");
         this.opMode.telemetry.addData("init", "init finished");
         this.opMode.telemetry.update();
-        Up();
+        Back();
     }
 
     public void Up() {

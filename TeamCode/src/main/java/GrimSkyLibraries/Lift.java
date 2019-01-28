@@ -58,7 +58,7 @@ public class Lift {
     }
 
     public void initL(){
-        basketL.setPosition(.44);
+        basketL.setPosition(.41);
     }
 
     public void initR(){

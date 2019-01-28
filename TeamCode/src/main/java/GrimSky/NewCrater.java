@@ -18,8 +18,8 @@ import GrimSkyLibraries.Sensors;
 
 //C:\Users\Avi\AppData\Local\Android\sdk\platform-tools
 
-@Autonomous(name = "NewDepot", group = "LinearOpMode")
-public class NewDepot extends LinearOpMode {
+@Autonomous(name = "NewCrater", group = "LinearOpMode")
+public class NewCrater extends LinearOpMode {
 
     private Drivetrain drivetrain;
     private Sensors sensors;
@@ -40,7 +40,7 @@ public class NewDepot extends LinearOpMode {
         intake = new Intake(this);
         sample = new GoldDetectorVuforia(this);
 
-        int offset = 135;
+        int offset = -135;
 
         while (!isStarted()) {
             cubePos = sample.getCubePos();
@@ -74,7 +74,8 @@ public class NewDepot extends LinearOpMode {
             intake.pivotMid();
             intake.move(-.8, 29);
             sleep(1000);
-            drivetrain.turnPD(-46 + offset, .8, .75, 3);
+            drivetrain.moveGyro(.5, 10, -27 + offset);
+            drivetrain.arcturnPD(-90 + offset, .8, .8, 4);
 
         } else if (cubePos.equals("center")) {
             drivetrain.turnPD(0 + offset, .25, .3, 4);
@@ -87,8 +88,8 @@ public class NewDepot extends LinearOpMode {
             intake.pivotMid();
             intake.move(-.8, 23);
             sleep(1000);
-            drivetrain.turnPD(-46 + offset, .55, .5, 4);
-
+            drivetrain.moveGyro(.5, 5, 0 + offset);
+            drivetrain.arcturnPD(-90 + offset, .8, .8, 4);
 
         } else {
             drivetrain.turnPD(27 + offset, .65, .6, 4);
@@ -101,7 +102,8 @@ public class NewDepot extends LinearOpMode {
             intake.pivotMid();
             intake.move(-.8, 29);
             sleep(1000);
-            drivetrain.turnPD(-46 + offset, .45, .4, 5);
+            drivetrain.moveGyro(.5, 5, 27 + offset);
+            drivetrain.arcturnPD(-90 + offset, .8, .8, 4);
         }
 
         //==================================== MARKER DEPOSIT ======================================
@@ -118,17 +120,5 @@ public class NewDepot extends LinearOpMode {
         Thread.sleep(500);
         intake.move(1, 25);
         intake.pivotDown();
-        //======================================= PARK =============================================
-
     }
-
-
-    public void sleep(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (Exception e) {
-
-        }
-    }
-
 }
