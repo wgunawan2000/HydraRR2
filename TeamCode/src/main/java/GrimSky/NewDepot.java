@@ -73,7 +73,7 @@ public class NewDepot extends LinearOpMode {
             drivetrain.turnPD(-46 + offset, .8, .75, 3);
 
         } else if (cubePos.equals("center")) {
-            drivetrain.turnPD(0 + offset, .25, .3, 4);
+            drivetrain.turnPD(0 + offset, .8, .3, 2);
             intake.pivotDown();
             intake.collectionIn();
             intake.move(.8, 18);
@@ -100,11 +100,11 @@ public class NewDepot extends LinearOpMode {
 
         //==================================== MARKER DEPOSIT ======================================
         sleep(1000);
-        drivetrain.moveGyro(.5, 45, -45 + offset);
+        drivetrain.moveGyro(.5, 45, -46 + offset);
         drivetrain.arcturnPD(-135 + offset, .8, .8, 2);
         sleep(1000);
         drivetrain.wallRollR(-.5, 65);
-        lift.moveMarker(1, 600);
+        lift.moveMarker(1, 500);
         lift.markerOut();
         sleep(500);
         lift.basketsInit();

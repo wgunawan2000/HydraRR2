@@ -75,7 +75,7 @@ public class Drivetrain {
         Thread.sleep(500);
 //        lift.move(-.5, 50);
 //        Thread.sleep(500);
-        lift.moveTime(-.25, 1000);
+        lift.moveTime(-.25, 500);
         stopMotors();
     }
 

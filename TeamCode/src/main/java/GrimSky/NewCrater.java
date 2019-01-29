@@ -53,8 +53,6 @@ public class NewCrater extends LinearOpMode {
 
         waitForStart();
 
-        cubePos = "left";
-
 
         //=========================== UNHANG =======================================================
         drivetrain.unhang();
@@ -77,9 +75,9 @@ public class NewCrater extends LinearOpMode {
             drivetrain.turnPD(0 + offset, .25, .3, 4);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 18);
+            intake.move(.8, 16);
             sleep(1000);
-            intake.move(.8, 8);
+            intake.move(.8, 10);
             sleep(1000);
             intake.pivotMid();
             intake.move(-.8, 23);
