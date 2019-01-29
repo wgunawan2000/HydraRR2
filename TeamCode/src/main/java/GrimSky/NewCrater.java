@@ -58,11 +58,9 @@ public class NewCrater extends LinearOpMode {
 
         //=========================== UNHANG =======================================================
         drivetrain.unhang();
-
-        //=========================== INITIAL TURN AND SCAN ========================================
         sleep(1000);
 
-        //=================== HIT MINERAL AND GO TO DEPOT ==========================================
+        //=================== COLLECT MINERAL AND GO TO DEPOT ======================================
         if (cubePos.equals("left")) {
             drivetrain.turnPD(-27 + offset, .65, .6, 4);
             intake.pivotDown();
@@ -112,6 +110,7 @@ public class NewCrater extends LinearOpMode {
         lift.outBackR();
         sleep(1001);
         lift.basketsInit();
+        //====================================== PARK ==============================================
         drivetrain.wallRollR(1, 80);
         Thread.sleep(500);
         intake.move(1, 25);
