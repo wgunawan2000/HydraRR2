@@ -90,10 +90,16 @@ public class GoldDetectorVuforia extends LinearOpMode {
         avgX /= xValues.size();
         avgY /= yValues.size();
 
+        opMode.telemetry.addData("cubePixelCount", cubePixelCount);
+        opMode.telemetry.addData("avgX", avgX);
+        opMode.telemetry.addData("pos", pos);
+        opMode.telemetry.update();
+        sleep(1000);
+
         if (cubePixelCount < 50){
             pos = "left";
         }
-        else if (avgX > .4 * rgbImage.getWidth()){
+        else if (avgX > 288){
             pos = "center";
         }
         else{

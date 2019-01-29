@@ -53,8 +53,6 @@ public class NewDepot extends LinearOpMode {
 
         waitForStart();
 
-        cubePos = "left";
-
 
         //=========================== UNHANG =======================================================
         drivetrain.unhang();
@@ -67,12 +65,12 @@ public class NewDepot extends LinearOpMode {
             drivetrain.turnPD(-27 + offset, .65, .6, 4);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 20);
+            intake.move(.8, 22);
             sleep(1000);
             intake.move(.8, 8);
             sleep(1000);
             intake.pivotMid();
-            intake.move(-.8, 29);
+            intake.move(-.8, 31);
             sleep(1000);
             drivetrain.turnPD(-46 + offset, .8, .75, 3);
 
@@ -80,7 +78,7 @@ public class NewDepot extends LinearOpMode {
             drivetrain.turnPD(0 + offset, .25, .3, 4);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 16);
+            intake.move(.8, 18);
             sleep(1000);
             intake.move(.8, 8);
             sleep(1000);
@@ -88,8 +86,6 @@ public class NewDepot extends LinearOpMode {
             intake.move(-.8, 23);
             sleep(1000);
             drivetrain.turnPD(-46 + offset, .55, .5, 4);
-
-
         } else {
             drivetrain.turnPD(27 + offset, .65, .6, 4);
             intake.pivotDown();
@@ -107,13 +103,14 @@ public class NewDepot extends LinearOpMode {
         //==================================== MARKER DEPOSIT ======================================
         sleep(1000);
         drivetrain.moveGyro(.5, 45, -45 + offset);
-        drivetrain.arcturnPD(-135 + offset, .8, .8, 4);
+        drivetrain.arcturnPD(-135 + offset, .8, .8, 2);
         sleep(1000);
         drivetrain.wallRollR(-.5, 65);
-        lift.move(1, 500);
-        lift.outBackR();
-        sleep(1001);
+        lift.moveMarker(1, 600);
+        lift.markerOut();
+        sleep(500);
         lift.basketsInit();
+        lift.setPower(0);
         drivetrain.wallRollR(1, 80);
         Thread.sleep(500);
         intake.move(1, 25);

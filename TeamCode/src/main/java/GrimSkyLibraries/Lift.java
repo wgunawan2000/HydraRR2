@@ -41,6 +41,10 @@ public class Lift {
         initR();
     }
 
+    public void markerOut() {
+        basketR.setPosition(.1);
+    }
+
     public void outBackL(){
         basketL.setPosition(.79);
     }
@@ -65,6 +69,14 @@ public class Lift {
         basketR.setPosition(.60);
     }
 
+
+    public void moveMarker(double power, double encoder) throws InterruptedException{
+        resetEncoder();
+        while (getEncoder() < encoder) {
+            lift.setPower(power);
+        }
+        lift.setPower(.2);
+    }
     public void move(double power, double encoder) throws InterruptedException{
         resetEncoder();
         while (getEncoder() < encoder) {
@@ -81,6 +93,9 @@ public class Lift {
         lift.setPower(0);
     }
 
+    public void setPower(double power){
+        lift.setPower(power);
+    }
     public int getEncoder(){
         return (Math.abs(lift.getCurrentPosition()));
     }

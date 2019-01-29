@@ -22,8 +22,7 @@ public class MainTeleOp extends GrimSkyOpMode{
 
         if (engaged) {
             rC = 0;
-        }
-        else rC = 1;
+        } else rC = 1;
         if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_x)) > .1) {
             left = gamepad1.left_stick_y - gamepad1.right_stick_x;
             right = gamepad1.left_stick_y + gamepad1.right_stick_x ;

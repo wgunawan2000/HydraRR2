@@ -67,29 +67,26 @@ public class NewCrater extends LinearOpMode {
             drivetrain.turnPD(-27 + offset, .65, .6, 4);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 20);
+            intake.move(.8, 22);
             sleep(1000);
             intake.move(.8, 8);
             sleep(1000);
             intake.pivotMid();
-            intake.move(-.8, 29);
+            intake.move(-.8, 31);
             sleep(1000);
-            drivetrain.moveGyro(.5, 10, -27 + offset);
-            drivetrain.arcturnPD(-90 + offset, .8, .8, 4);
-
+            drivetrain.turnPD(-46 + offset, .8, .75, 3);
         } else if (cubePos.equals("center")) {
             drivetrain.turnPD(0 + offset, .25, .3, 4);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 16);
+            intake.move(.8, 18);
             sleep(1000);
             intake.move(.8, 8);
             sleep(1000);
             intake.pivotMid();
             intake.move(-.8, 23);
             sleep(1000);
-            drivetrain.moveGyro(.5, 5, 0 + offset);
-            drivetrain.arcturnPD(-90 + offset, .8, .8, 4);
+            drivetrain.turnPD(-46 + offset, .55, .5, 4);
 
         } else {
             drivetrain.turnPD(27 + offset, .65, .6, 4);
@@ -102,8 +99,7 @@ public class NewCrater extends LinearOpMode {
             intake.pivotMid();
             intake.move(-.8, 29);
             sleep(1000);
-            drivetrain.moveGyro(.5, 5, 27 + offset);
-            drivetrain.arcturnPD(-90 + offset, .8, .8, 4);
+            drivetrain.turnPD(-46 + offset, .45, .4, 5);
         }
 
         //==================================== MARKER DEPOSIT ======================================
