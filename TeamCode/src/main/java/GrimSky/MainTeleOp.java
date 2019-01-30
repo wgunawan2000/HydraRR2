@@ -24,8 +24,8 @@ public class MainTeleOp extends GrimSkyOpMode{
             rC = 0;
         } else rC = 1;
         if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_x)) > .1) {
-            left = gamepad1.left_stick_y - gamepad1.right_stick_x;
-            right = gamepad1.left_stick_y + gamepad1.right_stick_x ;
+            left = Math.pow(gamepad1.left_stick_y, 3) - Math.pow(gamepad1.right_stick_x, 3);
+            right = Math.pow(gamepad1.left_stick_y, 3) + Math.pow(gamepad1.right_stick_x, 3);
             max = Math.max(Math.abs(left), Math.abs(right));
             if (max > 1.0) {
                 left /= max;
