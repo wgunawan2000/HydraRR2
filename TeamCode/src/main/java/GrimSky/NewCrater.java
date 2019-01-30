@@ -70,7 +70,7 @@ public class NewCrater extends LinearOpMode {
             intake.pivotMid();
             intake.move(-.8, 31);
             sleep(1000);
-            drivetrain.turnPD(-46 + offset, .8, .75, 3);
+            drivetrain.turnPD(-100 + offset, .45, .4, 5);
         } else if (cubePos.equals("center")) {
             drivetrain.turnPD(0 + offset, .25, .3, 4);
             intake.pivotDown();
@@ -82,8 +82,7 @@ public class NewCrater extends LinearOpMode {
             intake.pivotMid();
             intake.move(-.8, 23);
             sleep(1000);
-            drivetrain.turnPD(-46 + offset, .55, .5, 4);
-
+            drivetrain.turnPD(-100 + offset, .42, .38, 5);
         } else {
             drivetrain.turnPD(27 + offset, .65, .6, 4);
             intake.pivotDown();
@@ -95,23 +94,14 @@ public class NewCrater extends LinearOpMode {
             intake.pivotMid();
             intake.move(-.8, 29);
             sleep(1000);
-            drivetrain.turnPD(-46 + offset, .45, .4, 5);
+            drivetrain.turnPD(-100 + offset, .4, .35, 5);
         }
-
-        //==================================== MARKER DEPOSIT ======================================
         sleep(1000);
-        drivetrain.moveGyro(.5, 45, -45 + offset);
-        drivetrain.arcturnPD(-135 + offset, .8, .8, 4);
+        drivetrain.moveGyro(-.5, 45, -100 + offset);
+        drivetrain.arcturnBackPD(-45 + offset, 1.2,.8,2.5);
         sleep(1000);
-        drivetrain.wallRollR(-.5, 65);
-        lift.move(1, 500);
-        lift.outBackR();
-        sleep(1001);
-        lift.basketsInit();
-        //====================================== PARK ==============================================
-        drivetrain.wallRollR(1, 80);
-        Thread.sleep(500);
-        intake.move(1, 25);
+        drivetrain.wallRollR(1, 20);
+        intake.move(.5, 25);
         intake.pivotDown();
     }
 }
