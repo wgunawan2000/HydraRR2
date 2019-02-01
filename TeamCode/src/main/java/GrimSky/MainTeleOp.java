@@ -8,6 +8,9 @@ public class MainTeleOp extends GrimSkyOpMode{
 
     //keeps track of whether or not the lift is raised
     boolean liftIsUp = false;
+    boolean collectingIn = false;
+    boolean collectingOut = false;
+    boolean collectingStop = false;
     boolean engaged = false;
     double rC = 1;
     double iC = 1;
@@ -44,7 +47,7 @@ public class MainTeleOp extends GrimSkyOpMode{
                 liftIsUp = false;
                 basketsInit();
             }
-            setLift(gamepad2.left_stick_y * 1);
+            setLift(gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
         }
         else if (Math.abs(gamepad2.right_stick_y) > .1){
             if(gamepad2.right_stick_y > .1) {
@@ -108,15 +111,46 @@ public class MainTeleOp extends GrimSkyOpMode{
             pivotMid();
         }
 
-        if (gamepad1.right_trigger > .1) {
-            collectionIn(iC);
+        if (gamepad1.right_trigger > .1 && gamepad1.left_trigger > .1){
+            collectingIn = false;
+            collectingOut = true;
+            collectingStop = false;
+        } else if (gamepad1.right_trigger > .1) {
+            collectingIn = true;
+            collectingOut = false;
+            collectingStop = false;
+        } else if (gamepad1.left_trigger > .1) {
+            collectingIn = false;
+            collectingOut = false;
+            collectingStop = true;
         }
-        else if (gamepad1.left_trigger > .1) {
-            collectionOut();
-        }
-        else {
+
+        if(collectingStop) {
             collectionStop();
         }
+
+        if(collectingIn) {
+            collectionIn(iC);
+        }
+
+        if(collectingOut) {
+            collectionOut();
+        }
+//
+//        if (gamepad1.right_trigger > .1){
+//            collectionIn(iC);
+//        }
+//        else if (gamepad1.left_trigger > .1) {
+//            collectionOut();
+//        }
+//        else {
+//            collectionStop();
+//        }
+//
+//        if(gamepad1.left_trigger > .1) {
+//
+//        }
+
 
         if (gamepad1.dpad_left) {
             while(gamepad1.dpad_left);
