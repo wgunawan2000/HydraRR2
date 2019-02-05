@@ -60,42 +60,39 @@ public class NewDepot extends LinearOpMode {
 
         //======================= COLLECT MINERAL AND TURN =========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPD(-27 + offset, .65, .6, 4);
+            drivetrain.turnPD(-27 + offset, .75, .65, 2);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 22);
+            intake.move(1, 22, 1.25);
             sleep(1000);
-            intake.move(.8, 8);
+            intake.move(1, 25, 1.5);
             sleep(1000);
             intake.pivotMid();
-            intake.move(-.8, 31);
-            sleep(1000);
+            intake.move(-1, 45, 2);
             drivetrain.turnPD(-46 + offset, .8, .75, 3);
 
         } else if (cubePos.equals("center")) {
             drivetrain.turnPD(0 + offset, .8, .3, 2);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 18);
+            intake.move(1, 18, 1.25);
             sleep(1000);
-            intake.move(.8, 8);
+            intake.move(1, 16, 1);
             sleep(1000);
             intake.pivotMid();
-            intake.move(-.8, 23);
-            sleep(1000);
-            drivetrain.turnPD(-46 + offset, .55, .5, 4);
+            intake.move(-1, 36, 2);
+            drivetrain.turnPD(-46 + offset, .55, .5, 3);
         } else {
-            drivetrain.turnPD(27 + offset, .65, .6, 4);
+            drivetrain.turnPD(27 + offset, .75, .65, 2);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 20);
+            intake.move(1, 22, 1.25);
             sleep(1000);
-            intake.move(.8, 10);
+            intake.move(1, 25, 1.5);
             sleep(1000);
             intake.pivotMid();
-            intake.move(-.8, 29);
-            sleep(1000);
-            drivetrain.turnPD(-46 + offset, .45, .4, 5);
+            intake.move(-1, 45, 2);
+            drivetrain.turnPD(-46 + offset, .45, .4, 3);
         }
 
         //==================================== MARKER DEPOSIT ======================================
@@ -106,17 +103,14 @@ public class NewDepot extends LinearOpMode {
         drivetrain.wallRollR(-.5, 65);
         lift.moveMarker(1, 500);
         lift.markerOut();
-        sleep(500);
+        sleep(1000);
         lift.basketsInit();
         lift.setPower(0);
 
         //======================================= PARK =============================================
         drivetrain.wallRollR(1, 80);
-        Thread.sleep(500);
-        intake.move(1, 25);
+        intake.move(1, 25, 2);
         intake.pivotDown();
-
-
     }
 
 

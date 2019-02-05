@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Intake {
     public DcMotor intake;
@@ -13,7 +14,7 @@ public class Intake {
     public Servo pivotR;
     public Servo pivotL;
     LinearOpMode opMode;
-
+    ElapsedTime times;
     public Intake(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
         intake = this.opMode.hardwareMap.dcMotor.get("intake");
@@ -22,15 +23,20 @@ public class Intake {
         pivotR = this.opMode.hardwareMap.servo.get("pivotR");
         pivotL = this.opMode.hardwareMap.servo.get("pivotL");
         pivotInit();
+        times = new ElapsedTime();
     }
 
     public void intakeMotorStop() {
         intake.setPower(0);
     }
 
-    public void move(double power, double inches) throws InterruptedException{
+    public void initMove(double power){
+        intake.setPower(power);
+    }
+    public void move(double power, double inches, double timeout) throws InterruptedException{
         resetEncoder();
-        while(getEncoder() < inches*25) {
+        times.reset();
+        while(getEncoder() < inches*25 && times.seconds() < timeout) {
             intake.setPower(power);
         }
         intake.setPower(0);
@@ -88,4 +94,5 @@ public class Intake {
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         opMode.idle();
     }
+
 }

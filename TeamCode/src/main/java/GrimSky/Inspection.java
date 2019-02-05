@@ -10,6 +10,8 @@ import com.sun.tools.javac.Main;
 import java.util.ArrayList;
 
 import GrimSkyLibraries.Drivetrain;
+import GrimSkyLibraries.GoldDetectorVuforia;
+import GrimSkyLibraries.Intake;
 import GrimSkyLibraries.Lift;
 import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
@@ -18,14 +20,29 @@ import GrimSkyLibraries.Sensors;
 public class Inspection extends LinearOpMode{
 
     private Drivetrain drivetrain;
+    private Sensors sensors;
     private Marker marker;
+    private Lift lift;
+    private Intake intake;
+    private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException{
+
         drivetrain = new Drivetrain(this);
+        sensors = new Sensors(this);
         marker = new Marker(this);
+        lift = new Lift(this);
+        intake = new Intake(this);
 
         marker.Up();
+
+//        while (!isStarted()){
+//            intake.initMove(-.3);
+//        }
+//
+//        intake.intakeMotorStop();
+
         waitForStart();
 
         drivetrain.resetEncoders();

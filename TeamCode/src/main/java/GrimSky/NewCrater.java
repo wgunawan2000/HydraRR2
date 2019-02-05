@@ -58,50 +58,35 @@ public class NewCrater extends LinearOpMode {
         drivetrain.unhang();
         sleep(1000);
 
-        //=================== COLLECT MINERAL AND GO TO DEPOT ======================================
+        //======================= COLLECT MINERAL AND TURN =========================================
         if (cubePos.equals("left")) {
             drivetrain.turnPD(-27 + offset, .65, .6, 4);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 22);
+            intake.move(.8, 22, 3);
             sleep(1000);
-            intake.move(.8, 8);
+            intake.move(.8, 15, 3);
             sleep(1000);
             intake.pivotMid();
-            intake.move(-.8, 31);
-            sleep(1000);
-            drivetrain.turnPD(-100 + offset, .45, .4, 5);
         } else if (cubePos.equals("center")) {
-            drivetrain.turnPD(0 + offset, .25, .3, 4);
+            drivetrain.turnPD(0 + offset, .8, .3, 2);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 16);
+            intake.move(.8, 18, 3);
             sleep(1000);
-            intake.move(.8, 10);
+            intake.move(.8, 16, 3);
             sleep(1000);
             intake.pivotMid();
-            intake.move(-.8, 23);
-            sleep(1000);
-            drivetrain.turnPD(-100 + offset, .42, .38, 5);
         } else {
             drivetrain.turnPD(27 + offset, .65, .6, 4);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(.8, 20);
+            intake.move(.8, 22, 3);
             sleep(1000);
-            intake.move(.8, 10);
+            intake.move(.8, 15, 3);
             sleep(1000);
             intake.pivotMid();
-            intake.move(-.8, 29);
-            sleep(1000);
-            drivetrain.turnPD(-100 + offset, .4, .35, 5);
         }
-        sleep(1000);
-        drivetrain.moveGyro(-.5, 45, -100 + offset);
-        drivetrain.arcturnBackPD(-45 + offset, 1.2,.8,2.5);
-        sleep(1000);
-        drivetrain.wallRollR(1, 20);
-        intake.move(.5, 25);
-        intake.pivotDown();
+        drivetrain.move(.4, 15);
     }
 }

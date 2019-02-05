@@ -12,6 +12,7 @@ public class MainTeleOp extends GrimSkyOpMode{
     boolean collectingOut = false;
     boolean collectingStop = false;
     boolean engaged = false;
+    boolean tank = false;
     double rC = 1;
     double iC = 1;
 
@@ -26,20 +27,33 @@ public class MainTeleOp extends GrimSkyOpMode{
         if (engaged) {
             rC = 0;
         } else rC = 1;
-        if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_x)) > .1) {
-            left = (gamepad1.left_stick_y* Math.abs(gamepad1.left_stick_y)) - (gamepad1.right_stick_x* Math.abs(gamepad1.right_stick_x));
-            right = (gamepad1.left_stick_y* Math.abs(gamepad1.left_stick_y)) + (gamepad1.right_stick_x* Math.abs(gamepad1.right_stick_x));
-            max = Math.max(Math.abs(left), Math.abs(right));
-            if (max > 1.0) {
-                left /= max;
-                right /= max;
-            }
-            startMotors(left * sC, right * sC * rC);
-        }
-        else {
-            stopMotors();
+
+
+        if (gamepad1.left_stick_button){
+            while(gamepad1.left_stick_button);
+            tank = !tank;
         }
 
+        if (tank) {
+            if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_y)) > .1){
+                startMotors(gamepad1.left_stick_y * sC, gamepad1.right_stick_y * sC);
+            } else {
+                stopMotors();
+            }
+        } else {
+            if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_x)) > .1) {
+                left = (gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y)) - (gamepad1.right_stick_x * Math.abs(gamepad1.right_stick_x));
+                right = (gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y)) + (gamepad1.right_stick_x * Math.abs(gamepad1.right_stick_x));
+                max = Math.max(Math.abs(left), Math.abs(right));
+                if (max > 1.0) {
+                    left /= max;
+                    right /= max;
+                }
+                startMotors(left * sC, right * sC * rC);
+            } else {
+                stopMotors();
+            }
+        }
         //==================================== LIFT ================================================
         if (Math.abs(gamepad2.left_stick_y) > .1) {
             if(gamepad2.left_stick_y < .1) liftIsUp = true;
