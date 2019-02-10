@@ -2,6 +2,7 @@ package GrimSky;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "MainTeleOp", group = "opMode")
 public class MainTeleOp extends GrimSkyOpMode{
@@ -14,7 +15,6 @@ public class MainTeleOp extends GrimSkyOpMode{
     boolean engaged = false;
     boolean tank = false;
     double rC = 1;
-    double iC = 1;
 
     public void loop() {
         //================================= DRIVE ==================================================
@@ -56,19 +56,22 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
         //==================================== LIFT ================================================
         if (Math.abs(gamepad2.left_stick_y) > .1) {
-            if(gamepad2.left_stick_y < .1) liftIsUp = true;
+            if(gamepad2.left_stick_y < .1) {
+                liftIsUp = true;
+                setLift(gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
+            }
             if(gamepad2.left_stick_y > .1) {
                 liftIsUp = false;
                 basketsInit();
+                setLift(gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y) * .5);
             }
-            setLift(gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
         }
         else if (Math.abs(gamepad2.right_stick_y) > .1){
             if(gamepad2.right_stick_y > .1) {
                 liftIsUp = false;
                 basketsInit();
             }
-            setLift(gamepad2.right_stick_y * .5);
+            setLift(gamepad2.right_stick_y * .65);
         }
         else {
             lift.setPower(0);
@@ -103,7 +106,7 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
 
         // ========================== INTAKE =======================================================
-        if (gamepad2.right_trigger > .1) {
+        if (gamepad2.right_trigger > .1 || gamepad1.right_bumper) {
             extend(gamepad2.right_trigger);
         } else if (gamepad2.left_trigger > .1) {
             retract(gamepad2.left_trigger);
@@ -113,12 +116,12 @@ public class MainTeleOp extends GrimSkyOpMode{
 
         if (gamepad2.y){
             pivotUp();
-            iC = .5;
+            transitionL();
+            transitionR();
         }
 
         if (gamepad2.b){
             pivotDown();
-            iC = 1;
         }
 
         if (gamepad2.a){
@@ -144,7 +147,7 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
 
         if(collectingIn) {
-            collectionIn(iC);
+            collectionIn();
         }
 
         if(collectingOut) {
@@ -168,31 +171,30 @@ public class MainTeleOp extends GrimSkyOpMode{
 
         if (gamepad1.dpad_left) {
             while(gamepad1.dpad_left);
-            pivotIntakeL();
+            pivotBasketL();
             telemetry.addData("left  ", pivotL.getPosition());
+            telemetry.addData("right  ", pivotR.getPosition());
             telemetry.update();
+
         }
 
         if(gamepad1.dpad_right){
             while(gamepad1.dpad_right);
-            pivotIntakeR();
-            telemetry.addData("right  ", pivotR.getPosition());
-            telemetry.update();
+            pivotBasketR();
+
         }
 
         //=========================== OUTPUT =======================================================
 
         if (gamepad2.right_bumper) {
             outBackL();
-        } else {
-            initL();
-        }
-
-        if (gamepad2.left_bumper){
             outBackR();
-        } else {
+        }
+        else if (gamepad2.left_bumper){
+            initL();
             initR();
         }
+
     }
 
 }

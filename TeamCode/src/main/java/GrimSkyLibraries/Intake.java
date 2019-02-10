@@ -58,7 +58,7 @@ public class Intake {
     }
 
     public void pivotDown(){
-        pivotR.setPosition(.18);
+        pivotR.setPosition(.2);
         pivotL.setPosition(.82);
     }
 
@@ -68,13 +68,13 @@ public class Intake {
     }
 
     public void pivotInit(){
-        pivotR.setPosition(.74);
-        pivotL.setPosition(.29);
+        pivotR.setPosition(.78);
+        pivotL.setPosition(.25);
     }
 
     public void pivotUp(){
-        pivotR.setPosition(.84);
-        pivotL.setPosition(.19);
+        pivotR.setPosition(.72);
+        pivotL.setPosition(.29);
     }
 
     public void pivotIntakeL(){

@@ -30,6 +30,8 @@ public abstract class GrimSkyOpMode extends OpMode{
     Servo basketL;
     Servo basketR;
 
+    double L = 1;
+    double R = .1;
 
     GrimSkyOpMode opMode;
 
@@ -101,11 +103,19 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void outBackL(){
-        basketL.setPosition(.77);
+        basketL.setPosition(.37);
     }
 
     public void outBackR(){
-        basketR.setPosition(.22);
+        basketR.setPosition(.66);
+    }
+
+    public void outMidL(){
+        basketL.setPosition(.67);
+    }
+
+    public void outMidR(){
+        basketR.setPosition(.3);
     }
 
     public void outFrontL(){
@@ -116,20 +126,30 @@ public abstract class GrimSkyOpMode extends OpMode{
         basketR.setPosition(.98);
     }
 
+    public void transitionL(){
+        basketL.setPosition(.92);
+    }
+
+    public void transitionR(){
+        basketR.setPosition(.11);
+    }
+
     public void initL(){
-        basketL.setPosition(.41);
+        basketL.setPosition(.88);
     }
 
     public void initR(){
-        basketR.setPosition(.60);
+        basketR.setPosition(.15);
     }
 
-    public void pivotIntakeL(){
-        pivotL.setPosition(pivotL.getPosition()+.01);
+    public void pivotBasketL(){
+        pivotL.setPosition(pivotL.getPosition() - .01);
+        pivotR.setPosition(pivotR.getPosition() + .01);
+
     }
 
-    public void pivotIntakeR(){
-        pivotR.setPosition(pivotR.getPosition()-.01);
+    public void pivotBasketR(){
+
     }
     //================================== DRIVETRAIN/LIFT/INTAKE ====================================
     public void startMotors(double l, double r){
@@ -177,9 +197,9 @@ public abstract class GrimSkyOpMode extends OpMode{
         collectionL.setPower(.3);
     }
 
-    public void collectionIn(double intakeConstant){
-        collectionR.setPower(.4 * intakeConstant);
-        collectionL.setPower(-.4 * intakeConstant);
+    public void collectionIn(){
+        collectionR.setPower(.4);
+        collectionL.setPower(-.4);
     }
 
     public void collectionStop(){
@@ -193,8 +213,8 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotMid(){
-        pivotR.setPosition(.52);
-        pivotL.setPosition(.52);
+        pivotR.setPosition(.38);
+        pivotL.setPosition(.65);
     }
 
     public void pivotInit(){
@@ -203,8 +223,8 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotUp(){
-        pivotR.setPosition(.85);
-        pivotL.setPosition(.19);
+        pivotR.setPosition(.72);
+        pivotL.setPosition(.29);
     }
 
 }

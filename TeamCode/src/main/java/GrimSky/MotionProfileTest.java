@@ -50,38 +50,29 @@ public class MotionProfileTest extends LinearOpMode {
         double currAccel = 0;
         int currEncoder = 0;
         int prevEncoder = 0;
-        double prevTime = 0;
-        double currTime = 0;
         double accelTime = 0;
+        double prevAccel = 0;
+        double dT = .05;
 
         while(runtime.seconds() < 1.001){
             lift.setPower(1);
             prevEncoder = currEncoder;
             currEncoder = lift.getEncoder();
+            prevAccel = currAccel;
 
-            prevTime = currTime;
-            currTime = runtime.seconds();
-
-            double dT = currTime - prevTime;
             prevVelocity = currVelocity;
             currVelocity = (currEncoder - prevEncoder) / dT;
-
             currAccel = (currVelocity - prevVelocity) / dT;
 
-            if (currVelocity > 4500) {
+            if (currVelocity > maxVelocity){
                 maxVelocity = currVelocity;
-                accelTime = currTime;
-                break;
             }
-
             if (currAccel > maxAccel)
                 maxAccel = currAccel;
-
-
         }
         lift.setPower(0);
         telemetry.addLine("Vmax " + maxVelocity);
-        telemetry.addLine("Amax " + maxVelocity / accelTime);
+        telemetry.addLine("Amax " + maxAccel);
         telemetry.update();
 
     }

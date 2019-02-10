@@ -39,8 +39,7 @@ public class TestAnything extends LinearOpMode {
         runtime.reset();
 
         while (runtime.seconds() < 30){
-            telemetry.addData("pos", sample.getCubePos());
-
+            lift.TMPEncoder(3000);
         }
 
     }

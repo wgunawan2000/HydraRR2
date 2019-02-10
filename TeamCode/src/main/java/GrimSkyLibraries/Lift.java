@@ -46,11 +46,11 @@ public class Lift {
     }
 
     public void outBackL(){
-        basketL.setPosition(.79);
+        basketL.setPosition(.37);
     }
 
     public void outBackR(){
-        basketR.setPosition(.26);
+        basketR.setPosition(.66);
     }
 
     public void outFrontL(){
@@ -62,11 +62,11 @@ public class Lift {
     }
 
     public void initL(){
-        basketL.setPosition(.41);
+        basketL.setPosition(.88);
     }
 
     public void initR(){
-        basketR.setPosition(.60);
+        basketR.setPosition(.15);
     }
 
 
@@ -95,6 +95,37 @@ public class Lift {
 
     public void setPower(double power){
         lift.setPower(power);
+    }
+
+    public void TMPEncoder(double distance) throws InterruptedException{
+        resetEncoder();
+        double dT = .05;
+        double MAX_VELOCITY = 0;
+        double MAX_ACCEL = 0;
+        double ACCEL_TIME = MAX_VELOCITY / MAX_ACCEL;
+        double CRUISE_TIME = (distance - MAX_ACCEL * Math.pow(ACCEL_TIME, 2)) / MAX_VELOCITY;
+        //if the profile is triangular
+        if (CRUISE_TIME < 0) {
+            CRUISE_TIME = 0;
+            ACCEL_TIME = Math.sqrt(distance / MAX_ACCEL) / 2;
+        }
+        double TOTAL_TIME = 2 * ACCEL_TIME + CRUISE_TIME;
+        double t = 0;
+        double power = 0;
+        times.reset();
+        while((t = times.seconds()) < TOTAL_TIME){
+            if (t <= ACCEL_TIME){
+                lift.setPower((power += MAX_ACCEL * dT) / MAX_VELOCITY);
+            }
+            else if (t <= ACCEL_TIME + CRUISE_TIME){
+                lift.setPower(1);
+            }
+            else if (t <= TOTAL_TIME){
+                lift.setPower((power -= MAX_ACCEL * dT) / MAX_VELOCITY);
+            }
+            opMode.telemetry.addLine("power " + lift.getPower());
+            opMode.telemetry.update();
+        }
     }
     public int getEncoder(){
         return (Math.abs(lift.getCurrentPosition()));
