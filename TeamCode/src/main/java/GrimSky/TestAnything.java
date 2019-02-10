@@ -37,9 +37,11 @@ public class TestAnything extends LinearOpMode {
         int offset = 0;
 
         runtime.reset();
+        lift.resetEncoder();
 
         while (runtime.seconds() < 30){
-            lift.TMPEncoder(3000);
+            telemetry.addLine("encoders:" + lift.getEncoder());
+            telemetry.update();
         }
 
     }
