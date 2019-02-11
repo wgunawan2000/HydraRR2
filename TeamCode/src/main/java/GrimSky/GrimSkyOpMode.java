@@ -32,11 +32,10 @@ public abstract class GrimSkyOpMode extends OpMode{
 
     double L = 1;
     double R = .1;
+    boolean liftIsUp = false;
 
-    GrimSkyOpMode opMode;
 
     public void init() {
-
         FR = hardwareMap.dcMotor.get("FR");
         FL = hardwareMap.dcMotor.get("FL");
         BR = hardwareMap.dcMotor.get("BR");
@@ -226,5 +225,34 @@ public abstract class GrimSkyOpMode extends OpMode{
         pivotR.setPosition(.72);
         pivotL.setPosition(.29);
     }
+
+    public int getLiftEncoder(){
+        return (Math.abs(lift.getCurrentPosition()));
+    }
+
+    void activateLift() {
+        setLift(1);
+    }
+
+    void unactivateLift() {
+        setLift(0);
+    }
+
+    private Runnable moveLift = new Runnable() {
+
+        @Override
+        public void run() {
+            while(liftIsUp) {
+                while(getLiftEncoder() < 14000) {
+                    setLift(1);
+                }
+                setLift(.2);
+
+                if(Thread.currentThread().isInterrupted())
+                    liftIsUp = false;
+            }
+            Thread.currentThread().interrupt();
+        }
+    };
 
 }

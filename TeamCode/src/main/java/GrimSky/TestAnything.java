@@ -39,10 +39,7 @@ public class TestAnything extends LinearOpMode {
         runtime.reset();
         lift.resetEncoder();
 
-        while (runtime.seconds() < 30){
-            telemetry.addLine("encoders:" + lift.getEncoder());
-            telemetry.update();
-        }
+        lift.moveMarker(1, 1350);
 
     }
 

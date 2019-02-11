@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.sun.tools.javac.Main;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import GrimSkyLibraries.Drivetrain;
@@ -43,6 +44,7 @@ public class MotionProfileTest extends LinearOpMode {
 
         runtime.reset();
         lift.resetEncoder();
+        double prevTime, currTime = 0;
         double maxVelocity = 0; //7000
         double currVelocity = 0;
         double prevVelocity = 0;
@@ -52,9 +54,13 @@ public class MotionProfileTest extends LinearOpMode {
         int prevEncoder = 0;
         double accelTime = 0;
         double prevAccel = 0;
-        double dT = .05;
+        double dT =.05;
+
+        ArrayList<Double> dTAvg= new ArrayList<Double>();
+
 
         while(runtime.seconds() < 1.001){
+            prevTime = currTime;
             lift.setPower(1);
             prevEncoder = currEncoder;
             currEncoder = lift.getEncoder();
@@ -64,15 +70,18 @@ public class MotionProfileTest extends LinearOpMode {
             currVelocity = (currEncoder - prevEncoder) / dT;
             currAccel = (currVelocity - prevVelocity) / dT;
 
-            if (currVelocity > maxVelocity){
+            if (currVelocity > maxVelocity)
                 maxVelocity = currVelocity;
-            }
+
             if (currAccel > maxAccel)
                 maxAccel = currAccel;
+            currTime = runtime.seconds();
+            dTAvg.add(dT = currTime - prevTime);
         }
         lift.setPower(0);
         telemetry.addLine("Vmax " + maxVelocity);
         telemetry.addLine("Amax " + maxAccel);
+        telemetry.addData("time", dTAvg.size());
         telemetry.update();
 
     }

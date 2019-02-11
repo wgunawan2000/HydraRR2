@@ -8,15 +8,24 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class MainTeleOp extends GrimSkyOpMode{
 
     //keeps track of whether or not the lift is raised
-    boolean liftIsUp = false;
     boolean collectingIn = false;
     boolean collectingOut = false;
     boolean collectingStop = false;
     boolean engaged = false;
     boolean tank = false;
+    boolean intakeOut = false;
     double rC = 1;
 
+
     public void loop() {
+//        if (gamepad1.a)
+//        {
+//            activateLift();
+//            liftIsUp = true;
+//        } else if (gamepad1.b) {
+//            unactivateLift();
+//        }
+
         //================================= DRIVE ==================================================
         //speed constant allows driver 1 to scale the speed of the robot
         double sC = gamepad1.left_bumper ? .5 : 1;
@@ -106,9 +115,16 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
 
         // ========================== INTAKE =======================================================
-        if (gamepad2.right_trigger > .1 || gamepad1.right_bumper) {
-            extend(gamepad2.right_trigger);
-        } else if (gamepad2.left_trigger > .1) {
+        if ((gamepad2.right_trigger > .1) || (gamepad1.right_trigger > .1)) {
+            intakeOut = true;
+            basketsInit();
+            if (gamepad2.right_trigger > .1) {
+                extend(gamepad2.right_trigger);
+            } else {
+                extend(gamepad1.right_trigger);
+            }
+        } else if ((gamepad2.left_trigger > .1)) {
+            intakeOut = false;
             retract(gamepad2.left_trigger);
         } else {
             intakeMotorStop();
@@ -120,7 +136,7 @@ public class MainTeleOp extends GrimSkyOpMode{
             transitionR();
         }
 
-        if (gamepad2.b){
+        if (gamepad2.b || gamepad1.right_bumper){
             pivotDown();
         }
 
@@ -128,31 +144,40 @@ public class MainTeleOp extends GrimSkyOpMode{
             pivotMid();
         }
 
-        if (gamepad1.right_trigger > .1 && gamepad1.left_trigger > .1){
-            collectingIn = false;
-            collectingOut = true;
-            collectingStop = false;
-        } else if (gamepad1.right_trigger > .1) {
-            collectingIn = true;
-            collectingOut = false;
-            collectingStop = false;
-        } else if (gamepad1.left_trigger > .1) {
-            collectingIn = false;
-            collectingOut = false;
-            collectingStop = true;
-        }
-
-        if(collectingStop) {
+        if (gamepad1.a) {
+            collectionIn();
+        } else if (gamepad1.b) {
+            collectionOut();
+        } else if (gamepad1.y) {
             collectionStop();
         }
 
-        if(collectingIn) {
-            collectionIn();
-        }
 
-        if(collectingOut) {
-            collectionOut();
-        }
+//        if (gamepad1.right_trigger > .1 && gamepad1.left_trigger > .1){
+//            collectingIn = false;
+//            collectingOut = true;
+//            collectingStop = false;
+//        } else if (gamepad1.right_trigger > .1) {
+//            collectingIn = true;
+//            collectingOut = false;
+//            collectingStop = false;
+//        } else if (gamepad1.left_trigger > .1) {
+//            collectingIn = false;
+//            collectingOut = false;
+//            collectingStop = true;
+//        }
+//
+//        if(collectingStop) {
+//            collectionStop();
+//        }
+//
+//        if(collectingIn) {
+//            collectionIn();
+//        }
+//
+//        if(collectingOut) {
+//            collectionOut();
+//        }
 //
 //        if (gamepad1.right_trigger > .1){
 //            collectionIn(iC);
@@ -194,7 +219,8 @@ public class MainTeleOp extends GrimSkyOpMode{
             initL();
             initR();
         }
-
+        telemetry.addData("encoders ", getLiftEncoder());
+        telemetry.update();
     }
 
 }
