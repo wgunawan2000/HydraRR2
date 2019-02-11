@@ -122,13 +122,19 @@ public class MainTeleOp extends GrimSkyOpMode{
         if ((gamepad2.right_trigger > .1) || (gamepad1.right_trigger > .1)) {
             liftIsUp = false;
             basketsInit();
+            collectionIn();
             if (gamepad2.right_trigger > .1) {
                 extend(gamepad2.right_trigger);
             } else {
                 extend(gamepad1.right_trigger);
             }
-        } else if ((gamepad2.left_trigger > .1)) {
-            retract(gamepad2.left_trigger);
+        } else if ((gamepad2.left_trigger > .1) || (gamepad1.left_trigger > .1)) {
+            if (gamepad2.left_trigger > .1){
+                retract(gamepad2.left_trigger);
+            } else {
+                collectionOut();
+                retract(gamepad1.left_trigger);
+            }
         } else {
             intakeMotorStop();
         }
@@ -137,6 +143,7 @@ public class MainTeleOp extends GrimSkyOpMode{
             pivotUp();
             transitionL();
             transitionR();
+            collectionStop();
         }
 
         if (gamepad2.b || gamepad1.right_bumper){
@@ -146,15 +153,6 @@ public class MainTeleOp extends GrimSkyOpMode{
         if (gamepad2.a){
             pivotMid();
         }
-
-        if (gamepad1.a) {
-            collectionIn();
-        } else if (gamepad1.b) {
-            collectionOut();
-        } else if (gamepad1.y) {
-            collectionStop();
-        }
-
 
 //        if (gamepad1.right_trigger > .1 && gamepad1.left_trigger > .1){
 //            collectingIn = false;
