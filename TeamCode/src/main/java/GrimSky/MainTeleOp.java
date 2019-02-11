@@ -13,19 +13,9 @@ public class MainTeleOp extends GrimSkyOpMode{
     boolean collectingStop = false;
     boolean engaged = false;
     boolean tank = false;
-    boolean intakeOut = false;
     double rC = 1;
 
-
     public void loop() {
-//        if (gamepad1.a)
-//        {
-//            activateLift();
-//            liftIsUp = true;
-//        } else if (gamepad1.b) {
-//            unactivateLift();
-//        }
-
         //================================= DRIVE ==================================================
         //speed constant allows driver 1 to scale the speed of the robot
         double sC = gamepad1.left_bumper ? .5 : 1;
@@ -64,9 +54,12 @@ public class MainTeleOp extends GrimSkyOpMode{
             }
         }
         //==================================== LIFT ================================================
+        if (gamepad1.a)
+        {
+            liftIsUp = true;
+        }
         if (Math.abs(gamepad2.left_stick_y) > .1) {
             if(gamepad2.left_stick_y < .1) {
-                liftIsUp = true;
                 setLift(gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
             }
             if(gamepad2.left_stick_y > .1) {
@@ -82,8 +75,19 @@ public class MainTeleOp extends GrimSkyOpMode{
             }
             setLift(gamepad2.right_stick_y * .65);
         }
+        if (liftIsUp){
+            if (getLiftEncoder() < 1400){
+                setLift(1);
+            }
+            else
+                setLift(.2);
+        }
         else {
-            lift.setPower(0);
+            if (getLiftEncoder() > 50){
+                setLift(-.35);
+            }
+            else
+                lift.setPower(0);
         }
 
         //================================ PTO =====================================================
@@ -116,7 +120,7 @@ public class MainTeleOp extends GrimSkyOpMode{
 
         // ========================== INTAKE =======================================================
         if ((gamepad2.right_trigger > .1) || (gamepad1.right_trigger > .1)) {
-            intakeOut = true;
+            liftIsUp = false;
             basketsInit();
             if (gamepad2.right_trigger > .1) {
                 extend(gamepad2.right_trigger);
@@ -124,7 +128,6 @@ public class MainTeleOp extends GrimSkyOpMode{
                 extend(gamepad1.right_trigger);
             }
         } else if ((gamepad2.left_trigger > .1)) {
-            intakeOut = false;
             retract(gamepad2.left_trigger);
         } else {
             intakeMotorStop();
