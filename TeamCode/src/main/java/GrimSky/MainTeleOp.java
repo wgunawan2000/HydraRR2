@@ -13,20 +13,21 @@ public class MainTeleOp extends GrimSkyOpMode{
     boolean collectingStop = false;
     boolean engaged = false;
     boolean tank = false;
+    boolean liftIsUp = false;
+    boolean controlLift = false;
     double rC = 1;
 
     public void loop() {
         //================================= DRIVE ==================================================
         //speed constant allows driver 1 to scale the speed of the robot
-        double sC = gamepad1.left_bumper ? .5 : 1;
+        double sC = gamepad1.left_bumper ? .4 : 1;
         double left = 0;
         double right = 0;
         double max;
-
-        if (engaged) {
+        if (engaged)
             rC = 0;
-        } else rC = 1;
-
+        else
+            rC = 1;
 
         if (gamepad1.left_stick_button){
             while(gamepad1.left_stick_button);
@@ -41,8 +42,10 @@ public class MainTeleOp extends GrimSkyOpMode{
             }
         } else {
             if (Math.abs(gamepad1.left_stick_y) > .1 || (Math.abs(gamepad1.right_stick_x)) > .1) {
-                left = (gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y)) - (gamepad1.right_stick_x * Math.abs(gamepad1.right_stick_x));
-                right = (gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y)) + (gamepad1.right_stick_x * Math.abs(gamepad1.right_stick_x));
+                left = (gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y)) -
+                        (gamepad1.right_stick_x * Math.abs(gamepad1.right_stick_x));
+                right = (gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y)) +
+                        (gamepad1.right_stick_x * Math.abs(gamepad1.right_stick_x));
                 max = Math.max(Math.abs(left), Math.abs(right));
                 if (max > 1.0) {
                     left /= max;
@@ -54,44 +57,48 @@ public class MainTeleOp extends GrimSkyOpMode{
             }
         }
         //==================================== LIFT ================================================
-        if (gamepad1.a)
-        {
+        if (Math.abs(gamepad2.left_stick_y) > .1) {
+            if (gamepad2.left_stick_y > .1) {
+                controlLift = true;
+                liftIsUp = false;
+                setLift(.5 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
+            }
+            if (gamepad2.left_stick_y < .1) {
+                collectionStop();
+                setLift(.65 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
+                controlLift = true;
+            }
+        }
+        else if (Math.abs(gamepad2.right_stick_y) > .1) {
+            if (gamepad2.right_stick_y > .1)
+                liftIsUp = false;
+                basketsInit();
+            if (gamepad2.right_stick_y < .1) {
+                collectionStop();
+                setLift(gamepad2.right_stick_y * .75);
+                controlLift = true;
+            }
+        }
+        else if (gamepad2.x) {
+            controlLift = false;
             liftIsUp = true;
         }
-        if (Math.abs(gamepad2.left_stick_y) > .1) {
-            if(gamepad2.left_stick_y < .1) {
-                setLift(gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
-            }
-            if(gamepad2.left_stick_y > .1) {
-                liftIsUp = false;
-                basketsInit();
-                setLift(gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y) * .5);
-            }
+
+        if (liftIsUp && !controlLift) {
+            collectionStop();
+            if (getLiftEncoder() < 1170) {
+                setLift(-1);
+            } else
+                setLift(-.3);
         }
-        else if (Math.abs(gamepad2.right_stick_y) > .1){
-            if(gamepad2.right_stick_y > .1) {
-                liftIsUp = false;
-                basketsInit();
-            }
-            setLift(gamepad2.right_stick_y * .65);
-        }
-        if (liftIsUp){
-            if (getLiftEncoder() < 1400){
-                setLift(1);
-            }
-            else
-                setLift(.2);
-        }
-        else {
-            if (getLiftEncoder() > 50){
-                setLift(-.35);
-            }
-            else
+        else if (!controlLift){
+            if (getLiftEncoder() > 100) {
+                setLift(.35);
+            } else
                 lift.setPower(0);
         }
 
         //================================ PTO =====================================================
-        //macro to engage
         if (gamepad2.dpad_right) {
             pto.setPower(-.2);
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -100,7 +107,6 @@ public class MainTeleOp extends GrimSkyOpMode{
             FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             engaged = true;
         }
-        //disengage
         else if (gamepad2.dpad_left) {
             pto.setPower(.5);
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -112,6 +118,7 @@ public class MainTeleOp extends GrimSkyOpMode{
         else {
             pto.setPower(0);
         }
+
         if (gamepad1.dpad_up) {
             marker.setPosition(0);
         } else {
@@ -119,81 +126,35 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
 
         // ========================== INTAKE =======================================================
-        if ((gamepad2.right_trigger > .1) || (gamepad1.right_trigger > .1)) {
-            liftIsUp = false;
+        if ((gamepad2.right_trigger > .1)) {
             basketsInit();
-            collectionIn();
-            if (gamepad2.right_trigger > .1) {
-                extend(gamepad2.right_trigger);
-            } else {
-                extend(gamepad1.right_trigger);
-            }
-        } else if ((gamepad2.left_trigger > .1) || (gamepad1.left_trigger > .1)) {
-            if (gamepad2.left_trigger > .1){
+            extend(gamepad2.right_trigger);
+        } else if ((gamepad2.left_trigger > .1)) {
                 retract(gamepad2.left_trigger);
-            } else {
-                collectionOut();
-                retract(gamepad1.left_trigger);
-            }
         } else {
             intakeMotorStop();
         }
 
         if (gamepad2.y){
             pivotUp();
+            collectionIn();
             transitionL();
             transitionR();
-            collectionStop();
         }
 
-        if (gamepad2.b || gamepad1.right_bumper){
+        if (gamepad2.b){
+            collectionIn();
             pivotDown();
         }
 
         if (gamepad2.a){
+            collectionStop();
             pivotMid();
         }
 
-//        if (gamepad1.right_trigger > .1 && gamepad1.left_trigger > .1){
-//            collectingIn = false;
-//            collectingOut = true;
-//            collectingStop = false;
-//        } else if (gamepad1.right_trigger > .1) {
-//            collectingIn = true;
-//            collectingOut = false;
-//            collectingStop = false;
-//        } else if (gamepad1.left_trigger > .1) {
-//            collectingIn = false;
-//            collectingOut = false;
-//            collectingStop = true;
-//        }
-//
-//        if(collectingStop) {
-//            collectionStop();
-//        }
-//
-//        if(collectingIn) {
-//            collectionIn();
-//        }
-//
-//        if(collectingOut) {
-//            collectionOut();
-//        }
-//
-//        if (gamepad1.right_trigger > .1){
-//            collectionIn(iC);
-//        }
-//        else if (gamepad1.left_trigger > .1) {
-//            collectionOut();
-//        }
-//        else {
-//            collectionStop();
-//        }
-//
-//        if(gamepad1.left_trigger > .1) {
-//
-//        }
-
+        if (gamepad1.a){
+            collectionOut();
+        }
 
         if (gamepad1.dpad_left) {
             while(gamepad1.dpad_left);
@@ -204,14 +165,16 @@ public class MainTeleOp extends GrimSkyOpMode{
 
         }
 
-        if(gamepad1.dpad_right){
+        if (gamepad1.dpad_right){
             while(gamepad1.dpad_right);
             pivotBasketR();
 
         }
-
         //=========================== OUTPUT =======================================================
-
+        if (Math.abs(getLiftEncoder() - 650) < 25 && liftIsUp){
+            outMidR();
+            outMidL();
+        }
         if (gamepad2.right_bumper) {
             outBackL();
             outBackR();
@@ -220,8 +183,8 @@ public class MainTeleOp extends GrimSkyOpMode{
             initL();
             initR();
         }
+
         telemetry.addData("encoders ", getLiftEncoder());
         telemetry.update();
     }
-
 }

@@ -32,7 +32,7 @@ public abstract class GrimSkyOpMode extends OpMode{
 
     double L = 1;
     double R = .1;
-    boolean liftIsUp = false;
+    private boolean liftIsUp = false;
 
 
     public void init() {
@@ -86,7 +86,6 @@ public abstract class GrimSkyOpMode extends OpMode{
         MR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
         marker.setPosition(.85);
         basketsInit();
         pivotDown();
@@ -110,11 +109,11 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void outMidL(){
-        basketL.setPosition(.67);
+        basketL.setPosition(.61);
     }
 
     public void outMidR(){
-        basketR.setPosition(.3);
+        basketR.setPosition(.4);
     }
 
     public void outFrontL(){
@@ -171,12 +170,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void setLift(double power){
-        if(power < 0) {
-            lift.setPower(power);
-        }
-        else {
-            lift.setPower(power);
-        }
+        lift.setPower(power);
     }
 
     public void extend(double power){
@@ -222,8 +216,8 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotUp(){
-        pivotR.setPosition(.72);
-        pivotL.setPosition(.29);
+        pivotR.setPosition(.7);
+        pivotL.setPosition(.31);
     }
 
     public int getLiftEncoder(){
@@ -243,7 +237,7 @@ public abstract class GrimSkyOpMode extends OpMode{
         @Override
         public void run() {
             while(liftIsUp) {
-                while(getLiftEncoder() < 14000) {
+                while(getLiftEncoder() < 1400) {
                     setLift(1);
                 }
                 setLift(.2);
