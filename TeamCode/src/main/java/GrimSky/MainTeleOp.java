@@ -15,6 +15,7 @@ public class MainTeleOp extends GrimSkyOpMode{
     boolean tank = false;
     boolean liftIsUp = false;
     boolean controlLift = false;
+    boolean spinOut = false;
     double rC = 1;
 
     public void loop() {
@@ -73,6 +74,7 @@ public class MainTeleOp extends GrimSkyOpMode{
             if (gamepad2.right_stick_y > .1)
                 liftIsUp = false;
                 basketsInit();
+                controlLift = false;
             if (gamepad2.right_stick_y < .1) {
                 collectionStop();
                 setLift(gamepad2.right_stick_y * .75);
@@ -84,14 +86,17 @@ public class MainTeleOp extends GrimSkyOpMode{
             liftIsUp = true;
         }
 
-        if (liftIsUp && !controlLift) {
+        if (controlLift && Math.abs(gamepad2.left_stick_y) < .1){
+            setLift(0);
+        }
+        else if (liftIsUp && Math.abs(gamepad2.left_stick_y) < .1) {
             collectionStop();
-            if (getLiftEncoder() < 1170) {
+            if (getLiftEncoder() < 1220) {
                 setLift(-1);
             } else
                 setLift(-.3);
         }
-        else if (!controlLift){
+        else if (Math.abs(gamepad2.left_stick_y) < .1){
             if (getLiftEncoder() > 100) {
                 setLift(.35);
             } else
@@ -152,7 +157,7 @@ public class MainTeleOp extends GrimSkyOpMode{
             pivotMid();
         }
 
-        if (gamepad1.a){
+        if (spinOut) {
             collectionOut();
         }
 
