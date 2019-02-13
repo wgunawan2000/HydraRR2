@@ -133,11 +133,11 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void initL(){
-        basketL.setPosition(.88);
+        basketL.setPosition(.86);
     }
 
     public void initR(){
-        basketR.setPosition(.15);
+        basketR.setPosition(.17);
     }
 
     public void pivotBasketL(){
