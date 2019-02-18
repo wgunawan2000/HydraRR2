@@ -16,6 +16,9 @@ public class MainTeleOp extends GrimSkyOpMode{
     boolean liftIsUp = false;
     boolean controlLift = false;
     boolean spinOut = false;
+    boolean atHeight = false;
+    boolean reached = false;
+    ElapsedTime pivotTime = new ElapsedTime();
     double rC = 1;
 
     public void loop() {
@@ -29,6 +32,16 @@ public class MainTeleOp extends GrimSkyOpMode{
             rC = 0;
         else
             rC = 1;
+
+        if (gamepad2.dpad_down){
+            while (gamepad2.dpad_down);
+            liftHeight = 1100;
+        }
+
+        if (gamepad2.dpad_up){
+            while (gamepad2.dpad_up);
+            liftHeight = 1300;
+        }
 
         if (gamepad1.left_stick_button){
             while(gamepad1.left_stick_button);
@@ -89,23 +102,36 @@ public class MainTeleOp extends GrimSkyOpMode{
         if (controlLift && Math.abs(gamepad2.left_stick_y) < .1){
             setLift(0);
         }
-        else if (liftIsUp && Math.abs(gamepad2.left_stick_y) < .1) {
+        else if (liftIsUp && !controlLift) {
             collectionStop();
-            if (getLiftEncoder() < 1220) {
+            if (getLiftEncoder() < liftHeight) {
                 setLift(-1);
-            } else
+            }
+            else {
+                reached = true;
                 setLift(-.3);
+            }
         }
-        else if (Math.abs(gamepad2.left_stick_y) < .1){
+        else if (!controlLift){
             if (getLiftEncoder() > 100) {
                 setLift(.35);
             } else
                 lift.setPower(0);
         }
 
+        if (reached && gamepad2.dpad_down){
+            if (getLiftEncoder() > 1100) {
+                setLift(.2);
+            }
+            else {
+                reached = true;
+                setLift(-.3);
+            }
+        }
+
         //================================ PTO =====================================================
         if (gamepad2.dpad_right) {
-            pto.setPower(-.2);
+            pto.setPower(-.3);
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -141,19 +167,24 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
 
         if (gamepad2.y){
-            pivotUp();
-            collectionIn();
+            pivotTime.reset();
+            pivotOver();
+//            pivotUp();
+//            collectionIn();
             transitionL();
             transitionR();
         }
 
+        if (Math.abs(pivotTime.milliseconds() - 750) < 75){
+            pivotUp();
+        }
         if (gamepad2.b){
             collectionIn();
             pivotDown();
         }
 
         if (gamepad2.a){
-            collectionStop();
+//            collectionIn();
             pivotMid();
         }
 
@@ -161,22 +192,9 @@ public class MainTeleOp extends GrimSkyOpMode{
             collectionOut();
         }
 
-        if (gamepad1.dpad_left) {
-            while(gamepad1.dpad_left);
-            pivotBasketL();
-            telemetry.addData("left  ", pivotL.getPosition());
-            telemetry.addData("right  ", pivotR.getPosition());
-            telemetry.update();
-
-        }
-
-        if (gamepad1.dpad_right){
-            while(gamepad1.dpad_right);
-            pivotBasketR();
-
-        }
         //=========================== OUTPUT =======================================================
-        if (Math.abs(getLiftEncoder() - 650) < 25 && liftIsUp){
+        //650 for close crater
+        if (Math.abs(getLiftEncoder() - 500) < 25 && liftIsUp){
             outMidR();
             outMidL();
         }
@@ -189,7 +207,8 @@ public class MainTeleOp extends GrimSkyOpMode{
             initR();
         }
 
-        telemetry.addData("encoders ", getLiftEncoder());
+        telemetry.addData("encoders: ", getLiftEncoder());
+        telemetry.addData("goal: ", liftHeight);
         telemetry.update();
     }
 }

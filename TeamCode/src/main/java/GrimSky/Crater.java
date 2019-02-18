@@ -17,6 +17,8 @@ import GrimSkyLibraries.Sensors;
 
 import GrimSkyLibraries.Intake;
 
+import static GrimSky.GrimSkyOpMode.liftHeight;
+
 @Autonomous(name = "Crater", group = "LinearOpMode")
 public class Crater extends LinearOpMode {
 
@@ -39,6 +41,8 @@ public class Crater extends LinearOpMode {
         intake = new Intake(this);
         sample = new GoldDetectorVuforia(this);
         int offset = -135;
+
+        liftHeight = 1220;
 
         waitForStart();
 

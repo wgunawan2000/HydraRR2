@@ -1,115 +1,129 @@
-//package GrimSky;
-//
-//import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-//import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-//import com.qualcomm.robotcore.util.ElapsedTime;
-//
-//import GrimSkyLibraries.Drivetrain;
-//import GrimSkyLibraries.GoldDetectorVuforia;
-//import GrimSkyLibraries.Intake;
-//import GrimSkyLibraries.Lift;
-//import GrimSkyLibraries.Marker;
-//import GrimSkyLibraries.Sensors;
-//
-//@Autonomous(name = "Depot", group = "LinearOpMode")
-//public class Depot extends LinearOpMode {
-//
-//    private Drivetrain drivetrain;
-//    private Sensors sensors;
-//    private Marker marker;
-//    private Lift lift;
-//    private Intake intake;
-//    private ElapsedTime runtime = new ElapsedTime();
-//    private GoldDetectorVuforia sample;
-//    private String cubePos = "null";
-//
-//    @Override
-//    public void runOpMode() throws InterruptedException {
-//
-//        drivetrain = new Drivetrain(this);
-//        sensors = new Sensors(this);
-//        marker = new Marker(this);
-//        lift = new Lift(this);
-//        intake = new Intake(this);
-//        sample = new GoldDetectorVuforia(this);
-//
-//        //we align at the wall, so we are hanging at approx -45 degrees
-//        int offset = 135;
-//
-//        while (!isStarted()) {
-//            cubePos = sample.getCubePos();
-//            telemetry.addData("cubePos: ", cubePos);
-//            telemetry.update();
-//        }
-//
-//        waitForStart();
-////
-////        while(cubePos.equals("null")) {
-////            cubePos = sample.getCubePos();
-////        }
-////        telemetry.addData("cubePos", cubePos);
-////        telemetry.update();
-//
-//        sleep(1000);
-//        //=========================== UNHANG =======================================================
-//        drivetrain.unhang();
-//
-//        //=================== HIT MINERAL AND GO TO DEPOT ==========================================
-//        if (cubePos.equals("left")) {
-//            drivetrain.turnPD(-28 + offset, .55, .6, 3);
-//            intake.retract();
-//            sleep(250);
-//            intake.intakeMotorStop();
-//            intake.pivotDown();
-//            intake.collectionIn();
-//            sleep(250);
-//            drivetrain.moveGyro(.3, 30, 30 + offset);
-//            intake.collectionStop();
-//            intake.pivotMid();
-//            drivetrain.arcturnPD(-55 + offset, .8, 1.2, 4);
-//            drivetrain.arcturnPD(45 + offset, .8, 1.2, 4);
-//            drivetrain.moveGyro(.5, 10, 45 + offset);
-//            sleep(500);
-//            drivetrain.move(-.3, 4);
-//        } else if (cubePos.equals("center")) {
-//            intake.retract();
-//            sleep(250);
-//            intake.intakeMotorStop();
-//            intake.pivotDown();
-//            sleep(250);
-//            intake.collectionIn();
-//            drivetrain.moveGyro(.6, 55, offset);
-//            intake.collectionStop();
-//            intake.pivotMid();
-//            sleep(500);
-//            drivetrain.turnPD(50 + offset, .38, .45, 4);
-//        } else {
-//            drivetrain.turnPD(28 + offset, .55, .6, 3);
-//            intake.retract();
-//            sleep(250);
-//            intake.intakeMotorStop();
-//            intake.pivotDown();
-//            intake.collectionIn();
-//            sleep(250);
-//            drivetrain.moveGyro(.3, 42, 30 + offset);
-//            intake.collectionStop();
-//            intake.pivotMid();
-//            drivetrain.arcturnPD(-55 + offset, .8, 1.2, 4);
-//            drivetrain.moveGyro(.5, 5, -45 + offset);
-//            drivetrain.arcturnPD(45 + offset, .8, 1.2, 4);
-//            sleep(500);
-//            drivetrain.move(-.3, 4);
-//        }
-//
-//        //==================================== MARKER DEPOSIT ======================================
-//        sleep(250);
-//        marker.Down();
-//        sleep(250);
-//
-//        //======================================= PARK =============================================
-//        drivetrain.wallRollL(-1, 60);
-//        Thread.sleep(500);
-//        drivetrain.wallRollL(-.4, 16);
-//    }
-//}
-//
+package GrimSky;
+
+import android.graphics.Bitmap;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.sun.tools.javac.Main;
+
+import java.util.ArrayList;
+
+import GrimSkyLibraries.Drivetrain;
+import GrimSkyLibraries.GoldDetectorVuforia;
+import GrimSkyLibraries.Intake;
+import GrimSkyLibraries.Lift;
+import GrimSkyLibraries.Marker;
+import GrimSkyLibraries.Sensors;
+
+import static GrimSky.GrimSkyOpMode.liftHeight;
+
+//C:\Users\Avi\AppData\Local\Android\sdk\platform-tools
+
+@Autonomous(name = "Depot", group = "LinearOpMode")
+public class Depot extends LinearOpMode {
+
+    private Drivetrain drivetrain;
+    private Sensors sensors;
+    private Marker marker;
+    private Lift lift;
+    private Intake intake;
+    private ElapsedTime runtime = new ElapsedTime();
+    private GoldDetectorVuforia sample;
+    private String cubePos = "null";
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+        drivetrain = new Drivetrain(this);
+        sensors = new Sensors(this);
+        marker = new Marker(this);
+        lift = new Lift(this);
+        intake = new Intake(this);
+        sample = new GoldDetectorVuforia(this);
+
+        int offset = 135;
+
+        while (!isStarted()) {
+            cubePos = sample.getCubePos();
+            telemetry.addData("cubePos: ", cubePos);
+            telemetry.update();
+        }
+
+        telemetry.addData("cubePos: ", cubePos);
+        telemetry.update();
+
+        liftHeight = 1100;
+
+        waitForStart();
+
+
+        //=========================== UNHANG =======================================================
+        drivetrain.unhang();
+        sleep(1000);
+
+        //======================= COLLECT MINERAL AND TURN =========================================
+        if (cubePos.equals("left")) {
+            drivetrain.turnPD(-27 + offset, .75, .65, 2);
+            intake.pivotDown();
+            intake.collectionIn();
+            intake.move(1, 22, 1.25);
+            sleep(1000);
+            intake.move(1, 25, 1.5);
+            sleep(1000);
+            intake.pivotMid();
+            intake.move(-1, 45, 2);
+            drivetrain.turnPD(-46 + offset, .8, .75, 3);
+
+        } else if (cubePos.equals("center")) {
+            drivetrain.turnPD(0 + offset, .8, .3, 2);
+            intake.pivotDown();
+            intake.collectionIn();
+            intake.move(1, 18, 1.25);
+            sleep(1000);
+            intake.move(1, 16, 1);
+            sleep(1000);
+            intake.pivotMid();
+            intake.move(-1, 36, 2);
+            drivetrain.turnPD(-46 + offset, .55, .5, 3);
+        } else {
+            drivetrain.turnPD(27 + offset, .75, .65, 2);
+            intake.pivotDown();
+            intake.collectionIn();
+            intake.move(1, 22, 1.25);
+            sleep(1000);
+            intake.move(1, 25, 1.5);
+            sleep(1000);
+            intake.pivotMid();
+            intake.move(-1, 45, 2);
+            drivetrain.turnPD(-46 + offset, .45, .4, 3);
+        }
+
+        //==================================== MARKER DEPOSIT ======================================
+        sleep(1000);
+        drivetrain.moveGyro(.5, 45, -46 + offset);
+        drivetrain.arcturnPD(-135 + offset, .8, .8, 2);
+        sleep(1000);
+        drivetrain.wallRollR(-.5, 65);
+        lift.moveMarker(1, 500);
+        lift.markerOut();
+        sleep(1000);
+        lift.basketsInit();
+        lift.setPower(0);
+
+        //======================================= PARK =============================================
+        drivetrain.wallRollR(1, 80);
+        intake.move(1, 25, 2);
+        intake.pivotDown();
+    }
+
+
+    public void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (Exception e) {
+
+        }
+    }
+
+}
