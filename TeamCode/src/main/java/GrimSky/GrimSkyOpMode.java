@@ -196,6 +196,11 @@ public abstract class GrimSkyOpMode extends OpMode{
         collectionL.setPower(-.4);
     }
 
+    public void collectionSlow(){
+        collectionR.setPower(.2);
+        collectionL.setPower(-.2);
+    }
+
     public void collectionStop(){
         collectionR.setPower(0);
         collectionL.setPower(0);
