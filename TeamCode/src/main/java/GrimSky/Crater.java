@@ -42,7 +42,7 @@ public class Crater extends LinearOpMode {
         sample = new GoldDetectorVuforia(this);
         int offset = -135;
 
-        liftHeight = 1220;
+        liftHeight = 1300;
 
         waitForStart();
 
@@ -55,44 +55,56 @@ public class Crater extends LinearOpMode {
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPD(-25 + offset, .38, .39, 4);
-            sleep(500);
-            drivetrain.move(.3, 26);
-            sleep(500);
-            drivetrain.move(-.4, 1);
-            drivetrain.arcturnBackPD(-90 + offset, .8, 1.2, 4);
-            sleep(500);
-            drivetrain.moveGyro(.5, 10, -90 + offset);
+            drivetrain.turnPD(-27 + offset, .75, .65, 2);
+            intake.pivotDown();
+            intake.collectionIn();
+            intake.move(1, 22, 1.25);
+            sleep(1000);
+            intake.move(1, 25, 1.5);
+            sleep(1000);
+            intake.pivotMid();
+            intake.move(-1, 45, 2);
+            drivetrain.turnPD(-46 + offset, .8, .75, 3);
+
         } else if (cubePos.equals("center")) {
-            drivetrain.moveGyro(.3, 25, offset);
-            sleep(500);
-            drivetrain.move(-.4, 1);
-            drivetrain.arcturnBackPD(-90 + offset, .8, 1.2, 4);
-            sleep(500);
-            drivetrain.moveGyro(.5, 25, -90 + offset);
+            drivetrain.turnPD(0 + offset, .8, .3, 2);
+            intake.pivotDown();
+            intake.collectionIn();
+            intake.move(1, 18, 1.25);
+            sleep(1000);
+            intake.move(1, 16, 1);
+            sleep(1000);
+            intake.pivotMid();
+            intake.move(-1, 36, 2);
+            drivetrain.turnPD(-46 + offset, .55, .5, 3);
         } else {
-            drivetrain.turnPD(25 + offset, .38, .39, 4);
-            sleep(500);
-            drivetrain.move(.3, 26);
-            sleep(500);
-            drivetrain.arcturnBackPD(-85 + offset, .8, 1.2, 4);
-            sleep(500);
-            drivetrain.moveGyro(.5, 35, -90 + offset);
+            drivetrain.turnPD(27 + offset, .75, .65, 2);
+            intake.pivotDown();
+            intake.collectionIn();
+            intake.move(1, 22, 1.25);
+            sleep(1000);
+            intake.move(1, 25, 1.5);
+            sleep(1000);
+            intake.pivotMid();
+            intake.move(-1, 45, 2);
+            drivetrain.turnPD(-46 + offset, .45, .4, 3);
         }
 
-        drivetrain.arcturnPD(-45 + offset, .8, 1.2, 3);
-        drivetrain.arcturnPD(-130 + offset, .8, 1.2, 4);
-        drivetrain.wallRollR(.5, 60);
         sleep(500);
-        drivetrain.move(-.3, 4);
-        sleep(250);
-        marker.Down();
-        sleep(250);
+        drivetrain.moveGyro(.5, 52, -46 + offset);
+        sleep(500);
+        drivetrain.turnPD(50 + offset, .4, .4, 2);
+        sleep(500);
+        drivetrain.wallRollL(-.7, 60);
+        lift.out();
+        sleep(500);
+        lift.basketsInit();
 
         //======================================= PARK =============================================
-        drivetrain.wallRollR(-1, 60);
-        Thread.sleep(1000);
-        drivetrain.wallRollR(-.6, 10);
+        drivetrain.wallRollL(.7, 60);
+        sleep(500);
+        intake.move(1, 25, 2);
+        intake.pivotDown();
     }
 
 }

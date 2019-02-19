@@ -105,18 +105,15 @@ public class Depot extends LinearOpMode {
         drivetrain.arcturnPD(-135 + offset, .8, .8, 2);
         sleep(1000);
         drivetrain.wallRollR(-.5, 65);
-        lift.moveMarker(1, 500);
-        lift.markerOut();
+        lift.out();
         sleep(1000);
         lift.basketsInit();
-        lift.setPower(0);
 
         //======================================= PARK =============================================
         drivetrain.wallRollR(1, 80);
         intake.move(1, 25, 2);
         intake.pivotDown();
     }
-
 
     public void sleep(int millis) {
         try {
