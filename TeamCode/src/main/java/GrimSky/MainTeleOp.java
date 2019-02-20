@@ -189,19 +189,19 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
         if (gamepad2.b){
             collectingStop = false;
-            collectingIn = false;
+            collectingIn = true;
             collectingOut = false;
-            collectingSlow = true;
+            collectingSlow = false;
             pivotDown();
         }
 
         if (gamepad2.a){
 //            collectionIn();
             pivotMid();
-            collectingStop = true;
+            collectingStop = false;
             collectingIn = false;
             collectingOut = false;
-            collectingSlow = false;
+            collectingSlow = true;
         }
 
         if (collectingOut){

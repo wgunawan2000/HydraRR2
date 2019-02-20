@@ -44,24 +44,32 @@ public class Crater extends LinearOpMode {
 
         liftHeight = 1300;
 
-        waitForStart();
-
         while (!isStarted()) {
             cubePos = sample.getCubePos();
+            telemetry.addData("cubePos: ", cubePos);
+            telemetry.update();
         }
+        telemetry.addData("cubePos: ", cubePos);
+        telemetry.update();
+
+        waitForStart();
+
 
         //=========================== UNHANG =======================================================
         drivetrain.unhang();
+        sleep(500);
 
         //=================== HIT MINERAL AND GO TO DEPOT ==========================================
+
+
         if (cubePos.equals("left")) {
             drivetrain.turnPD(-27 + offset, .75, .65, 2);
             intake.pivotDown();
             intake.collectionIn();
             intake.move(1, 22, 1.25);
-            sleep(1000);
+            sleep(500);
             intake.move(1, 25, 1.5);
-            sleep(1000);
+            sleep(500);
             intake.pivotMid();
             intake.move(-1, 45, 2);
             drivetrain.turnPD(-46 + offset, .8, .75, 3);
@@ -71,9 +79,9 @@ public class Crater extends LinearOpMode {
             intake.pivotDown();
             intake.collectionIn();
             intake.move(1, 18, 1.25);
-            sleep(1000);
+            sleep(500);
             intake.move(1, 16, 1);
-            sleep(1000);
+            sleep(500);
             intake.pivotMid();
             intake.move(-1, 36, 2);
             drivetrain.turnPD(-46 + offset, .55, .5, 3);
@@ -82,26 +90,26 @@ public class Crater extends LinearOpMode {
             intake.pivotDown();
             intake.collectionIn();
             intake.move(1, 22, 1.25);
-            sleep(1000);
+            sleep(500);
             intake.move(1, 25, 1.5);
-            sleep(1000);
+            sleep(500);
             intake.pivotMid();
             intake.move(-1, 45, 2);
             drivetrain.turnPD(-46 + offset, .45, .4, 3);
         }
 
         sleep(500);
-        drivetrain.moveGyro(.5, 52, -46 + offset);
+        drivetrain.moveGyro(.5, 55, -46 + offset);
         sleep(500);
         drivetrain.turnPD(50 + offset, .4, .4, 2);
         sleep(500);
-        drivetrain.wallRollL(-.7, 60);
+        drivetrain.wallRollL(-.7, 80);
         lift.out();
         sleep(500);
         lift.basketsInit();
 
         //======================================= PARK =============================================
-        drivetrain.wallRollL(.7, 60);
+        drivetrain.wallRollL(.7, 80);
         sleep(500);
         intake.move(1, 25, 2);
         intake.pivotDown();
