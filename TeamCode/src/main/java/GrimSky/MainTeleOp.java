@@ -8,10 +8,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class MainTeleOp extends GrimSkyOpMode{
 
     //keeps track of whether or not the lift is raised
-    boolean collectingIn = false;
-    boolean collectingOut = false;
-    boolean collectingStop = false;
-    boolean collectingSlow = false;
     boolean engaged = false;
     boolean tank = false;
     boolean liftIsUp = false;
@@ -19,6 +15,9 @@ public class MainTeleOp extends GrimSkyOpMode{
     boolean atHeight = false;
     boolean reached = false;
     ElapsedTime pivotTime = new ElapsedTime();
+    int prevState = 0;
+//    String [] intakeStates = {"in", "slow", "out", "stop"};
+    int intakeState = 0;
     double rC = 1;
 
     public void loop() {
@@ -78,11 +77,8 @@ public class MainTeleOp extends GrimSkyOpMode{
                 setLift(.5 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
             }
             if (gamepad2.left_stick_y < .1) {
-                collectingStop = true;
-                collectingIn = false;
-                collectingOut = false;
-                collectingSlow = false;
-                setLift(.65 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
+                intakeState = 3;
+                setLift(.75 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
                 controlLift = true;
             }
         }
@@ -92,10 +88,7 @@ public class MainTeleOp extends GrimSkyOpMode{
                 basketsInit();
                 controlLift = false;
             if (gamepad2.right_stick_y < .1) {
-                collectingStop = true;
-                collectingIn = false;
-                collectingOut = false;
-                collectingSlow = false;
+                intakeState = 3;
                 setLift(gamepad2.right_stick_y * .75);
                 controlLift = true;
             }
@@ -109,10 +102,7 @@ public class MainTeleOp extends GrimSkyOpMode{
             setLift(0);
         }
         else if (liftIsUp && !controlLift) {
-            collectingStop = true;
-            collectingIn = false;
-            collectingOut = false;
-            collectingSlow = false;
+            intakeState = 3;
             if (getLiftEncoder() < liftHeight) {
                 setLift(-1);
             }
@@ -188,32 +178,24 @@ public class MainTeleOp extends GrimSkyOpMode{
             pivotUp();
         }
         if (gamepad2.b){
-            collectingStop = false;
-            collectingIn = true;
-            collectingOut = false;
-            collectingSlow = false;
+            intakeState = 0;
             pivotDown();
         }
 
         if (gamepad2.a){
-//            collectionIn();
+            intakeState = 1;
             pivotMid();
-            collectingStop = false;
-            collectingIn = false;
-            collectingOut = false;
-            collectingSlow = true;
         }
 
-        if (collectingOut){
+        if (intakeState == 2){
             collectionOut();
-        } else if (collectingIn) {
+        } else if (intakeState == 0) {
             collectionIn();
-        } else if (collectingStop){
+        } else if (intakeState == 3){
             collectionStop();
-        } else if (collectingSlow){
+        } else if (intakeState == 1){
             collectionSlow();
         }
-
 
         //=========================== OUTPUT =======================================================
         //650 for close crater
@@ -225,11 +207,16 @@ public class MainTeleOp extends GrimSkyOpMode{
             outBackL();
             outBackR();
         }
+
+        if (intakeState != 2) {
+            prevState = intakeState;
+        }
         if (gamepad2.left_bumper){
-            collectingStop = false;
-            collectingIn = false;
-            collectingOut = true;
-            collectingSlow = false;
+            if (intakeState != 2)
+                prevState = intakeState;
+            intakeState = 2;
+        } else {
+            intakeState = prevState;
         }
 
 
