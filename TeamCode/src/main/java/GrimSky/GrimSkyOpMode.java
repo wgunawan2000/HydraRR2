@@ -126,11 +126,11 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void transitionL(){
-        basketL.setPosition(.92);
+        basketL.setPosition(.91);
     }
 
     public void transitionR(){
-        basketR.setPosition(.11);
+        basketR.setPosition(.12);
     }
 
     public void initL(){
@@ -187,13 +187,13 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void collectionOut(){
-        collectionR.setPower(-.3);
-        collectionL.setPower(.3);
+        collectionR.setPower(-.5);
+        collectionL.setPower(.5);
     }
 
     public void collectionIn(){
-        collectionR.setPower(.4);
-        collectionL.setPower(-.4);
+        collectionR.setPower(.5);
+        collectionL.setPower(-.5);
     }
 
     public void collectionSlow(){
@@ -224,13 +224,13 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotUp(){
-        pivotR.setPosition(.76);
-        pivotL.setPosition(.25);
+        pivotR.setPosition(.73);
+        pivotL.setPosition(.28);
     }
 
     public void pivotOver(){
-        pivotR.setPosition(.82);
-        pivotL.setPosition(.19);
+        pivotR.setPosition(.80);
+        pivotL.setPosition(.21);
     }
 
     public int getLiftEncoder(){

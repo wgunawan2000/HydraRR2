@@ -15,6 +15,9 @@ public class MainTeleOp extends GrimSkyOpMode{
     boolean atHeight = false;
     boolean reached = false;
     ElapsedTime pivotTime = new ElapsedTime();
+    ElapsedTime pivotTime2 = new ElapsedTime();
+    ElapsedTime pivotTime3 = new ElapsedTime();
+
     int prevState = 0;
 //    String [] intakeStates = {"in", "slow", "out", "stop"};
     int intakeState = 0;
@@ -174,7 +177,17 @@ public class MainTeleOp extends GrimSkyOpMode{
             transitionR();
         }
 
-        if (Math.abs(pivotTime.milliseconds() - 750) < 75){
+        if (Math.abs(pivotTime.milliseconds() - 250) < 75){
+            pivotTime2.reset();
+            pivotUp();
+        }
+
+        if(Math.abs(pivotTime2.milliseconds() - 500) < 75){
+            pivotOver();
+            pivotTime3.reset();
+        }
+
+        if(Math.abs(pivotTime3.milliseconds() - 250) < 75){
             pivotUp();
         }
         if (gamepad2.b){
