@@ -37,7 +37,7 @@ public class MainTeleOp extends GrimSkyOpMode{
 
         if (gamepad2.dpad_down){
             while (gamepad2.dpad_down);
-            liftHeight = 1100;
+            liftHeight = 1170;
         }
 
         if (gamepad2.dpad_up){
@@ -81,7 +81,7 @@ public class MainTeleOp extends GrimSkyOpMode{
             }
             if (gamepad2.left_stick_y < .1) {
                 intakeState = 3;
-                setLift(.75 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
+                setLift(.7 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
                 controlLift = true;
             }
         }
@@ -122,7 +122,7 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
 
         if (reached && gamepad2.dpad_down){
-            if (getLiftEncoder() > 1100) {
+            if (getLiftEncoder() > 1170) {
                 setLift(.2);
             }
             else {
