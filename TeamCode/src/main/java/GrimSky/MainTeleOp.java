@@ -17,6 +17,8 @@ public class MainTeleOp extends GrimSkyOpMode{
     ElapsedTime pivotTime = new ElapsedTime();
     ElapsedTime pivotTime2 = new ElapsedTime();
     ElapsedTime pivotTime3 = new ElapsedTime();
+    ElapsedTime pivotTime4 = new ElapsedTime();
+    boolean isPivoted = false;
 
     int prevState = 0;
 //    String [] intakeStates = {"in", "slow", "out", "stop"};
@@ -26,7 +28,14 @@ public class MainTeleOp extends GrimSkyOpMode{
     public void loop() {
         //================================= DRIVE ==================================================
         //speed constant allows driver 1 to scale the speed of the robot
-        double sC = gamepad1.left_bumper ? .4 : 1;
+        double sC;
+        if (gamepad1.left_bumper) {
+            sC = .4;
+        } else if (gamepad1.right_bumper){
+            sC = .5;
+        } else {
+            sC = 1;
+        }
         double left = 0;
         double right = 0;
         double max;
@@ -35,6 +44,9 @@ public class MainTeleOp extends GrimSkyOpMode{
         else
             rC = 1;
 
+        if(gamepad2.left_stick_button){
+            resetLiftEncoder();
+        }
         if (gamepad2.dpad_down){
             while (gamepad2.dpad_down);
             liftHeight = 1170;
@@ -97,6 +109,7 @@ public class MainTeleOp extends GrimSkyOpMode{
             }
         }
         else if (gamepad2.x) {
+            pivotTransition();
             controlLift = false;
             liftIsUp = true;
         }
@@ -130,7 +143,10 @@ public class MainTeleOp extends GrimSkyOpMode{
                 setLift(-.3);
             }
         }
-
+        if (Math.abs(getLiftEncoder() - 200) < 75 && liftIsUp){
+            outMidR();
+            outMidL();
+        }
         //================================ PTO =====================================================
         if (gamepad2.dpad_right) {
             pto.setPower(-.3);
@@ -160,7 +176,6 @@ public class MainTeleOp extends GrimSkyOpMode{
 
         // ========================== INTAKE =======================================================
         if ((gamepad2.right_trigger > .1)) {
-            basketsInit();
             extend(gamepad2.right_trigger);
         } else if ((gamepad2.left_trigger > .1)) {
                 retract(gamepad2.left_trigger);
@@ -168,34 +183,32 @@ public class MainTeleOp extends GrimSkyOpMode{
             intakeMotorStop();
         }
 
-        if (gamepad2.y){
+        if(gamepad2.y && isPivoted){
+            pivotOver();
+            pivotTime4.reset();
+        }
+        else if (gamepad2.y){
+            isPivoted = true;
             pivotTime.reset();
             pivotOver();
-//            pivotUp();
-//            collectionIn();
             transitionL();
             transitionR();
         }
 
-        if (Math.abs(pivotTime.milliseconds() - 250) < 75){
+        if (Math.abs(pivotTime.milliseconds() - 750) < 75){
             pivotTime2.reset();
             pivotUp();
+            intakeState = 3;
         }
 
-        if(Math.abs(pivotTime2.milliseconds() - 500) < 75){
-            pivotOver();
-            pivotTime3.reset();
-        }
-
-        if(Math.abs(pivotTime3.milliseconds() - 250) < 75){
-            pivotUp();
-        }
         if (gamepad2.b){
+            isPivoted = false;
             intakeState = 0;
             pivotDown();
         }
 
         if (gamepad2.a){
+            isPivoted = false;
             intakeState = 1;
             pivotMid();
         }
@@ -211,11 +224,6 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
 
         //=========================== OUTPUT =======================================================
-        //650 for close crater
-        if (Math.abs(getLiftEncoder() - 500) < 100 && liftIsUp){
-            outMidR();
-            outMidL();
-        }
         if (gamepad2.right_bumper) {
             outBackL();
             outBackR();

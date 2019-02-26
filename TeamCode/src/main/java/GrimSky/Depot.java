@@ -104,7 +104,7 @@ public class Depot extends LinearOpMode {
         drivetrain.moveGyro(.5, 45, -46 + offset);
         drivetrain.arcturnPD(-135 + offset, .8, .8, 2);
         sleep(1000);
-        drivetrain.wallRollR(-.5, 65);
+        drivetrain.wallRollR(-.5, 58);
         lift.out();
         sleep(1000);
         lift.basketsInit();

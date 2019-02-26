@@ -33,7 +33,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     double L = 1;
     double R = .1;
     private boolean liftIsUp = false;
-    public static double liftHeight = 1100;
+    public static double liftHeight = 1170;
 
 
     public void init() {
@@ -211,6 +211,11 @@ public abstract class GrimSkyOpMode extends OpMode{
         pivotL.setPosition(.82);
     }
 
+    public void pivotTransition(){
+        pivotR.setPosition(.65);
+        pivotL.setPosition(.36);
+    }
+
     public void pivotMid(){
         pivotR.setPosition(.38);
         pivotL.setPosition(.65);
@@ -235,6 +240,11 @@ public abstract class GrimSkyOpMode extends OpMode{
 
     public int getLiftEncoder(){
         return (Math.abs(lift.getCurrentPosition()));
+    }
+
+    public void resetLiftEncoder(){
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     void activateLift() {
