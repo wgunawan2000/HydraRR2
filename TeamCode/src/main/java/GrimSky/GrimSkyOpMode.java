@@ -179,7 +179,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void retract(double power){
-        intake.setPower(-power);
+        intake.setPower(-power );
     }
 
     public void intakeMotorStop() {

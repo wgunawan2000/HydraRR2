@@ -15,10 +15,6 @@ public class MainTeleOp extends GrimSkyOpMode{
     boolean atHeight = false;
     boolean reached = false;
     ElapsedTime pivotTime = new ElapsedTime();
-    ElapsedTime pivotTime2 = new ElapsedTime();
-    ElapsedTime pivotTime3 = new ElapsedTime();
-    ElapsedTime pivotTime4 = new ElapsedTime();
-    boolean isPivoted = false;
 
     int prevState = 0;
 //    String [] intakeStates = {"in", "slow", "out", "stop"};
@@ -92,7 +88,6 @@ public class MainTeleOp extends GrimSkyOpMode{
                 setLift(.5 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
             }
             if (gamepad2.left_stick_y < .1) {
-                intakeState = 3;
                 setLift(.7 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
                 controlLift = true;
             }
@@ -103,7 +98,6 @@ public class MainTeleOp extends GrimSkyOpMode{
                 basketsInit();
                 controlLift = false;
             if (gamepad2.right_stick_y < .1) {
-                intakeState = 3;
                 setLift(gamepad2.right_stick_y * .75);
                 controlLift = true;
             }
@@ -117,8 +111,8 @@ public class MainTeleOp extends GrimSkyOpMode{
         if (controlLift && Math.abs(gamepad2.left_stick_y) < .1){
             setLift(0);
         }
+
         else if (liftIsUp && !controlLift) {
-            intakeState = 3;
             if (getLiftEncoder() < liftHeight) {
                 setLift(-1);
             }
@@ -175,7 +169,8 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
 
         // ========================== INTAKE =======================================================
-        if ((gamepad2.right_trigger > .1)) {
+        if (gamepad2.right_trigger > .1) {
+            basketsInit();
             extend(gamepad2.right_trigger);
         } else if ((gamepad2.left_trigger > .1)) {
                 retract(gamepad2.left_trigger);
@@ -183,32 +178,24 @@ public class MainTeleOp extends GrimSkyOpMode{
             intakeMotorStop();
         }
 
-        if(gamepad2.y && isPivoted){
+        if (gamepad2.y){
             pivotOver();
-            pivotTime4.reset();
-        }
-        else if (gamepad2.y){
-            isPivoted = true;
             pivotTime.reset();
-            pivotOver();
             transitionL();
             transitionR();
         }
 
-        if (Math.abs(pivotTime.milliseconds() - 750) < 75){
-            pivotTime2.reset();
+        if (Math.abs(pivotTime.milliseconds() - 750) < 250){
             pivotUp();
             intakeState = 3;
         }
 
         if (gamepad2.b){
-            isPivoted = false;
             intakeState = 0;
             pivotDown();
         }
 
         if (gamepad2.a){
-            isPivoted = false;
             intakeState = 1;
             pivotMid();
         }
