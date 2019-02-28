@@ -72,7 +72,7 @@ public class Crater extends LinearOpMode {
             sleep(500);
             intake.pivotMid();
             intake.move(-1, 45, 2);
-            drivetrain.turnPD(-46 + offset, .8, .75, 3);
+            drivetrain.turnPD(-46 + offset, .8, .75, 2);
 
         } else if (cubePos.equals("center")) {
             drivetrain.turnPD(0 + offset, .8, .3, 2);
@@ -84,7 +84,7 @@ public class Crater extends LinearOpMode {
             sleep(500);
             intake.pivotMid();
             intake.move(-1, 36, 2);
-            drivetrain.turnPD(-46 + offset, .55, .5, 3);
+            drivetrain.turnPD(-46 + offset, .55, .5, 2);
         } else {
             drivetrain.turnPD(27 + offset, .75, .65, 2);
             intake.pivotDown();
@@ -95,21 +95,20 @@ public class Crater extends LinearOpMode {
             sleep(500);
             intake.pivotMid();
             intake.move(-1, 45, 2);
-            drivetrain.turnPD(-46 + offset, .45, .4, 3);
+            drivetrain.turnPD(-46 + offset, .45, .4, 2);
         }
 
         sleep(500);
-        drivetrain.moveGyro(.5, 55, -46 + offset);
+        drivetrain.moveGyro(.65, 55, -46 + offset);
         sleep(500);
         drivetrain.turnPD(50 + offset, .4, .4, 2);
         sleep(500);
-        drivetrain.wallRollL(-.7, 80);
+        drivetrain.wallRollL(-1, 80);
         lift.out();
-        sleep(500);
-        lift.basketsInit();
+        sleep(750);
 
         //======================================= PARK =============================================
-        drivetrain.wallRollL(.7, 80);
+        drivetrain.wallRollL(1, 80);
         sleep(500);
         intake.move(1, 25, 2);
         intake.pivotDown();

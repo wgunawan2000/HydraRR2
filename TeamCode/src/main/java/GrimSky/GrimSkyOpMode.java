@@ -33,7 +33,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     double L = 1;
     double R = .1;
     private boolean liftIsUp = false;
-    public static double liftHeight = 1170;
+    public static double liftHeight = 1200;
 
 
     public void init() {
