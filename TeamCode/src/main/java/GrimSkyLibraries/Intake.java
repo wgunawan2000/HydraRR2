@@ -22,7 +22,7 @@ public class Intake {
         collectionL = this.opMode.hardwareMap.crservo.get("collectionL");
         pivotR = this.opMode.hardwareMap.servo.get("pivotR");
         pivotL = this.opMode.hardwareMap.servo.get("pivotL");
-        pivotInit();
+        pivotUp();
         times = new ElapsedTime();
     }
 
@@ -36,7 +36,7 @@ public class Intake {
     public void move(double power, double inches, double timeout) throws InterruptedException{
         resetEncoder();
         times.reset();
-        while(getEncoder() < inches*25 && times.seconds() < timeout) {
+        while(getEncoder() < inches*25 && times.seconds() < timeout && opMode.opModeIsActive()) {
             intake.setPower(power);
         }
         intake.setPower(0);
@@ -70,8 +70,8 @@ public class Intake {
     }
 
     public void pivotInit(){
-        pivotR.setPosition(.78);
-        pivotL.setPosition(.25);
+        pivotR.setPosition(.7);
+        pivotL.setPosition(.33);
     }
 
     public void pivotUp(){

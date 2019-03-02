@@ -78,7 +78,7 @@ public class Crater extends LinearOpMode {
             drivetrain.turnPD(0 + offset, .8, .3, 2);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(1, 18, 1.25);
+            intake.move(1, 16, 1.25);
             sleep(500);
             intake.move(1, 16, 1);
             sleep(500);
@@ -91,7 +91,7 @@ public class Crater extends LinearOpMode {
             intake.collectionIn();
             intake.move(1, 22, 1.25);
             sleep(500);
-            intake.move(1, 25, 1.5);
+            intake.move(1, 27, 1.5);
             sleep(500);
             intake.pivotMid();
             intake.move(-1, 45, 2);

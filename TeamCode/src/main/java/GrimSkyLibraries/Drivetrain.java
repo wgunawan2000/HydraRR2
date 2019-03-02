@@ -62,7 +62,7 @@ public class Drivetrain {
 
         //disengage
         times.reset();
-        while(times.milliseconds() < 500) {
+        while(times.milliseconds() < 350) {
             pto.setPower(1);
         }
         pto.setPower(0);
@@ -71,7 +71,7 @@ public class Drivetrain {
         //move lift to unhang
         lift.move(1, 350);
         Thread.sleep(500);
-        move(.2, 1);
+        move(.2, 2);
         Thread.sleep(500);
 //        lift.move(-.5, 50);
 //        Thread.sleep(500);
@@ -136,7 +136,7 @@ public class Drivetrain {
     public void moveGyro(double power, double inches, double heading) throws InterruptedException {
         resetEncoders();
         if (power > 0) {
-            while (getEncoderAvg() < inches * 25) {
+            while (getEncoderAvg() < inches * 25 && opMode.opModeIsActive()) {
                 if (sensor.getTrueDiff(heading) > 1)
                     startMotors(power, power * .8);
                 else if (sensor.getTrueDiff(heading) < -1)
@@ -145,7 +145,7 @@ public class Drivetrain {
                     startMotors(power, power);
             }
         } else {
-            while (getEncoderAvg() < inches * 25) {
+            while (getEncoderAvg() < inches * 25 && opMode.opModeIsActive()) {
                 if (sensor.getTrueDiff(heading) < -1)
                     startMotors(power, power * .8);
                 else if (sensor.getTrueDiff(heading) > 1)
@@ -183,8 +183,8 @@ public class Drivetrain {
     //wall roll methods apply more power to the side opposite the wall in order to wall roll
         public void wallRollR(double power, double inches) throws InterruptedException{
             resetEncoders();
-            while(getEncoderAvg() < inches*25) {
-            if(power * 1.2 > 1){
+            while(getEncoderAvg() < inches*25 && opMode.opModeIsActive()) {
+            if (power * 1.2 > 1){
                 power /= 1.2;
             }
             startMotors(power * 1.2, power);
@@ -194,8 +194,8 @@ public class Drivetrain {
 
     public void wallRollL(double power, double inches) throws InterruptedException{
         resetEncoders();
-        while(getEncoderAvg() < inches*25) {
-            if(power * 1.15 > 1){
+        while(getEncoderAvg() < inches*25 && opMode.opModeIsActive()) {
+            if (power * 1.15 > 1){
                 power /= 1.15;
             }
             startMotors(power, power * 1.15);
@@ -212,7 +212,7 @@ public class Drivetrain {
         double prevAngleDiff = sensor.getTrueDiff(angle);
         double angleDiff = prevAngleDiff;
         double changePID = 0;
-        while (Math.abs(angleDiff) > .5 && times.seconds() < timeout) {
+        while (Math.abs(angleDiff) > .5 && times.seconds() < timeout && opMode.opModeIsActive()) {
             pastTime = currentTime;
             currentTime = times.milliseconds();
             double dT = currentTime - pastTime;
@@ -273,7 +273,7 @@ public class Drivetrain {
         double prevAngleDiff = sensor.getTrueDiff(angle);
         double angleDiff = prevAngleDiff;
         double changePID = 0;
-        while (Math.abs(angleDiff) > .5 && times.seconds() < timeout) {
+        while (Math.abs(angleDiff) > .5 && times.seconds() < timeout && opMode.opModeIsActive()) {
             pastTime = currentTime;
             currentTime = times.milliseconds();
             double dT = currentTime - pastTime;

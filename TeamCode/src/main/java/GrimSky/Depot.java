@@ -64,12 +64,12 @@ public class Depot extends LinearOpMode {
 
         //======================= COLLECT MINERAL AND TURN =========================================
         if (cubePos.equals("left")) {
-            drivetrain.turnPD(-27 + offset, .75, .65, 2);
+            drivetrain.turnPD(-26 + offset, .85, .65, 2);
             intake.pivotDown();
             intake.collectionIn();
             intake.move(1, 22, 1.25);
             sleep(1000);
-            intake.move(1, 25, 1.5);
+            intake.move(1, 26.5, 1.5);
             sleep(1000);
             intake.pivotMid();
             intake.move(-1, 45, 2);
@@ -87,12 +87,12 @@ public class Depot extends LinearOpMode {
             intake.move(-1, 36, 2);
             drivetrain.turnPD(-46 + offset, .55, .5, 2);
         } else {
-            drivetrain.turnPD(27 + offset, .75, .65, 2);
+            drivetrain.turnPD(27 + offset, .85, .65, 2);
             intake.pivotDown();
             intake.collectionIn();
             intake.move(1, 22, 1.25);
             sleep(1000);
-            intake.move(1, 25, 1.5);
+            intake.move(1, 26.5, 1.5);
             sleep(1000);
             intake.pivotMid();
             intake.move(-1, 45, 2);
@@ -104,7 +104,8 @@ public class Depot extends LinearOpMode {
         drivetrain.moveGyro(.5, 45, -46 + offset);
         drivetrain.arcturnPD(-135 + offset, .8, .8, 2);
         sleep(1000);
-        drivetrain.wallRollR(-1, 55);
+        drivetrain.moveGyro(-1, 55, -145 + offset);
+//        drivetrain.wallRollR(-1, 55);
         lift.out();
         sleep(750);
 
@@ -115,11 +116,12 @@ public class Depot extends LinearOpMode {
     }
 
     public void sleep(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (Exception e) {
+        if (opModeIsActive()) {
+            try {
+                Thread.sleep(millis);
+            } catch (Exception e) {
 
+            }
         }
     }
-
 }

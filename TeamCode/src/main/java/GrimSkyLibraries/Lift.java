@@ -67,11 +67,11 @@ public class Lift {
     }
 
     public void initL(){
-        basketL.setPosition(.88);
+        basketL.setPosition(.8);
     }
 
     public void initR(){
-        basketR.setPosition(.15);
+        basketR.setPosition(.23);
     }
 
 
