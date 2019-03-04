@@ -53,8 +53,8 @@ public class MainTeleOp extends GrimSkyOpMode{
             liftHeight = 1300;
         }
 
-        if (gamepad1.left_stick_button){
-            while(gamepad1.left_stick_button);
+        if (gamepad1.b){
+            while(gamepad1.b);
             tank = !tank;
         }
 
@@ -75,11 +75,14 @@ public class MainTeleOp extends GrimSkyOpMode{
                     left /= max;
                     right /= max;
                 }
-                startMotors(left * sC, right * sC * rC);
+
+                startMotors(left * sC, right * sC);
             } else {
                 stopMotors();
             }
         }
+
+
         //==================================== LIFT ================================================
         if (Math.abs(gamepad2.left_stick_y) > .1) {
             if (gamepad2.left_stick_y > .1) {

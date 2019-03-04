@@ -101,16 +101,16 @@ public class Depot extends LinearOpMode {
 
         //==================================== MARKER DEPOSIT ======================================
         sleep(1000);
-        drivetrain.moveGyro(.5, 45, -46 + offset);
+        drivetrain.moveGyro(.5, 50, -46 + offset);
         drivetrain.arcturnPD(-135 + offset, .8, .8, 2);
         sleep(1000);
-        drivetrain.moveGyro(-1, 55, -145 + offset);
+        drivetrain.moveGyro(-1, 55, -160 + offset);
 //        drivetrain.wallRollR(-1, 55);
         lift.out();
         sleep(750);
 
         //======================================= PARK =============================================
-        drivetrain.wallRollR(1, 80);
+        drivetrain.moveGyro(1, 80, -110 + offset);
         intake.move(1, 25, 2);
         intake.pivotDown();
     }

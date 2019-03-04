@@ -62,7 +62,7 @@ public class Drivetrain {
 
         //disengage
         times.reset();
-        while(times.milliseconds() < 350) {
+        while(times.milliseconds() < 650) {
             pto.setPower(1);
         }
         pto.setPower(0);
