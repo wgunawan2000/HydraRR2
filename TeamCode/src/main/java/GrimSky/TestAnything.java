@@ -8,7 +8,6 @@ import GrimSkyLibraries.Drivetrain;
 import GrimSkyLibraries.GoldDetectorVuforia;
 import GrimSkyLibraries.Intake;
 import GrimSkyLibraries.Lift;
-import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 
 @Autonomous(name = "Test Anything", group = "LinearOpMode")
@@ -16,7 +15,6 @@ public class TestAnything extends LinearOpMode {
 
     private Drivetrain drivetrain;
     private Sensors sensors;
-    private Marker marker;
     private Lift lift;
     private Intake intake;
     private ElapsedTime runtime = new ElapsedTime();
@@ -27,7 +25,6 @@ public class TestAnything extends LinearOpMode {
 
         drivetrain = new Drivetrain(this);
         sensors = new Sensors(this);
-        marker = new Marker(this);
         lift = new Lift(this);
         intake = new Intake(this);
         sample = new GoldDetectorVuforia(this);
@@ -38,8 +35,8 @@ public class TestAnything extends LinearOpMode {
 
         runtime.reset();
         lift.resetEncoder();
-
-        lift.moveMarker(1, 1350);
+        lift.setPower(1);
+        telemetry.addData("encoders: ", lift.getEncoder());
 
     }
 

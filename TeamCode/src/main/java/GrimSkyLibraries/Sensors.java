@@ -21,13 +21,9 @@ public class Sensors{
     Orientation angles;
     Acceleration gravity;
     BNO055IMU.Parameters parameters;
-    Rev2mDistanceSensor distanceL;
-    Rev2mDistanceSensor distanceR;
 
     public Sensors(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
-        distanceL = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "distanceL");
-        distanceR = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "distanceR");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -38,25 +34,6 @@ public class Sensors{
         gyro = opMode.hardwareMap.get(BNO055IMU.class, "imu");
         gyro.initialize(parameters);
 
-    }
-
-    //distance sensor methods
-    public double getDistanceL(){
-        double dist = distanceL.getDistance(DistanceUnit.CM);
-        while (dist > 1000 || Double.isNaN(dist))
-            dist = distanceL.getDistance(DistanceUnit.CM);
-        return dist;
-    }
-
-    public double getDistanceR(){
-        double dist = distanceR.getDistance(DistanceUnit.CM);
-        while (dist > 1000 || Double.isNaN(dist))
-            dist = distanceR.getDistance(DistanceUnit.CM);
-        return dist;
-    }
-
-    public double getAvgDistance(){
-        return (getDistanceL() + getDistanceR())/2;
     }
 
     //gyro methods

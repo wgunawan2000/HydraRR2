@@ -157,29 +157,6 @@ public class Drivetrain {
         stopMotors();
     }
 
-
-    //simple threshold distance move methods
-    public void distanceRMove(double power, double distance) {
-        while(sensor.getDistanceR() > distance){
-            startMotors(power, power);
-        }
-        stopMotors();
-    }
-
-    public void distanceLMove(double power, double distance) {
-        while(sensor.getDistanceL() > distance){
-            startMotors(power, power);
-        }
-        stopMotors();
-    }
-
-    public void distanceMove(double power, double distance) {
-        while(sensor.getAvgDistance() > distance){
-            startMotors(power, power);
-        }
-        stopMotors();
-    }
-
     //wall roll methods apply more power to the side opposite the wall in order to wall roll
         public void wallRollR(double power, double inches) throws InterruptedException{
             resetEncoders();

@@ -14,6 +14,7 @@ public class MainTeleOp extends GrimSkyOpMode{
     boolean controlLift = false;
     boolean atHeight = false;
     boolean reached = false;
+    boolean intakeIn = false;
     ElapsedTime pivotTime = new ElapsedTime();
 
     int prevState = 0;
@@ -106,6 +107,7 @@ public class MainTeleOp extends GrimSkyOpMode{
             }
         }
         else if (gamepad2.x) {
+            intakeIn = false;
             pivotTransition();
             controlLift = false;
             liftIsUp = true;
@@ -165,14 +167,11 @@ public class MainTeleOp extends GrimSkyOpMode{
             pto.setPower(0);
         }
 
-        if (gamepad1.dpad_up) {
-            marker.setPosition(0);
-        } else {
-            marker.setPosition(.85);
-        }
+
 
         // ========================== INTAKE =======================================================
         if (gamepad2.right_trigger > .1) {
+            intakeIn = false;
             basketsInit();
             extend(gamepad2.right_trigger);
         } else if ((gamepad2.left_trigger > .1)) {
@@ -181,27 +180,35 @@ public class MainTeleOp extends GrimSkyOpMode{
             intakeMotorStop();
         }
 
-        if (gamepad2.y){
-            pivotOver();
-            pivotTime.reset();
-            transitionL();
-            transitionR();
-        }
-
-        if (Math.abs(pivotTime.milliseconds() - 750) < 250){
-            pivotUp();
-            intakeState = 3;
+        if (gamepad1.dpad_right) {
+            pivotBasketL();
         }
 
         if (gamepad2.b){
             intakeState = 0;
             pivotDown();
+            gateDown();
         }
 
-        if (gamepad2.a){
-            intakeState = 1;
-            pivotMid();
+        if (gamepad2.y){
+            intakeState = 3;
+            pivotUp();
+            gateDown();
+            intakeIn = true;
         }
+
+        if (intakeIn) {
+            if (intake.getCurrentPosition() > 100) {
+                if (Math.abs(intake.getCurrentPosition() - 400) < 100){
+                    gateUp();
+                }
+                intake.setPower(-1);
+            }
+            else {
+                intake.setPower(0);
+            }
+        }
+
 
         if (intakeState == 2){
             collectionOut();

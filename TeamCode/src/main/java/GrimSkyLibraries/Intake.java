@@ -10,20 +10,29 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Intake {
     public DcMotor intake;
     public CRServo collectionL;
-    public CRServo collectionR;
     public Servo pivotR;
     public Servo pivotL;
+    public Servo gate;
     LinearOpMode opMode;
     ElapsedTime times;
     public Intake(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
+        gate = this.opMode.hardwareMap.servo.get("gate");
         intake = this.opMode.hardwareMap.dcMotor.get("intake");
-        collectionR = this.opMode.hardwareMap.crservo.get("collectionR");
         collectionL = this.opMode.hardwareMap.crservo.get("collectionL");
         pivotR = this.opMode.hardwareMap.servo.get("pivotR");
         pivotL = this.opMode.hardwareMap.servo.get("pivotL");
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
         pivotUp();
         times = new ElapsedTime();
+    }
+
+    public void gateDown(){
+        gate.setPosition(0);
+    }
+
+    public void gateUp(){
+        gate.setPosition(1);
     }
 
     public void intakeMotorStop() {
@@ -43,17 +52,14 @@ public class Intake {
     }
 
     public void collectionOut(){
-        collectionR.setPower(-.3);
         collectionL.setPower(.3);
     }
 
     public void collectionIn(){
-        collectionR.setPower(.8);
         collectionL.setPower(-.8);
     }
 
     public void collectionStop(){
-        collectionR.setPower(0);
         collectionL.setPower(0);
     }
 

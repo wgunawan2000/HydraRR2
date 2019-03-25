@@ -1,18 +1,12 @@
 package GrimSky;
 
-import android.graphics.Bitmap;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.sun.tools.javac.Main;
-
-import java.util.ArrayList;
 
 import GrimSkyLibraries.Drivetrain;
 import GrimSkyLibraries.GoldDetectorVuforia;
 import GrimSkyLibraries.Lift;
-import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 
 import GrimSkyLibraries.Intake;
@@ -25,7 +19,6 @@ public class Crater extends LinearOpMode {
     private Drivetrain drivetrain;
     private Sensors sensors;
     private String cubePos;
-    private Marker marker;
     private Lift lift;
     private Intake intake;
     private GoldDetectorVuforia sample;
@@ -36,7 +29,6 @@ public class Crater extends LinearOpMode {
 
         drivetrain = new Drivetrain(this);
         sensors = new Sensors(this);
-        marker = new Marker(this);
         lift = new Lift(this);
         intake = new Intake(this);
         sample = new GoldDetectorVuforia(this);

@@ -1,19 +1,13 @@
 package GrimSky;
 
-import android.graphics.Bitmap;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.sun.tools.javac.Main;
-
-import java.util.ArrayList;
 
 import GrimSkyLibraries.Drivetrain;
 import GrimSkyLibraries.GoldDetectorVuforia;
 import GrimSkyLibraries.Intake;
 import GrimSkyLibraries.Lift;
-import GrimSkyLibraries.Marker;
 import GrimSkyLibraries.Sensors;
 
 import static GrimSky.GrimSkyOpMode.liftHeight;
@@ -25,7 +19,6 @@ public class Depot extends LinearOpMode {
 
     private Drivetrain drivetrain;
     private Sensors sensors;
-    private Marker marker;
     private Lift lift;
     private Intake intake;
     private ElapsedTime runtime = new ElapsedTime();
@@ -37,7 +30,6 @@ public class Depot extends LinearOpMode {
 
         drivetrain = new Drivetrain(this);
         sensors = new Sensors(this);
-        marker = new Marker(this);
         lift = new Lift(this);
         intake = new Intake(this);
         sample = new GoldDetectorVuforia(this);
