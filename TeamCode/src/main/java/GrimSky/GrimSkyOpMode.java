@@ -207,7 +207,7 @@ public abstract class GrimSkyOpMode extends OpMode{
 
     public void pivotDown(){
         pivotR.setPosition(.99);
-        pivotL.setPosition(0);
+        pivotL.setPosition(.01);
     }
 
     public void pivotTransition(){
@@ -229,7 +229,7 @@ public abstract class GrimSkyOpMode extends OpMode{
 
     public void pivotUp(){
         pivotR.setPosition(0.01);
-        pivotL.setPosition(1);
+        pivotL.setPosition(.99);
     }
 
     public void pivotOver(){

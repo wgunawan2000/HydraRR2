@@ -190,24 +190,30 @@ public class MainTeleOp extends GrimSkyOpMode{
             gateDown();
         }
 
-        if (gamepad2.y){
+        if (gamepad2.a){
             intakeState = 3;
             pivotUp();
-            gateDown();
+
             intakeIn = true;
         }
 
-        if (intakeIn) {
-            if (intake.getCurrentPosition() > 100) {
-                if (Math.abs(intake.getCurrentPosition() - 400) < 100){
-                    gateUp();
-                }
-                intake.setPower(-1);
-            }
-            else {
-                intake.setPower(0);
-            }
+        if (gamepad2.y){
+            intakeState = 3;
+            gateUp();
+            
         }
+
+//        if (intakeIn) {
+//            if (intake.getCurrentPosition() > 100) {
+//                if (Math.abs(intake.getCurrentPosition() - 400) < 100){
+//                    gateUp();
+//                }
+//                intake.setPower(-1);
+//            }
+//            else {
+//                intake.setPower(0);
+//            }
+//        }
 
 
         if (intakeState == 2){
