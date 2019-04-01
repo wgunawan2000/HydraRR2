@@ -33,7 +33,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     double L = 1;
     double R = .1;
     private boolean liftIsUp = false;
-    public static double liftHeight = 1200;
+    public static double liftHeight = 2000;
 
 
     public void init() {
@@ -101,6 +101,11 @@ public abstract class GrimSkyOpMode extends OpMode{
         initR();
     }
 
+    public void basketsMid(){
+        outMidL();
+        outMidR();
+    }
+
     public void outBackL(){
         basketL.setPosition(.58);
     }
@@ -110,11 +115,11 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void outMidL(){
-        basketL.setPosition(.20);
+        basketL.setPosition(.25);
     }
 
     public void outMidR(){
-        basketR.setPosition(.83);
+        basketR.setPosition(.78);
     }
 
     public void transitionL(){
@@ -126,11 +131,11 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void initL(){
-        basketL.setPosition(.09);
+        basketL.setPosition(.11);
     }
 
     public void initR(){
-        basketR.setPosition(.94);
+        basketR.setPosition(.92);
     }
 
     public void pivotBasketL(){
@@ -178,7 +183,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void collectionOut(){
-        collectionL.setPower(.9);
+        collectionL.setPower(.85);
     }
 
     public void collectionIn(){
@@ -186,7 +191,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void collectionSlow(){
-        collectionL.setPower(-.5);
+        collectionL.setPower(-.3);
     }
 
     public void collectionStop(){
@@ -211,15 +216,13 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void pivotTransition(){
-        pivotR.setPosition(.65);
-        pivotL.setPosition(.36);
+        pivotR.setPosition(.8);
+        pivotL.setPosition(.2);
     }
 
     public void pivotMid(){
-        pivotR.setPosition(.5);
-        pivotL.setPosition(.2);
-//        collectionL.setPower(-.2);
-//        collectionR.setPower(.2);
+        pivotR.setPosition(.6);
+        pivotL.setPosition(.4);
     }
 
     public void pivotInit(){

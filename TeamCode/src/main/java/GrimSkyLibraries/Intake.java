@@ -27,18 +27,6 @@ public class Intake {
         times = new ElapsedTime();
     }
 
-    public void gateDown(){
-        gate.setPosition(0);
-    }
-
-    public void gateUp(){
-        gate.setPosition(1);
-    }
-
-    public void intakeMotorStop() {
-        intake.setPower(0);
-    }
-
     public void initMove(double power){
         intake.setPower(power);
     }
@@ -51,53 +39,75 @@ public class Intake {
         intake.setPower(0);
     }
 
+    public void transition(){
+        pivotUp();
+        gateUp();
+    }
+
+    public void extend(double power){
+        intake.setPower(power);
+    }
+
+    public void retract(double power){
+        intake.setPower(-power );
+    }
+
+    public void intakeMotorStop() {
+        intake.setPower(0);
+    }
+
     public void collectionOut(){
-        collectionL.setPower(.3);
+        collectionL.setPower(.9);
     }
 
     public void collectionIn(){
-        collectionL.setPower(-.8);
+        collectionL.setPower(-.9);
+    }
+
+    public void collectionSlow(){
+        collectionL.setPower(-.3);
     }
 
     public void collectionStop(){
         collectionL.setPower(0);
     }
 
+    public void gateUp(){
+        gate.setPosition(.86);
+    }
+
+    public void gateDown(){
+        gate.setPosition(1);
+    }
+
+    public void gateMid(){
+        gate.setPosition(.5);
+    }
+
     public void pivotDown(){
-        pivotR.setPosition(.2);
-        pivotL.setPosition(.82);
+        pivotR.setPosition(.99);
+        pivotL.setPosition(.01);
+    }
+
+    public void pivotTransition(){
+        pivotR.setPosition(.8);
+        pivotL.setPosition(.2);
     }
 
     public void pivotMid(){
-        pivotR.setPosition(.38);
-        pivotL.setPosition(.65);
-//        collectionL.setPower(-.2);
-//        collectionR.setPower(.2);
+        pivotR.setPosition(.6);
+        pivotL.setPosition(.4);
     }
 
     public void pivotInit(){
-        pivotR.setPosition(.7);
-        pivotL.setPosition(.33);
-    }
-
-    public void pivotUp(){
-        pivotR.setPosition(.76);
+        pivotR.setPosition(.78);
         pivotL.setPosition(.25);
     }
 
-    public void pivotOver(){
-        pivotR.setPosition(.82);
-        pivotL.setPosition(.19);
+    public void pivotUp(){
+        pivotR.setPosition(0.01);
+        pivotL.setPosition(.99);
     }
-
-    public void pivotIntakeL(){
-        pivotL.setPosition(pivotL.getPosition()+.01);
-    }
-
-    public void pivotIntakeR(){
-        pivotR.setPosition(pivotR.getPosition()-.01);
-    }
-
     public int getEncoder(){
         return Math.abs(intake.getCurrentPosition());
     }

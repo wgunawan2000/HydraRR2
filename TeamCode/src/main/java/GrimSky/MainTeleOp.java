@@ -27,9 +27,9 @@ public class MainTeleOp extends GrimSkyOpMode{
         //speed constant allows driver 1 to scale the speed of the robot
         double sC;
         if (gamepad1.left_bumper) {
-            sC = .4;
-        } else if (gamepad1.right_bumper){
             sC = .5;
+        } else if (gamepad1.right_bumper){
+            sC = .6;
         } else {
             sC = 1;
         }
@@ -46,12 +46,12 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
         if (gamepad2.dpad_down){
             while (gamepad2.dpad_down);
-            liftHeight = 1200;
+            liftHeight = 2000;
         }
 
         if (gamepad2.dpad_up){
             while (gamepad2.dpad_up);
-            liftHeight = 1300;
+            liftHeight = 2150;
         }
 
         if (gamepad1.b){
@@ -92,7 +92,7 @@ public class MainTeleOp extends GrimSkyOpMode{
                 setLift(.5 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
             }
             if (gamepad2.left_stick_y < .1) {
-                setLift(.7 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
+                setLift(1 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
                 controlLift = true;
             }
         }
@@ -108,7 +108,8 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
         else if (gamepad2.x) {
             intakeIn = false;
-            pivotTransition();
+            pivotMid();
+            basketsMid();
             controlLift = false;
             liftIsUp = true;
         }
@@ -123,18 +124,18 @@ public class MainTeleOp extends GrimSkyOpMode{
             }
             else {
                 reached = true;
-                setLift(-.3);
+                setLift(-.2);
             }
         }
         else if (!controlLift){
-            if (getLiftEncoder() > 100) {
-                setLift(.35);
+            if (getLiftEncoder() > 50) {
+                setLift(.7);
             } else
                 lift.setPower(0);
         }
 
         if (reached && gamepad2.dpad_down){
-            if (getLiftEncoder() > 1200) {
+            if (getLiftEncoder() > 2000) {
                 setLift(.2);
             }
             else {
@@ -142,10 +143,10 @@ public class MainTeleOp extends GrimSkyOpMode{
                 setLift(-.3);
             }
         }
-        if (Math.abs(getLiftEncoder() - 200) < 75 && liftIsUp){
-            outMidR();
-            outMidL();
-        }
+//        if (Math.abs(getLiftEncoder() - 200) < 75 && liftIsUp){
+//            outMidR();
+//            outMidL();
+//        }
         //================================ PTO =====================================================
         if (gamepad2.dpad_right) {
             pto.setPower(-.3);
@@ -172,16 +173,11 @@ public class MainTeleOp extends GrimSkyOpMode{
         // ========================== INTAKE =======================================================
         if (gamepad2.right_trigger > .1) {
             intakeIn = false;
-            basketsInit();
             extend(gamepad2.right_trigger);
         } else if ((gamepad2.left_trigger > .1)) {
                 retract(gamepad2.left_trigger);
         } else {
             intakeMotorStop();
-        }
-
-        if (gamepad1.dpad_right) {
-            pivotBasketL();
         }
 
         if (gamepad2.b){
@@ -191,16 +187,20 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
 
         if (gamepad2.a){
-            intakeState = 3;
-            pivotUp();
-
-            intakeIn = true;
+            intakeState = 1;
+            pivotMid();
+//            intakeIn = true;
         }
 
         if (gamepad2.y){
-            intakeState = 3;
+            intakeState = 0;
+            pivotUp();
             gateUp();
-            
+            pivotTime.reset();
+        }
+
+        if (Math.abs(pivotTime.milliseconds() - 750) < 250) {
+            intakeState = 3;
         }
 
 //        if (intakeIn) {

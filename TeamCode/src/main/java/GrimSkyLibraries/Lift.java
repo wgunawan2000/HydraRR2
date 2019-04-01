@@ -41,37 +41,46 @@ public class Lift {
         initR();
     }
 
-    public void markerOut() {
-        basketR.setPosition(.1);
-    }
-
     public void out(){
         outBackR();
         outBackL();
     }
 
+    public void basketsMid(){
+        outMidL();
+        outMidR();
+    }
+
     public void outBackL(){
-        basketL.setPosition(.37);
+        basketL.setPosition(.58);
     }
 
     public void outBackR(){
-        basketR.setPosition(.66);
+        basketR.setPosition(.45);
     }
 
-    public void outFrontL(){
-        basketL.setPosition(.02);
+    public void outMidL(){
+        basketL.setPosition(.25);
     }
 
-    public void outFrontR(){
-        basketR.setPosition(.98);
+    public void outMidR(){
+        basketR.setPosition(.78);
+    }
+
+    public void transitionL(){
+        basketL.setPosition(.91);
+    }
+
+    public void transitionR(){
+        basketR.setPosition(.12);
     }
 
     public void initL(){
-        basketL.setPosition(.8);
+        basketL.setPosition(.09);
     }
 
     public void initR(){
-        basketR.setPosition(.23);
+        basketR.setPosition(.94);
     }
 
 
