@@ -34,9 +34,9 @@ public class TestAnything extends LinearOpMode {
         int offset = 0;
 
         runtime.reset();
-        lift.resetEncoder();
-        lift.setPower(1);
-        telemetry.addData("encoders: ", lift.getEncoder());
+        intake
+                .resetEncoder();
+        telemetry.addData("encoders: ", intake.getEncoder());
 
     }
 

@@ -45,92 +45,94 @@ public class DepotCycles extends LinearOpMode {
         telemetry.addData("cubePos: ", cubePos);
         telemetry.update();
 
-        liftHeight = 1100;
+        liftHeight = 2000;
 
         waitForStart();
 
 
         //=========================== UNHANG =======================================================
         drivetrain.unhang();
-        sleep(1000);
         lift.setBrake();
 
         //======================= DROP OFF MARKER IN DEPOT =========================================
 
         drivetrain.turnPD(0 + offset, .8, .3, 2);
         intake.move(1, 40, 2);
-        sleep(500);
+        intake.pivotDown();
         intake.collectionOut();
         sleep(500);
+        intake.pivotUp();
+        sleep(1500);
         intake.move(-1, 40, 2);
+        intake.pivotMid();
 
         //===================== COLLECT MINERAL, SCORE, AND TURN ===================================
         if (cubePos.equals("left")) {
             drivetrain.turnPD(-26 + offset, .85, .65, 2);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(1, 22, 1.25);
-            sleep(1000);
-            intake.move(1, 26.5, 1.5);
-            sleep(1000);
-            intake.move(-1, 45, 2);
-            intake.transition();
-            drivetrain.turnPD(0 + offset, .8, .3, 2);
-            lift.move(1, 1200); //how to keep up at 1 power for a little bit or idk
-            lift.out();
+            intake.move(1, 25, 1.25);
             sleep(500);
+            intake.pivotUp();
+            intake.move(-1, 25, 2);
+            intake.gateUp();
+            sleep(500);
+//            drivetrain.turnPD(0 + offset, .8, .3, 2);
+            lift.move(1, 2000); //how to keep up at 1 power for a little bit or idk
+            lift.out();
+            sleep(1000);
             lift.basketsInit();
-            lift.move(-1, 1200);
+            lift.move(-1, 2000);
             drivetrain.turnPD(-46 + offset, .8, .75, 2);
 
         } else if (cubePos.equals("center")) {
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(1, 18, 1.25);
-            sleep(1000);
-            intake.move(1, 16, 1);
-            sleep(1000);
-            intake.pivotMid();
-            intake.move(-1, 36, 2);
-            intake.transition();
-            lift.move(1, 1200); //how to keep up at 1 power for a little bit or idk
-            lift.out();
+            intake.move(1, 20, 1.25);
             sleep(500);
+            intake.pivotUp();
+            intake.move(-1, 20, 2);
+            intake.gateUp();
+            sleep(500);
+            lift.move(1, 2000); //how to keep up at 1 power for a little bit or idk
+            lift.out();
+            sleep(1000);
             lift.basketsInit();
-            lift.move(-1, 1200);
+            lift.move(-1, 2000);
             drivetrain.turnPD(-46 + offset, .55, .5, 2);
         } else {
             drivetrain.turnPD(27 + offset, .85, .65, 2);
             intake.pivotDown();
             intake.collectionIn();
-            intake.move(1, 22, 1.25);
-            sleep(1000);
-            intake.move(1, 26.5, 1.5);
-            sleep(1000);
-            intake.pivotMid();
-            intake.move(-1, 45, 2);
-            intake.transition();
-            drivetrain.turnPD(0 + offset, .8, .3, 2);
-            lift.move(1, 1200); //how to keep up at 1 power for a little bit or idk
-            lift.out();
+            intake.move(1, 25, 1.25);
             sleep(500);
+            intake.pivotUp();
+            intake.move(-1, 25, 2);
+            intake.gateUp();
+            sleep(500);
+//            drivetrain.turnPD(0 + offset, .8, .3, 2);
+            lift.move(1, 2000); //how to keep up at 1 power for a little bit or idk
+            lift.out();
+            sleep(1000);
             lift.basketsInit();
-            lift.move(-1, 1200);
+            lift.move(-1, 2000);
             drivetrain.turnPD(-46 + offset, .45, .4, 2);
         }
 
         //==================================== MARKER DEPOSIT ======================================
-        sleep(1000);
-        drivetrain.moveGyro(.5, 50, -46 + offset);
-        drivetrain.arcturnPD(-135 + offset, .8, .8, 2);
-        sleep(1000);
-        drivetrain.moveGyro(.5, 30, -110 + offset);
+        sleep(500);
+        drivetrain.moveGyro(.5, 37, -46 + offset);
+        drivetrain.arcturnPD(-130 + offset, .8, .8, 2);
+        sleep(500);
+//        drivetrain.moveGyro(.5, 3\0, -110 + offset);
 //        drivetrain.wallRollR(-1, 55);
 
 
         //======================================= PARK =============================================
         intake.move(1, 25, 2);
         intake.pivotDown();
+        intake.gateDown();
+
     }
 
     public void sleep(int millis) {
