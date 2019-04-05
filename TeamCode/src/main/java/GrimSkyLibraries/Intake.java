@@ -23,7 +23,7 @@ public class Intake {
         pivotR = this.opMode.hardwareMap.servo.get("pivotR");
         pivotL = this.opMode.hardwareMap.servo.get("pivotL");
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
-        pivotUp();
+        pivotInit();
         times = new ElapsedTime();
     }
 
@@ -57,7 +57,7 @@ public class Intake {
     }
 
     public void collectionOut(){
-        collectionL.setPower(.9);
+        collectionL.setPower(.3);
     }
 
     public void collectionIn(){
@@ -99,9 +99,14 @@ public class Intake {
         pivotL.setPosition(.4);
     }
 
+    public void pivotMiddle() {
+        pivotR.setPosition(.5);
+        pivotL.setPosition(.5);
+    }
+
     public void pivotInit(){
-        pivotR.setPosition(.78);
-        pivotL.setPosition(.25);
+        pivotR.setPosition(.03);
+        pivotL.setPosition(.97);
     }
 
     public void pivotUp(){

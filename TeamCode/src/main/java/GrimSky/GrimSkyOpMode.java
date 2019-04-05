@@ -106,6 +106,19 @@ public abstract class GrimSkyOpMode extends OpMode{
         outMidR();
     }
 
+    public void outDepot(){
+        outDepotL();
+        outDepotR();
+    }
+
+    public void outDepotL(){
+        basketL.setPosition(.62);
+    }
+
+    public void outDepotR(){
+        basketR.setPosition(.41);
+    }
+
     public void outBackL(){
         basketL.setPosition(.58);
     }

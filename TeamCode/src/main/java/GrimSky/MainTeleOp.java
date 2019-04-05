@@ -29,7 +29,7 @@ public class MainTeleOp extends GrimSkyOpMode{
         if (gamepad1.left_bumper) {
             sC = .5;
         } else if (gamepad1.right_bumper){
-            sC = .6;
+            sC = .4 ;
         } else {
             sC = 1;
         }
@@ -149,7 +149,8 @@ public class MainTeleOp extends GrimSkyOpMode{
 //        }
         //================================ PTO =====================================================
         if (gamepad2.dpad_right) {
-            pto.setPower(-.3);
+            pto.setPower(-.15);
+            sC = .35;
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             ML.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -228,8 +229,10 @@ public class MainTeleOp extends GrimSkyOpMode{
 
         //=========================== OUTPUT =======================================================
         if (gamepad2.right_bumper) {
-            outBackL();
-            outBackR();
+
+                outBackL();
+                outBackR();
+
         }
 
         if (intakeState != 2) {

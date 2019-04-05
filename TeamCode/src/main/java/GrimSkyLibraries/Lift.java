@@ -46,6 +46,11 @@ public class Lift {
         outBackL();
     }
 
+    public void outDepot(){
+        outDepotL();
+        outDepotR();
+    }
+
     public void basketsMid(){
         outMidL();
         outMidR();
@@ -57,6 +62,14 @@ public class Lift {
 
     public void outBackR(){
         basketR.setPosition(.45);
+    }
+
+    public void outDepotL(){
+        basketL.setPosition(.62);
+    }
+
+    public void outDepotR(){
+        basketR.setPosition(.41);
     }
 
     public void outMidL(){

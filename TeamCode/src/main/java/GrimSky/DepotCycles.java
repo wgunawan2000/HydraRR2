@@ -57,13 +57,15 @@ public class DepotCycles extends LinearOpMode {
         //======================= DROP OFF MARKER IN DEPOT =========================================
 
         drivetrain.turnPD(0 + offset, .8, .3, 2);
+        intake.pivotUp();
         intake.move(1, 40, 2);
-        intake.pivotDown();
+        intake.pivotMid();
         intake.collectionOut();
         sleep(500);
+        intake.collectionStop();
         intake.pivotUp();
-        sleep(1500);
-        intake.move(-1, 40, 2);
+        sleep(1000);
+        intake.move(-1, 40, 3);
         intake.pivotMid();
 
         //===================== COLLECT MINERAL, SCORE, AND TURN ===================================
@@ -74,9 +76,11 @@ public class DepotCycles extends LinearOpMode {
             intake.move(1, 25, 1.25);
             sleep(500);
             intake.pivotUp();
-            intake.move(-1, 25, 2);
+            intake.move(-1, 30, 2.5);
             intake.gateUp();
-            sleep(500);
+            intake.move(-.2, 10, 1);
+            sleep(1000);
+            intake.move(.2, 1, 1);
 //            drivetrain.turnPD(0 + offset, .8, .3, 2);
             lift.move(1, 2000); //how to keep up at 1 power for a little bit or idk
             lift.out();
@@ -87,13 +91,16 @@ public class DepotCycles extends LinearOpMode {
 
         } else if (cubePos.equals("center")) {
             intake.pivotDown();
+            sleep(500);
             intake.collectionIn();
             intake.move(1, 20, 1.25);
             sleep(500);
             intake.pivotUp();
-            intake.move(-1, 20, 2);
+            intake.move(-1, 25, 2.5);
             intake.gateUp();
-            sleep(500);
+            intake.move(-.2, 10, 1);
+            sleep(1000);
+            intake.move(.2, 1, 1);
             lift.move(1, 2000); //how to keep up at 1 power for a little bit or idk
             lift.out();
             sleep(1000);
@@ -101,15 +108,17 @@ public class DepotCycles extends LinearOpMode {
             lift.move(-1, 2000);
             drivetrain.turnPD(-46 + offset, .55, .5, 2);
         } else {
-            drivetrain.turnPD(27 + offset, .85, .65, 2);
+            drivetrain.turnPD(29.5 + offset, .9, .65, 2.5);
             intake.pivotDown();
             intake.collectionIn();
             intake.move(1, 25, 1.25);
             sleep(500);
             intake.pivotUp();
-            intake.move(-1, 25, 2);
+            intake.move(-1, 30, 2.5);
             intake.gateUp();
-            sleep(500);
+            intake.move(-.2, 10, 1);
+            sleep(1000);
+            intake.move(.2, 1, 1);
 //            drivetrain.turnPD(0 + offset, .8, .3, 2);
             lift.move(1, 2000); //how to keep up at 1 power for a little bit or idk
             lift.out();
