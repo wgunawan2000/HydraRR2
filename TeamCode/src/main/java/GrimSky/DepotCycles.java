@@ -40,6 +40,7 @@ public class DepotCycles extends LinearOpMode {
             cubePos = sample.getCubePos();
             telemetry.addData("cubePos: ", cubePos);
             telemetry.update();
+            intake.initMove(-.2);
         }
 
         telemetry.addData("cubePos: ", cubePos);
@@ -51,6 +52,7 @@ public class DepotCycles extends LinearOpMode {
 
 
         //=========================== UNHANG =======================================================
+        intake.initMove(0);
         drivetrain.unhang();
         lift.setBrake();
 
@@ -63,9 +65,10 @@ public class DepotCycles extends LinearOpMode {
         intake.collectionOut();
         sleep(500);
         intake.collectionStop();
+        sleep(500);
         intake.pivotUp();
-        sleep(1000);
-        intake.move(-1, 40, 3);
+        sleep(500);
+        intake.move(-1, 45, 2);
         intake.pivotMid();
 
         //===================== COLLECT MINERAL, SCORE, AND TURN ===================================
@@ -82,12 +85,12 @@ public class DepotCycles extends LinearOpMode {
             sleep(1000);
             intake.move(.2, 1, 1);
 //            drivetrain.turnPD(0 + offset, .8, .3, 2);
-            lift.move(1, 2000); //how to keep up at 1 power for a little bit or idk
+            lift.move(1, 2100); //how to keep up at 1 power for a little bit or idk
             lift.out();
             sleep(1000);
             lift.basketsInit();
-            lift.move(-1, 2000);
-            drivetrain.turnPD(-46 + offset, .8, .75, 2);
+            lift.move(-1, 2100);
+            drivetrain.turnPD(-50 + offset, .9, .75, 2);
 
         } else if (cubePos.equals("center")) {
             intake.pivotDown();
@@ -101,12 +104,12 @@ public class DepotCycles extends LinearOpMode {
             intake.move(-.2, 10, 1);
             sleep(1000);
             intake.move(.2, 1, 1);
-            lift.move(1, 2000); //how to keep up at 1 power for a little bit or idk
+            lift.move(1, 2100); //how to keep up at 1 power for a little bit or idk
             lift.out();
             sleep(1000);
             lift.basketsInit();
-            lift.move(-1, 2000);
-            drivetrain.turnPD(-46 + offset, .55, .5, 2);
+            lift.move(-1, 2100);
+            drivetrain.turnPD(-50 + offset, .65, .5, 2);
         } else {
             drivetrain.turnPD(29.5 + offset, .9, .65, 2.5);
             intake.pivotDown();
@@ -120,17 +123,18 @@ public class DepotCycles extends LinearOpMode {
             sleep(1000);
             intake.move(.2, 1, 1);
 //            drivetrain.turnPD(0 + offset, .8, .3, 2);
-            lift.move(1, 2000); //how to keep up at 1 power for a little bit or idk
+            drivetrain.turnPD(0 + offset, .9, .65, 2);
+            lift.move(1, 2100); //how to keep up at 1 power for a little bit or idk
             lift.out();
             sleep(1000);
             lift.basketsInit();
-            lift.move(-1, 2000);
-            drivetrain.turnPD(-46 + offset, .45, .4, 2);
+            lift.move(-1, 2100);
+            drivetrain.turnPD(-50 + offset, .65, .5, 2);
         }
 
         //==================================== MARKER DEPOSIT ======================================
         sleep(500);
-        drivetrain.moveGyro(.5, 37, -46 + offset);
+        drivetrain.moveGyro(.5, 37, -50 + offset);
         drivetrain.arcturnPD(-130 + offset, .8, .8, 2);
         sleep(500);
 //        drivetrain.moveGyro(.5, 3\0, -110 + offset);

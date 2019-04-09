@@ -33,7 +33,7 @@ public class Intake {
     public void move(double power, double inches, double timeout) throws InterruptedException{
         resetEncoder();
         times.reset();
-        while(getEncoder() < inches*25 && times.seconds() < timeout && opMode.opModeIsActive()) {
+        while(opMode.opModeIsActive() && getEncoder() < inches*25 && times.seconds() < timeout) {
             intake.setPower(power);
         }
         intake.setPower(0);
@@ -57,7 +57,7 @@ public class Intake {
     }
 
     public void collectionOut(){
-        collectionL.setPower(.3);
+        collectionL.setPower(.85);
     }
 
     public void collectionIn(){

@@ -40,6 +40,7 @@ public class CraterCycles extends LinearOpMode {
             cubePos = sample.getCubePos();
             telemetry.addData("cubePos: ", cubePos);
             telemetry.update();
+            intake.initMove(-.2);
         }
         telemetry.addData("cubePos: ", cubePos);
         telemetry.update();
@@ -48,6 +49,7 @@ public class CraterCycles extends LinearOpMode {
 
 
         //=========================== UNHANG =======================================================
+        intake.initMove(0);
         drivetrain.unhang();
         sleep(500);
         lift.setBrake();
@@ -61,7 +63,7 @@ public class CraterCycles extends LinearOpMode {
             sleep(500);
             intake.pivotUp();
             intake.collectionStop();
-            intake.move(-1, 23, 1.25);
+            intake.move(-1, 26, 1.25);
             drivetrain.turnPD(-46 + offset, .8, .75, 2);
         } else if (cubePos.equals("center")) {
             drivetrain.turnPD(0 + offset, .8, .3, 2);
@@ -70,7 +72,7 @@ public class CraterCycles extends LinearOpMode {
             sleep(500);
             intake.pivotUp();
             intake.collectionStop();
-            intake.move(-1, 23, 1.25);
+            intake.move(-1, 25, 1.25);
             drivetrain.turnPD(-46 + offset, .55, .5, 2);
         } else {
             drivetrain.turnPD(27 + offset, .75, .65, 2);
@@ -79,11 +81,11 @@ public class CraterCycles extends LinearOpMode {
             sleep(500);
             intake.pivotUp();
             intake.collectionStop();
-            intake.move(-1, 23, 1.25);
+            intake.move(-1, 25, 1.25);
             drivetrain.turnPD(-46 + offset, .45, .4, 2);
         }
         sleep(500);
-        drivetrain.moveGyro(.5, 40, -46 + offset);
+        drivetrain.moveGyro(.5, 35, -46 + offset);
         drivetrain.arcturnPD(-130 + offset, .8, .8, 2);
         sleep(500);
         drivetrain.moveGyro(.5, 12, -130 + offset);
@@ -94,7 +96,7 @@ public class CraterCycles extends LinearOpMode {
         intake.pivotMid();
         intake.move(-1, 40, 2);
         drivetrain.moveGyro(-.5, 8, -130 + offset);
-        drivetrain.turnPD(-80 + offset, .45, .45, 2);
+        drivetrain.turnPD(-77 + offset, .45, .45, 2);
         drivetrain.moveGyro(-.65, 32, -80 + offset);
         drivetrain.turnPD(0 + offset, .47, .42, 2);
         intake.move(1, 35, 1.5);

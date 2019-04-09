@@ -20,8 +20,6 @@ public class Inspection extends LinearOpMode{
     private Intake intake;
     private ElapsedTime runtime = new ElapsedTime();
 
-    boolean bad = true;
-
     @Override
     public void runOpMode() throws InterruptedException{
 
@@ -31,23 +29,23 @@ public class Inspection extends LinearOpMode{
         intake = new Intake(this);
 
         waitForStart();
-
-        while (bad) {
-            telemetry.addLine("FUCK U JUDGES");
-            telemetry.addLine("INSPIRE NOW OR I QUIT");
-            telemetry.addLine("SUCK MY DICK");
-            telemetry.update();
-
-        }
-
-        drivetrain.resetEncoders();
+        drivetrain.unhang();
+        sleep(1000);
+        intake.extend(1);
+        sleep(500);
+        intake.extend(0);
+        intake.pivotMid();
+        intake.collectionOut();
+        sleep(500);
+        intake.collectionStop();
+        intake.retract(1);
+        sleep(500);
         drivetrain.startMotors(.3, .3);
         sleep(2000);
         drivetrain.stopMotors();
-        sleep(5000);
-        sleep(1000);sleep(1000);
+        sleep(1000);
         drivetrain.startMotors(.25,-.25);
-        sleep(1250);
+        sleep(1000);
         drivetrain.stopMotors();
         sleep(5000);
         drivetrain.startMotors(.3, .3);
