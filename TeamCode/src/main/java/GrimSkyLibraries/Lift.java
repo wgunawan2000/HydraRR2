@@ -112,6 +112,15 @@ public class Lift {
         lift.setPower(0);
     }
 
+    public void moveTE(double power, double encoder, double timeout) throws InterruptedException{
+        times.reset();
+        resetEncoder();
+        while (getEncoder() < encoder && times.seconds() < timeout) {
+            lift.setPower(power);
+        }
+        lift.setPower(0);
+    }
+
     public void moveTime(double power, double millis) throws InterruptedException{
         times.reset();
         while (times.milliseconds() < millis) {

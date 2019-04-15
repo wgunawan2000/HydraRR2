@@ -40,7 +40,6 @@ public class CraterCycles extends LinearOpMode {
             cubePos = sample.getCubePos();
             telemetry.addData("cubePos: ", cubePos);
             telemetry.update();
-            intake.initMove(-.2);
         }
         telemetry.addData("cubePos: ", cubePos);
         telemetry.update();
@@ -49,7 +48,6 @@ public class CraterCycles extends LinearOpMode {
 
 
         //=========================== UNHANG =======================================================
-        intake.initMove(0);
         drivetrain.unhang();
         sleep(500);
         lift.setBrake();
@@ -59,33 +57,33 @@ public class CraterCycles extends LinearOpMode {
         if (cubePos.equals("left")) {
             drivetrain.turnPD(-27 + offset, .75, .65, 2);
             intake.pivotDown();
-            intake.move(1, 23, 1.25);
+            intake.move(.7, 23, 1.25);
             sleep(500);
             intake.pivotUp();
             intake.collectionStop();
             intake.move(-1, 26, 1.25);
-            drivetrain.turnPD(-46 + offset, .8, .75, 2);
+            drivetrain.turnPD(-49 + offset, .8, .75, 2);
         } else if (cubePos.equals("center")) {
             drivetrain.turnPD(0 + offset, .8, .3, 2);
             intake.pivotDown();
-            intake.move(1, 23, 1.25);
+            intake.move(.7, 23, 1.25);
             sleep(500);
             intake.pivotUp();
             intake.collectionStop();
             intake.move(-1, 25, 1.25);
-            drivetrain.turnPD(-46 + offset, .55, .5, 2);
+            drivetrain.turnPD(-49 + offset, .55, .5, 2);
         } else {
             drivetrain.turnPD(27 + offset, .75, .65, 2);
             intake.pivotDown();
-            intake.move(1, 23, 1.25);
+            intake.move(.7, 23, 1.25);
             sleep(500);
             intake.pivotUp();
             intake.collectionStop();
             intake.move(-1, 25, 1.25);
-            drivetrain.turnPD(-46 + offset, .45, .4, 2);
+            drivetrain.turnPD(-49 + offset, .45, .4, 2);
         }
         sleep(500);
-        drivetrain.moveGyro(.5, 35, -46 + offset);
+        drivetrain.moveGyro(.5, 35, -50 + offset);
         drivetrain.arcturnPD(-130 + offset, .8, .8, 2);
         sleep(500);
         drivetrain.moveGyro(.5, 12, -130 + offset);

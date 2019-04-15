@@ -28,7 +28,7 @@ public class MainTeleOp extends GrimSkyOpMode{
         double sC;
         if (gamepad1.left_bumper) {
             sC = .5;
-        } else if (gamepad1.right_bumper){
+        } else if (gamepad1.right_trigger > .1){
             sC = .4 ;
         } else {
             sC = 1;
@@ -46,7 +46,7 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
         if (gamepad2.dpad_down){
             while (gamepad2.dpad_down);
-            liftHeight = 2000;
+            liftHeight = 2050;
         }
 
         if (gamepad2.dpad_up){
@@ -92,7 +92,7 @@ public class MainTeleOp extends GrimSkyOpMode{
                 setLift(.5 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
             }
             if (gamepad2.left_stick_y < .1) {
-                setLift(1 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
+                setLift(.9 * gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y));
                 controlLift = true;
             }
         }
@@ -128,8 +128,8 @@ public class MainTeleOp extends GrimSkyOpMode{
             }
         }
         else if (!controlLift){
-            if (getLiftEncoder() > 50) {
-                setLift(.7);
+            if (getLiftEncoder() > 25) {
+                setLift(1);
             } else
                 lift.setPower(0);
         }
@@ -228,11 +228,9 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
 
         //=========================== OUTPUT =======================================================
-        if (gamepad2.right_bumper) {
-
+        if (gamepad1.right_bumper && !engaged) {
                 outBackL();
                 outBackR();
-
         }
 
         if (intakeState != 2) {
