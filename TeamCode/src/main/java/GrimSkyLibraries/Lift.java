@@ -46,6 +46,11 @@ public class Lift {
         outBackL();
     }
 
+    public void basket() {
+        basketL.setPosition(.05);
+        basketR.setPosition(.98);
+    }
+
     public void outDepot(){
         outDepotL();
         outDepotR();

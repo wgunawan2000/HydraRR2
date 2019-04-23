@@ -33,7 +33,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     double L = 1;
     double R = .1;
     private boolean liftIsUp = false;
-    public static double liftHeight = 2000;
+    public static double liftHeight = 1950;
 
 
     public void init() {
@@ -204,7 +204,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void collectionSlow(){
-        collectionL.setPower(-.3);
+        collectionL.setPower(-.5);
     }
 
     public void collectionStop(){
@@ -216,7 +216,7 @@ public abstract class GrimSkyOpMode extends OpMode{
     }
 
     public void gateDown(){
-        gate.setPosition(1);
+        gate.setPosition(.97);
     }
 
     public void gateMid(){

@@ -31,12 +31,13 @@ public class TestAnything extends LinearOpMode {
 
         waitForStart();
 
-        int offset = 0;
-
-        runtime.reset();
-        intake
-                .resetEncoder();
-        telemetry.addData("encoders: ", intake.getEncoder());
+        intake.move(1, 40, 2);
+        intake.pivotMid();
+        intake.collectionOut();
+        sleep(250);
+        intake.collectionStop();
+        sleep(500);
+        intake.pivotUp();
 
     }
 

@@ -16,6 +16,7 @@ public class MainTeleOp extends GrimSkyOpMode{
     boolean reached = false;
     boolean intakeIn = false;
     ElapsedTime pivotTime = new ElapsedTime();
+    ElapsedTime liftTime = new ElapsedTime();
 
     int prevState = 0;
 //    String [] intakeStates = {"in", "slow", "out", "stop"};
@@ -46,7 +47,7 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
         if (gamepad2.dpad_down){
             while (gamepad2.dpad_down);
-            liftHeight = 2050;
+            liftHeight = 1950;
         }
 
         if (gamepad2.dpad_up){
@@ -98,6 +99,7 @@ public class MainTeleOp extends GrimSkyOpMode{
         }
         else if (Math.abs(gamepad2.right_stick_y) > .1) {
             if (gamepad2.right_stick_y > .1)
+                liftTime.reset();
                 liftIsUp = false;
                 basketsInit();
                 controlLift = false;
@@ -127,11 +129,12 @@ public class MainTeleOp extends GrimSkyOpMode{
                 setLift(-.2);
             }
         }
-        else if (!controlLift){
-            if (getLiftEncoder() > 25) {
+        else if (!controlLift) {
+            if (getLiftEncoder() > 50 && !(Math.abs(liftTime.milliseconds() - 3000) < 250)) {
                 setLift(1);
-            } else
+            } else {
                 lift.setPower(0);
+            }
         }
 
         if (reached && gamepad2.dpad_down){

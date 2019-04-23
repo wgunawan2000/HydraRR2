@@ -67,12 +67,12 @@ public class GoldDetectorVuforia extends LinearOpMode {
         ArrayList<Integer> xValues = new ArrayList<>();
         ArrayList<Integer> yValues = new ArrayList<>();
         // (0,0) = top left
-        for (int y = 0; y < (int) ((rgbImage.getHeight() / 3)); y++) {
+        for (int y = 0; y < (int) ((rgbImage.getHeight() / 2)); y++) {
             for (int x = 0; x < rgbImage.getWidth(); x++) {
                 int pixel = rgbImage.getPixel(x, y);
                 red += red(pixel);
                 blue += blue(pixel);
-                if (red(pixel) >= 140 && green(pixel) > 100 && blue(pixel) <= 50) {
+                if (red(pixel) >= 140 && green(pixel) > 100 && blue(pixel) <= 75) {
                     cubePixelCount++;
                     yValues.add(y);
                     xValues.add(x);
@@ -96,17 +96,64 @@ public class GoldDetectorVuforia extends LinearOpMode {
         opMode.telemetry.update();
         sleep(1000);
 
-        if (cubePixelCount < 5){
-            pos = "left";
+        if (avgX < 200 && cubePixelCount > 10){
+            pos = "right";
         }
-        else if (avgX > 288){
+        else if (avgX < 500 && cubePixelCount > 10){
             pos = "center";
         }
         else{
-            pos = "right";
+            pos = "left";
         }
 
         return pos;
         }
+
+    public String getCubePosDepot() throws InterruptedException {
+        Bitmap rgbImage = getImage();
+        cubePixelCount = 0;
+        ArrayList<Integer> xValues = new ArrayList<>();
+        ArrayList<Integer> yValues = new ArrayList<>();
+        // (0,0) = top left
+        for (int y = 0; y < (int) ((rgbImage.getHeight() / 2)); y++) {
+            for (int x = 0; x < rgbImage.getWidth(); x++) {
+                int pixel = rgbImage.getPixel(x, y);
+                red += red(pixel);
+                blue += blue(pixel);
+                if (red(pixel) >= 140 && green(pixel) > 100 && blue(pixel) <= 75) {
+                    cubePixelCount++;
+                    yValues.add(y);
+                    xValues.add(x);
+                }
+            }
+        }
+        avgX = 0;
+        avgY = 0;
+        for (int xCoor : xValues) {
+            avgX += xCoor;
+        }
+        for (int yCoor : yValues) {
+            avgY += yCoor;
+        }
+        avgX /= xValues.size();
+        avgY /= yValues.size();
+
+        opMode.telemetry.addData("cubePixelCount", cubePixelCount);
+        opMode.telemetry.addData("avgX", avgX);
+        opMode.telemetry.addData("pos", pos);
+        opMode.telemetry.update();
+        sleep(1000);
+
+        if (avgX < 200 && cubePixelCount > 10){
+            pos = "right";
+        }
+        else if (avgX < 500 && cubePixelCount > 10){
+            pos = "center";
+        }
+        else{
+            pos = "left";
+        }
+        return pos;
     }
+}
 

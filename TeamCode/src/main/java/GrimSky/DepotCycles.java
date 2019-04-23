@@ -37,7 +37,7 @@ public class DepotCycles extends LinearOpMode {
         int offset = 135;
 
         while (!isStarted()) {
-            cubePos = sample.getCubePos();
+            cubePos = sample.getCubePosDepot();
             telemetry.addData("cubePos: ", cubePos);
             telemetry.update();
         }
@@ -45,7 +45,7 @@ public class DepotCycles extends LinearOpMode {
         telemetry.addData("cubePos: ", cubePos);
         telemetry.update();
 
-        liftHeight = 2050;
+        liftHeight = 1950;
 
         waitForStart();
 
@@ -61,7 +61,7 @@ public class DepotCycles extends LinearOpMode {
         intake.move(1, 40, 2);
         intake.pivotMid();
         intake.collectionOut();
-        sleep(500);
+        sleep(250);
         intake.collectionStop();
         sleep(500);
         intake.pivotUp();
@@ -81,15 +81,16 @@ public class DepotCycles extends LinearOpMode {
             intake.gateUp();
             intake.move(-.2, 10, 1);
             sleep(1000);
-            intake.move(.3, 1, 1);
+            intake.move(.5, 2, 1);
+            drivetrain.turnPD(0 + offset, .9, .65, 2);
 //            drivetrain.turnPD(0 + offset, .8, .3, 2);
-            lift.moveTE(1, 2200, 3); //how to keep up at 1 power for a little bit or idk
+            lift.moveTE(1, 2000, 3); //how to keep up at 1 power for a little bit or idk
             lift.setPower(.2);
             lift.out();
             sleep(1000);
             lift.basketsInit();
             lift.moveTE(-1, 2100, 2);
-            drivetrain.turnPD(-50 + offset, .9, .75, 2);
+            drivetrain.turnPD(-50 + offset, .65, .5, 2);
 
         } else if (cubePos.equals("center")) {
             intake.pivotDown();
@@ -102,8 +103,8 @@ public class DepotCycles extends LinearOpMode {
             intake.gateUp();
             intake.move(-.2, 10, 1);
             sleep(1000);
-            intake.move(.3, 1, 1);
-            lift.moveTE(1, 2200, 3); //how to keep up at 1 power for a little bit or idk
+            intake.move(.5, 2, 1);
+            lift.moveTE(1, 2000, 3); //how to keep up at 1 power for a little bit or idk
             lift.setPower(.2);
             lift.out();
             sleep(1000);
@@ -121,10 +122,10 @@ public class DepotCycles extends LinearOpMode {
             intake.gateUp();
             intake.move(-.2, 10, 1);
             sleep(1000);
-            intake.move(.3, 1, 1);
+            intake.move(.5, 2, 1);
 //            drivetrain.turnPD(0 + offset, .8, .3, 2);
             drivetrain.turnPD(0 + offset, .9, .65, 2);
-            lift.moveTE(1, 2200, 3); //how to keep up at 1 power for a little bit or idk
+            lift.moveTE(1, 2000, 3); //how to keep up at 1 power for a little bit or idk
             lift.setPower(.2);
             lift.out();
             sleep(1000);
